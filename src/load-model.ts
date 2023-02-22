@@ -10,8 +10,8 @@ dracoLoader.setDecoderConfig({ type: "js" })
 const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
-export const loadModel = () => {
-  return new Promise((res: (gltf: GLTF) => void) => {
+export const loadModel = (): Promise<GLTF> => {
+  return new Promise((res) => {
     gltfLoader.load("../public/narkom_compressed.gltf", res)
   })
 }
