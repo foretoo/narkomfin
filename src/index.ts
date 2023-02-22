@@ -1,6 +1,6 @@
 import { BufferGeometry, CameraHelper, Color, DirectionalLight, DoubleSide, Group, HemisphereLight, Mesh, MeshStandardMaterial, PCFSoftShadowMap, Vector2 } from "three"
 import { camera, controls, renderer, scene } from "init"
-import { getModel } from "./get-model"
+import { loadModel } from "./load-model"
 
 
 
@@ -30,11 +30,14 @@ camera.add(direct)
 
 
 
-getModel().then((gltf) => {
+loadModel().then((gltf) => {
   const model = gltf.scene
   const scale = Array(3).fill(0.000075) as [number, number, number]
 
   const group = new Group()
+  const metalMaterial = new MeshStandardMaterial({ color: 0x444444, metalness: 0.8 })
+  const floorMaterial = new MeshStandardMaterial({ color: 0x444444, side: DoubleSide })
+
   model.traverse((object) => {
     if (!(object instanceof Mesh)) return
 
@@ -44,15 +47,18 @@ getModel().then((gltf) => {
     clone.receiveShadow = true
 
     switch (clone.name) {
-      case "floor":
       case "floor001": {
-        clone.material = new MeshStandardMaterial({ color: 0x444444, side: DoubleSide })
-        clone.name === "floor001" && group.position.copy(clone.geometry.boundingSphere!.center!).multiplyScalar(-1)
+        clone.material = floorMaterial
+        group.position.copy(clone.geometry.boundingSphere!.center!).multiplyScalar(-1)
+        break
+      }
+      case "floor": {
+        clone.material = floorMaterial
         break
       }
       case "columns":
       case "metal": {
-        clone.material = new MeshStandardMaterial({ color: 0x444444, metalness: 0.8 })
+        clone.material = metalMaterial
         break
       }
       case "walls": {

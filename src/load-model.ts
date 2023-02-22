@@ -4,14 +4,14 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 
 
 const dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath("/public/")
+dracoLoader.setDecoderPath("../public/")
 dracoLoader.setDecoderConfig({ type: "js" })
 
 const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
-export const getModel = () => {
+export const loadModel = () => {
   return new Promise((res: (gltf: GLTF) => void) => {
-    gltfLoader.load("/public/narkom_compressed.gltf", res)
+    gltfLoader.load("../public/narkom_compressed.gltf", res)
   })
 }
