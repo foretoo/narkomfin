@@ -4,7 +4,8 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 
 
 const dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath("/node_modules/three/examples/jsm/libs/draco/")
+dracoLoader.setDecoderPath("/public/")
+dracoLoader.setDecoderConfig({ type: "js" })
 
 const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
