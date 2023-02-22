@@ -16,6 +16,7 @@ export default defineConfig({
     entries: "/src/index.ts",
   },
   build: {
+    emptyOutDir:false,
     rollupOptions: {
       input: "/src/index.ts",
       external: ["three"],
@@ -23,7 +24,7 @@ export default defineConfig({
         dir: "dist",
         entryFileNames: "bundle.js",
         paths: {
-          three: "../public/three.module.js"
+          three: "./vendor/three.module.js"
         }
       },
     }

@@ -8,7 +8,7 @@ const base = import.meta.env.PROD
   : ""
 
 const dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath(base + "/public/")
+dracoLoader.setDecoderPath(base + "/dist/vendor/")
 dracoLoader.setDecoderConfig({ type: "js" })
 
 const gltfLoader = new GLTFLoader()
