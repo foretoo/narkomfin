@@ -18,9 +18,13 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: "/src/index.ts",
+      external: ["three"],
       output: {
         dir: "dist",
         entryFileNames: "bundle.js",
+        paths: {
+          three: "../public/three.module.js"
+        }
       },
     }
   }
