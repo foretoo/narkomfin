@@ -6,7 +6,6 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 export const scene = new Scene()
 
 export const camera = new PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 100)
-camera.position.set(2, 2, 5)
 
 export const renderer = new WebGLRenderer({ antialias: true })
 renderer.setSize(innerWidth, innerHeight)
