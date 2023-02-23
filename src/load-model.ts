@@ -8,20 +8,21 @@ const base = import.meta.env.PROD
 ? "https://foretoo.github.io/narkomfin"
 : ""
 
+
+
 let _onDecode: (() => void) | undefined
 const manager = new LoadingManager()
 manager.itemStart = (url) => {
-  if (/^data:/.test(url)) {
-    _onDecode && _onDecode()
-  }
+  /^data:/.test(url) && _onDecode && _onDecode()
 }
 
 const dracoLoader = new DRACOLoader(manager)
 dracoLoader.setDecoderPath(base + "/dist/vendor/")
-dracoLoader.setDecoderConfig({ type: "js" })
 
 const gltfLoader = new GLTFLoader(manager)
 gltfLoader.setDRACOLoader(dracoLoader)
+
+
 
 export const loadModel = (
   onProgress?: Parameters<typeof gltfLoader.load>[2],
