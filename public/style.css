@@ -14,7 +14,7 @@ html, body {
   height: 100%;
   position: fixed;
   overflow: hidden;
-  background-color: black;
+  background-color: #444;
 }
 
 .canvas-container {
