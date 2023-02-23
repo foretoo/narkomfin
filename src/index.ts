@@ -4,22 +4,21 @@ import { loadModel } from "./load-model"
 
 
 
-camera.position.set(0, 2, 5)
+camera.position.set(1, 3, 6)
 scene.add(camera)
 scene.background = new Color(0x444444)
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = PCFSoftShadowMap
 
-const ambient = new HemisphereLight(0x997755, 0x557799, 0.25)
+const ambient = new HemisphereLight(0x997755, 0x557799, 0.5)
 scene.add(ambient)
 
 const direct = new DirectionalLight(0xffffff, 0.75)
 {
-  direct.position.set(2, 6, 4)
+  direct.position.set(2, 3, 4)
   direct.castShadow = true
-  direct.shadow.mapSize = new Vector2(1024, 1024).multiplyScalar(2)
-  const distance = direct.position.length() + camera.position.length() - 1
-  direct.shadow.camera.near = distance - 4.5
+  direct.shadow.mapSize = new Vector2(1024, 1024).multiplyScalar(4)
+  const distance = direct.position.length() + camera.position.length()
   direct.shadow.camera.far = distance + 4.5
   direct.shadow.bias = -0.001
 }
@@ -47,36 +46,29 @@ loadModel().then((gltf) => {
     clone.receiveShadow = true
 
     switch (clone.name) {
-      case "floor001": {
+      case "floor001":
         clone.material = floorMaterial
         group.position.copy(clone.geometry.boundingSphere!.center!).multiplyScalar(-1)
         break
-      }
-      case "floor": {
+      case "floor":
         clone.material = floorMaterial
         break
-      }
       case "columns":
-      case "metal": {
+      case "metal":
         clone.material = metalMaterial
         break
-      }
-      case "walls": {
+      case "walls":
         clone.material = new MeshStandardMaterial({ color: 0x888888 })
         break
-      }
-      case "doors": {
+      case "doors":
         clone.material = new MeshStandardMaterial({ color: 0xcccccc })
         break
-      }
-      case "borders": {
+      case "borders":
         clone.material = new MeshStandardMaterial({ color: 0x222222 })
         break
-      }
-      case "glass": {
+      case "glass":
         clone.material = new MeshStandardMaterial({ color: 0xaaccee, metalness: 0.6 })
         break
-      }
     }
 
     group.add(clone)
