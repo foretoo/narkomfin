@@ -1,2 +1,0 @@
-# narkomfin
-narkomfin house scene
