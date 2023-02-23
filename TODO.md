@@ -1,10 +1,10 @@
 - [x] base scene
 - [x] prepare loading managment
-- [] switch to dark theme
-- [] handle model size according to view size
-- [] static render
-- [] pointermove minor rotation
-- [] clamp pointerdown move
+- [ ] switch to dark theme
+- [ ] handle model size according to view size
+- [ ] static render
+- [ ] pointermove minor rotation
+- [ ] clamp pointerdown move
 - [x] attach lighting to camera
-- [] depth of field
-- [] camera animation site surf
+- [ ] depth of field
+- [ ] camera animation site surf
