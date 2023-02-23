@@ -1,6 +1,7 @@
 import { BufferGeometry, CameraHelper, Color, DirectionalLight, DoubleSide, Group, HemisphereLight, Mesh, MeshStandardMaterial, PCFSoftShadowMap, Vector2 } from "three"
 import { camera, controls, progressLabel, renderer, scene } from "init"
 import { loadModel } from "./load-model"
+import { STATUS } from "./const"
 
 
 
@@ -29,8 +30,11 @@ camera.add(direct)
 
 
 
-progressLabel.textContent = "L O A D I N G"
-loadModel().then((gltf) => {
+loadModel(
+  (e) => { progressLabel.textContent = STATUS.LOADING + ` ${e.loaded/e.total*100|0}%` },
+  () => { progressLabel.textContent = STATUS.ERROR },
+  () => { progressLabel.textContent = STATUS.DECODING },
+).then((gltf) => {
   progressLabel.style.display = "none"
   const model = gltf.scene
   const scale = Array(3).fill(0.000075) as [number, number, number]
