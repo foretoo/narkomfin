@@ -17,6 +17,16 @@ html, body {
   background-color: black;
 }
 
-canvas {
-  display: block;
+.canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.progress-label {
+  position: absolute;
+  color: #aaa;
+  font-size: 0.8rem;
 }

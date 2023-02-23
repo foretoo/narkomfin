@@ -12,8 +12,7 @@ renderer.setSize(innerWidth, innerHeight)
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
 renderer.outputEncoding = sRGBEncoding
 renderer.toneMapping = ACESFilmicToneMapping
-
-document.body.append(renderer.domElement)
+document.querySelector(".canvas-container")!.append(renderer.domElement)
 
 export const controls = new OrbitControls(camera, renderer.domElement)
 
@@ -22,3 +21,5 @@ onresize = () => {
   camera.updateProjectionMatrix()
   renderer.setSize(innerWidth, innerHeight)
 }
+
+export const progressLabel = document.querySelector(".progress-label") as HTMLDivElement
