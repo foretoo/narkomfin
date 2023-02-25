@@ -2,12 +2,12 @@
   viewBox="0 0 144 144"
   width="144"
   height="144"
-  fill="#000"
+  fill="transparent"
   stroke="#fff"
-  stroke-width="8"
+  stroke-width="16"
 >
 
-  <rect x="4" y="4" width="136" height="136" />
-  <line x1="4" y1="108" x2="136" y2="36" />
+  <rect x="8" y="8" width="128" height="128" />
+  <path d="M64 80 l36-36 l36 36" />
   
 </svg>
