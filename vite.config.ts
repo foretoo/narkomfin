@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       init: "/src/init.ts",
       utils: "/src/utils.ts",
+      const: "/src/const.ts",
     },
   },
   optimizeDeps: {

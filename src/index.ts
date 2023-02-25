@@ -1,13 +1,13 @@
 import { BufferGeometry, CameraHelper, Color, DirectionalLight, DoubleSide, Group, HemisphereLight, Mesh, MeshStandardMaterial, PCFSoftShadowMap, Vector2 } from "three"
 import { camera, controls, progressLabel, renderer, scene } from "init"
 import { loadModel } from "./load-model"
-import { MODEL_LENGTH, STATUS } from "./const"
+import { MODEL_LENGTH, STATUS } from "const"
 
 
 
 camera.position.set(1, 3, 6)
 scene.add(camera)
-scene.background = new Color(0x444444)
+scene.background = new Color()
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = PCFSoftShadowMap
 

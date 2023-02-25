@@ -14,7 +14,8 @@
     "skipLibCheck": true,
     "paths": {
       "init": ["./src/init.ts"],
-      "utils": ["./src/utils.ts"]
+      "utils": ["./src/utils.ts"],
+      "const": ["./src/const.ts"]
     }
   },
   "include": ["src"]

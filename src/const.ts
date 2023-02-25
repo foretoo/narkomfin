@@ -1,8 +1,9 @@
 export const STATUS = {
   LOADING: "Loading model",
-  ERROR: "Error",
   DECODING: "Preparing a scene",
-  OK: "OK"
+  ERROR: "Error",
 }
 
 export const MODEL_LENGTH = 1134066
+
+export const BG = getComputedStyle(document.body).backgroundColor
