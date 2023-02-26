@@ -3,7 +3,8 @@
 - [ ] switch to dark theme
 - [ ] handle model size according to view size
 - [ ] static render
-- [ ] pointermove minor rotation
+- [x] pointermove minor rotation
+- [ ] ease onpointermove rotation
 - [ ] clamp pointerdown move
 - [x] ~~attach lighting to camera~~
 - [ ] depth of field
