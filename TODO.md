@@ -7,5 +7,5 @@
 - [x] ease onpointermove rotation
 - [ ] clamp pointerdown move
 - [x] ~~attach lighting to camera~~
-- [ ] depth of field
+- [x] depth of field
 - [ ] camera animation site surf

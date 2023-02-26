@@ -1,11 +1,18 @@
 import { Camera, CameraHelper, DirectionalLight, DoubleSide, Group, HemisphereLight, Mesh, MeshStandardMaterial, Vector2 } from "three"
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
+import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
+
 import { MODEL_LENGTH, STATUS } from "const"
 import { camera, controls, progressLabel, renderer, scene } from "init"
 import { onEasedPointerMove } from "utils"
 import { loadModel } from "./load-model"
-import { House, HouseInnerMesh } from "./types"
+import type { House, HouseInnerMesh } from "./types"
 
 
+
+////////
+//////// CAMERA PIVOT
 
 const cameraPivot = new Camera()
 controls.object = cameraPivot
@@ -20,6 +27,9 @@ onEasedPointerMove((pointer) => {
 }, 5)
 
 
+
+////////
+//////// LIGHT & SHADOW
 
 const ambientLight = new HemisphereLight(0x997755, 0x557799, 0.5)
 scene.add(ambientLight)
@@ -37,8 +47,11 @@ cameraPivot.add(directLight)
 
 
 
+////////
+//////// HOUSE MODEL
+
 loadModel(
-  (e) => { progressLabel.textContent = STATUS.LOADING + ` ${e.loaded/MODEL_LENGTH*100|0}%` },
+  (e) => { progressLabel.textContent = STATUS.LOADING + ` ${e.loaded / MODEL_LENGTH * 100 | 0}%` },
   () => { progressLabel.textContent = STATUS.ERROR },
   () => { progressLabel.textContent = STATUS.DECODING },
 ).then((gltf) => {
@@ -61,26 +74,26 @@ loadModel(
     clone.receiveShadow = true
 
     switch (clone.name) {
-      case "floor001":
-      case "floor":
-        clone.material = floorMaterial
-        break
-      case "columns":
-      case "metal":
-        clone.material = metalMaterial
-        break
-      case "walls":
-        clone.material = new MeshStandardMaterial({ color: 0x888888 })
-        break
-      case "doors":
-        clone.material = new MeshStandardMaterial({ color: 0xcccccc })
-        break
-      case "borders":
-        clone.material = new MeshStandardMaterial({ color: 0x222222 })
-        break
-      case "glass":
-        clone.material = new MeshStandardMaterial({ color: 0xaaccee, metalness: 0.6 })
-        break
+    case "floor001":
+    case "floor":
+      clone.material = floorMaterial
+      break
+    case "columns":
+    case "metal":
+      clone.material = metalMaterial
+      break
+    case "walls":
+      clone.material = new MeshStandardMaterial({ color: 0x888888 })
+      break
+    case "doors":
+      clone.material = new MeshStandardMaterial({ color: 0xcccccc })
+      break
+    case "borders":
+      clone.material = new MeshStandardMaterial({ color: 0x222222 })
+      break
+    case "glass":
+      clone.material = new MeshStandardMaterial({ color: 0xaaccee, metalness: 0.6 })
+      break
     }
 
     group.add(clone)
@@ -95,7 +108,26 @@ loadModel(
 
 
 
+////////
+//////// POSTPROCESSING
+
+const renderPass = new RenderPass(scene, camera)
+const bokehPass = new BokehPass(scene, camera, {
+  focus: 4.0,
+  aperture: 0.002,
+  maxblur: 0.005,
+})
+
+const composer = new EffectComposer(renderer)
+composer.addPass(renderPass)
+// composer.addPass(bokehPass)
+
+
+
+////////
+//////// RENDERING
+
 renderer.setAnimationLoop(() => {
   controls.update()
-  renderer.render(scene, camera)
+  composer.render()
 })
