@@ -4,7 +4,7 @@
 - [ ] handle model size according to view size
 - [ ] static render
 - [x] pointermove minor rotation
-- [ ] ease onpointermove rotation
+- [x] ease onpointermove rotation
 - [ ] clamp pointerdown move
 - [x] ~~attach lighting to camera~~
 - [ ] depth of field
