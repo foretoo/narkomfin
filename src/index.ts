@@ -61,9 +61,6 @@ loadModel(
   const scale = Array(3).fill(0.000075) as [number, number, number]
 
   const group = new Group() as House
-  group.frustumCulled = false
-  const metalMaterial = new MeshStandardMaterial({ color: 0x444444, metalness: 0.8 })
-  const floorMaterial = new MeshStandardMaterial({ color: 0x444444, side: DoubleSide })
 
   model.traverse((object) => {
     if (!(object instanceof Mesh)) return
@@ -72,15 +69,16 @@ loadModel(
     clone.geometry.scale(...scale)
     clone.castShadow = true
     clone.receiveShadow = true
+    clone.frustumCulled = false
 
     switch (clone.name) {
     case "floor001":
     case "floor":
-      clone.material = floorMaterial
+      clone.material = new MeshStandardMaterial({ color: 0x444444, side: DoubleSide })
       break
     case "columns":
     case "metal":
-      clone.material = metalMaterial
+      clone.material = new MeshStandardMaterial({ color: 0x444444, metalness: 0.8 })
       break
     case "walls":
       clone.material = new MeshStandardMaterial({ color: 0x888888 })
