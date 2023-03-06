@@ -1,4 +1,4 @@
-import { BufferGeometry, Group, Mesh, MeshStandardMaterial, Sphere } from "three"
+import type { BufferGeometry, Group, Mesh, MeshStandardMaterial, Sphere } from "three"
 
 
 
