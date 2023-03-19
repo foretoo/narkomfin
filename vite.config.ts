@@ -17,7 +17,7 @@ export default defineConfig({
     entries: "/src/index.ts",
   },
   build: {
-    emptyOutDir:false,
+    emptyOutDir: false,
     rollupOptions: {
       input: "/src/index.ts",
       external: ["three"],
@@ -25,9 +25,9 @@ export default defineConfig({
         dir: "dist",
         entryFileNames: "bundle.js",
         paths: {
-          three: "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.module.min.js"
-        }
+          three: "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.module.min.js",
+        },
       },
-    }
-  }
+    },
+  },
 })
