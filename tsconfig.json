@@ -10,10 +10,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "skipLibCheck": true,
+
+		"baseUrl": "./",
     "paths": {
-      "init": ["./src/init.ts"],
-      "utils": ["./src/utils.ts"],
-      "const": ["./src/const.ts"]
+			"@const": ["src/const.ts"],
+      "@utils": ["src/utils/"],
     }
   },
   "include": ["src"]

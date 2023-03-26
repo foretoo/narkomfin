@@ -8,9 +8,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      init: "/src/init.ts",
-      utils: "/src/utils.ts",
-      const: "/src/const.ts",
+      "@utils": "/src/utils/",
+      "@const": "/src/const.ts",
     },
   },
   optimizeDeps: {
@@ -20,7 +19,7 @@ export default defineConfig({
     emptyOutDir: false,
     rollupOptions: {
       input: "/src/index.ts",
-      external: ["three"],
+      external: [ "three" ],
       output: {
         dir: "dist",
         entryFileNames: "bundle.js",

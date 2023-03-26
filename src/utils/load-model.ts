@@ -5,16 +5,12 @@ import { LoadingManager } from "three"
 
 
 const base = import.meta.env.PROD
-? "https://foretoo.github.io/narkomfin"
-: ""
+  ? "https://foretoo.github.io/narkomfin"
+  : ""
 
 
 
-let _onDecode: (() => void) | undefined
 const manager = new LoadingManager()
-manager.itemStart = (url) => {
-  /^data:/.test(url) && _onDecode && _onDecode()
-}
 
 const dracoLoader = new DRACOLoader(manager)
 dracoLoader.setDecoderPath(base + "/dist/vendor/")
@@ -29,7 +25,9 @@ export const loadModel = (
   onError?: Parameters<typeof gltfLoader.load>[3],
   onDecode?: () => void,
 ): Promise<GLTF> => {
-  _onDecode = onDecode
+
+  manager.itemStart = (url) => void /^data:/.test(url) && onDecode && onDecode()
+
   return new Promise((res) => {
     gltfLoader.load(
       base + "/public/narkom_compressed.gltf",

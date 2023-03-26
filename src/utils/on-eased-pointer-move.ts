@@ -1,4 +1,5 @@
 import { Vector2 } from "three"
+import { sumAbs } from "./sum-abs"
 
 
 
@@ -37,40 +38,4 @@ export const onEasedPointerMove = (
     lastTime = performance.now()
     requestAnimationFrame(easeMovement)
   })
-}
-
-
-
-const sumAbs = (...numbers: number[]) => {
-  return numbers.reduce(
-    (sum, number) => sum + Math.abs(number),
-    Math.abs(numbers.pop() || 0)
-  )
-}
-
-
-
-export const throttle = <T extends unknown[]>(
-  fn: (...args: T) => void,
-  waitTime: number,
-  context?: unknown,
-) => {
-  let timeoutId: number
-  let lastTime = 0
-
-  return (...args: T) => {
-    clearTimeout(timeoutId)
-    const currTime = performance.now()
-    const deltaTime = currTime - lastTime
-
-    if (deltaTime >= waitTime) {
-      lastTime = currTime
-      fn.apply(context, args)
-    } else {
-      timeoutId = setTimeout(() => {
-        lastTime = performance.now()
-        fn.apply(context, args)
-      }, waitTime - deltaTime)
-    }
-  }
 }
