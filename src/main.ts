@@ -19,13 +19,11 @@ export const init = (canvas: HTMLCanvasElement) => {
   loadModel(
     "narkom_compressed1",
     (e) => { progressLabel.textContent = STATUS.LOADING + ` ${e.loaded / MODEL_LENGTH * 100 | 0}%` },
-    () => { progressLabel.textContent = STATUS.ERROR },
-    () => { progressLabel.textContent = STATUS.DECODING },
+    ( ) => { progressLabel.textContent = STATUS.ERROR },
+    ( ) => { progressLabel.textContent = STATUS.DECODING },
   ).then((gltf) => {
     progressLabel.style.display = "none"
-    const group = traverseModel(gltf)
-    group.position.set(0, -1, 0)
-    scene.add(group)
+    scene.add(traverseModel(gltf))
   })
 
   const { scene, camera, renderer } = setup(canvas)

@@ -21,7 +21,6 @@ export const traverseModel = (
     clone.frustumCulled = false
 
     clone.material = material
-    console.log(clone.name)
 
     switch (clone.name) {
       case "walls":
