@@ -1,4 +1,5 @@
-import { Camera, DirectionalLight, HemisphereLight, Vector2 } from "three"
+import { DirectionalLight, HemisphereLight, PerspectiveCamera, Vector2 } from "three"
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
@@ -6,7 +7,7 @@ import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 import { MODEL_LENGTH, STATUS } from "@const"
 import { loadModel, onEasedPointerMove } from "@utils"
 import { setup, progressLabel } from "./setup"
-import { traverseModel } from "./traverse-model"
+import { traverseModel } from "./traverse-model_1"
 
 
 
@@ -16,24 +17,28 @@ export const init = (canvas: HTMLCanvasElement) => {
   //////// HOUSE MODEL
 
   loadModel(
+    "narkom_compressed1",
     (e) => { progressLabel.textContent = STATUS.LOADING + ` ${e.loaded / MODEL_LENGTH * 100 | 0}%` },
     () => { progressLabel.textContent = STATUS.ERROR },
     () => { progressLabel.textContent = STATUS.DECODING },
   ).then((gltf) => {
     progressLabel.style.display = "none"
     const group = traverseModel(gltf)
+    group.position.set(0, -1, 0)
     scene.add(group)
   })
 
-  const { scene, camera, renderer, controls } = setup(canvas)
+  const { scene, camera, renderer } = setup(canvas)
 
 
 
   ////////
   //////// CAMERA PIVOT
 
-  const cameraPivot = new Camera()
-  controls.object = cameraPivot
+  const cameraPivot = new PerspectiveCamera()
+
+  const controls = new OrbitControls(cameraPivot, canvas)
+
   cameraPivot.position.set(1, 3, 6)
   cameraPivot.add(camera)
   scene.add(cameraPivot)

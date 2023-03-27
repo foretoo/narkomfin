@@ -21,6 +21,7 @@ gltfLoader.setDRACOLoader(dracoLoader)
 
 
 export const loadModel = (
+  name: string,
   onProgress?: Parameters<typeof gltfLoader.load>[2],
   onError?: Parameters<typeof gltfLoader.load>[3],
   onDecode?: () => void,
@@ -30,7 +31,7 @@ export const loadModel = (
 
   return new Promise((res) => {
     gltfLoader.load(
-      base + "/public/narkom_compressed.gltf",
+      base + `/public/${name}.gltf`,
       res,
       onProgress,
       onError,

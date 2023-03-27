@@ -1,5 +1,4 @@
 import { ACESFilmicToneMapping, Color, PCFSoftShadowMap, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer } from "three"
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { BG } from "@const"
 
 
@@ -20,8 +19,6 @@ export const setup = (canvas: HTMLCanvasElement) => {
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = PCFSoftShadowMap
 
-  const controls = new OrbitControls(camera, canvas)
-
   window.addEventListener("resize", () => {
     camera.aspect = innerWidth / innerHeight
     camera.updateProjectionMatrix()
@@ -32,6 +29,5 @@ export const setup = (canvas: HTMLCanvasElement) => {
     scene,
     camera,
     renderer,
-    controls,
   }
 }
