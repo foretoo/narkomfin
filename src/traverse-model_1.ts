@@ -21,6 +21,31 @@ export const traverseModel = (
     clone.frustumCulled = false
 
     clone.material = material
+    console.log(clone.name)
+
+    switch (clone.name) {
+      case "walls":
+      case "floors":
+        clone.material = new MeshStandardMaterial({ color: 0xdddddd })
+        break
+      case "doors":
+      case "base":
+      case "glass":
+        clone.material = new MeshStandardMaterial({ color: 0x888888 })
+        break
+      case "plants":
+      case "lounger":
+      case "yard":
+      case "base002":
+      case "thing":
+        clone.material = new MeshStandardMaterial({ color: 0x555555 })
+        break
+      case "columns":
+      case "borders":
+      case "metal":
+        clone.material = new MeshStandardMaterial({ color: 0x333333 })
+        break
+    }
 
     group.add(clone)
   })
