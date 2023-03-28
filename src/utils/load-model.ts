@@ -13,7 +13,7 @@ const base = import.meta.env.PROD
 const manager = new LoadingManager()
 
 const dracoLoader = new DRACOLoader(manager)
-dracoLoader.setDecoderPath(base + "/dist/vendor/")
+dracoLoader.setDecoderPath(base + "/public/vendors/")
 
 const gltfLoader = new GLTFLoader(manager)
 gltfLoader.setDRACOLoader(dracoLoader)

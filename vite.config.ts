@@ -23,7 +23,7 @@ export default defineConfig({
       formats: [ "es" ],
       fileName: "bundle",
     },
-    outDir: "dist",
+    outDir: "public",
     rollupOptions: {
       external: [ "three" ],
       output: {
