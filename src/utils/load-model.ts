@@ -4,16 +4,15 @@ import { LoadingManager } from "three"
 
 
 
-const base = import.meta.env.PROD
-  ? "https://foretoo.github.io/narkomfin"
-  : ""
+const unpkgDracoPath = "https://unpkg.com/three@0.149.0/examples/jsm/libs/draco/"
+const assetsPath = (import.meta.env.PROD ? "https://foretoo.github.io/narkomfin" : "")  + "/public/"
 
 
 
 const manager = new LoadingManager()
 
 const dracoLoader = new DRACOLoader(manager)
-dracoLoader.setDecoderPath(base + "/public/vendors/")
+dracoLoader.setDecoderPath(unpkgDracoPath)
 
 const gltfLoader = new GLTFLoader(manager)
 gltfLoader.setDRACOLoader(dracoLoader)
@@ -31,7 +30,7 @@ export const loadModel = (
 
   return new Promise((res) => {
     gltfLoader.load(
-      base + `/public/${name}.gltf`,
+      assetsPath + `${name}.gltf`,
       res,
       onProgress,
       onError,
