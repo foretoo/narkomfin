@@ -27,7 +27,7 @@ export const loadModel = (
   onDecode?: () => void,
 ): Promise<GLTF> => {
 
-  manager.itemStart = (url) => void /^data:/.test(url) && onDecode && onDecode()
+  manager.itemStart = (url) => void (/^data:/.test(url) && onDecode && onDecode())
 
   return new Promise((res) => {
     gltfLoader.load(
