@@ -2073,7 +2073,7 @@ function Zn() {
   }
 }
 const lt = "https://foretoo.github.io/narkomfin", _e = new ln(), ut = new qn(_e);
-ut.setDecoderPath(lt + "/dist/vendor/");
+ut.setDecoderPath(lt + "/public/vendors/");
 const dt = new yn(_e);
 dt.setDRACOLoader(ut);
 const Qn = (f, n, t, e) => (_e.itemStart = (s) => void (/^data:/.test(s) && e && e()), new Promise((s) => {
