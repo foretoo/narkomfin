@@ -6,23 +6,27 @@ export default defineConfig({
     open: "/src/index.html",
     host: true,
   },
+
   resolve: {
     alias: {
       "@utils": "/src/utils/",
       "@const": "/src/const.ts",
     },
   },
-  optimizeDeps: {
-    entries: "/src/index.ts",
-  },
+
+  optimizeDeps: { entries: "/src/main.ts" },
+
   build: {
     emptyOutDir: false,
+    lib: {
+      entry: "/src/main.ts",
+      formats: [ "es" ],
+      fileName: "bundle",
+    },
+    outDir: "dist",
     rollupOptions: {
-      input: "/src/index.ts",
       external: [ "three" ],
       output: {
-        dir: "dist",
-        entryFileNames: "bundle.js",
         paths: {
           three: "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.module.min.js",
         },
