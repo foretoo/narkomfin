@@ -5,13 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
   <link rel="stylesheet" href="/public/style.css">
-  <title>Narkomfin house scene</title>
+  <title>Narkomfin house</title>
 </head>
 <body>
-  <script src="./index.ts" type="module"></script>
-  <div class="canvas-container">
-    <div class="progress-label">Loading interactive environment</div>
-		<canvas />
+
+  <script type="module">
+    import { init } from "./main.ts"
+    const container = document.querySelector(".narkomfin-canvas-container")
+    init(container)
+  </script>
+
+  <div class="narkomfin-canvas-container">
+    <div class="narkomfin-progress-label">Loading interactive environment</div>
   </div>
+
 </body>
 </html>

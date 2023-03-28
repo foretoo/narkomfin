@@ -1,17 +1,22 @@
 import { DirectionalLight, HemisphereLight, PerspectiveCamera, Vector2 } from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
-import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
+// import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
+// import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
+// import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
 import { MODEL_LENGTH, STATUS } from "@const"
 import { loadModel, onEasedPointerMove } from "@utils"
-import { setup, progressLabel } from "./setup"
+import { setup } from "./setup"
 import { traverseModel } from "./traverse-model_1"
 
 
 
-export const init = (canvas: HTMLCanvasElement) => {
+export const init = (container: HTMLDivElement) => {
+
+  const progressLabel = container.querySelector(".narkomfin-progress-label")!
+  const { scene, camera, renderer } = setup()
+
+
 
   ////////
   //////// HOUSE MODEL
@@ -22,11 +27,9 @@ export const init = (canvas: HTMLCanvasElement) => {
     ( ) => { progressLabel.textContent = STATUS.ERROR },
     ( ) => { progressLabel.textContent = STATUS.DECODING },
   ).then((gltf) => {
-    progressLabel.style.display = "none"
+    container.replaceChild(renderer.domElement, progressLabel)
     scene.add(traverseModel(gltf))
   })
-
-  const { scene, camera, renderer } = setup(canvas)
 
 
 
@@ -35,7 +38,7 @@ export const init = (canvas: HTMLCanvasElement) => {
 
   const cameraPivot = new PerspectiveCamera()
 
-  const controls = new OrbitControls(cameraPivot, canvas)
+  const controls = new OrbitControls(cameraPivot, renderer.domElement)
 
   cameraPivot.position.set(1, 3, 6)
   cameraPivot.add(camera)
@@ -71,15 +74,15 @@ export const init = (canvas: HTMLCanvasElement) => {
   ////////
   //////// POSTPROCESSING
 
-  const renderPass = new RenderPass(scene, camera)
-  const bokehPass = new BokehPass(scene, camera, {
-    focus: 4.0,
-    aperture: 0.002,
-    maxblur: 0.005,
-  })
+  // const renderPass = new RenderPass(scene, camera)
+  // const bokehPass = new BokehPass(scene, camera, {
+  //   focus: 4.0,
+  //   aperture: 0.002,
+  //   maxblur: 0.005,
+  // })
 
-  const composer = new EffectComposer(renderer)
-  composer.addPass(renderPass)
+  // const composer = new EffectComposer(renderer)
+  // composer.addPass(renderPass)
   // composer.addPass(bokehPass)
 
 
@@ -89,6 +92,6 @@ export const init = (canvas: HTMLCanvasElement) => {
 
   renderer.setAnimationLoop(() => {
     controls.update()
-    composer.render()
+    renderer.render(scene, camera)
   })
 }
