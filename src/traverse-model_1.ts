@@ -16,7 +16,7 @@ export const traverseModel = (
 
     const clone = object.clone() as HouseInnerMesh
     clone.geometry.scale(...scale)
-    clone.castShadow = true
+    clone.castShadow = /^base$/.test(clone.name) ? false : true
     clone.receiveShadow = true
     clone.frustumCulled = false
 
