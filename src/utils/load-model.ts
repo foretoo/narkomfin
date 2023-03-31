@@ -4,13 +4,11 @@ import { LoadingManager } from "three"
 
 
 
-const unpkgDracoPath = "https://unpkg.com/three@0.149.0/examples/jsm/libs/draco/"
-const assetsPath = (import.meta.env.PROD ? "https://foretoo.github.io/narkomfin" : "")  + "/public/"
-
-
-
 const manager = new LoadingManager()
 
+
+
+const unpkgDracoPath = "https://unpkg.com/three@0.149.0/examples/jsm/libs/draco/"
 const dracoLoader = new DRACOLoader(manager)
 dracoLoader.setDecoderPath(unpkgDracoPath)
 
@@ -18,6 +16,8 @@ const gltfLoader = new GLTFLoader(manager)
 gltfLoader.setDRACOLoader(dracoLoader)
 
 
+
+const assetsPath = (import.meta.env.PROD ? "https://foretoo.github.io/narkomfin" : "")  + "/public/"
 
 export const loadModel = (
   name: string,
