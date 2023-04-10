@@ -6,4 +6,4 @@ export const STATUS = {
 
 export const MODEL_LENGTH = 1134066
 
-export const BG = getComputedStyle(document.body).backgroundColor
+export const BG = "#a98" // getComputedStyle(document.body).backgroundColor
