@@ -17,7 +17,7 @@ const init = ({
   modelPath,
 }: IInitProps) => {
 
-  const progressLabel = container.querySelector(".narkomfin-progress-label")!
+  const progressLabel = container.querySelector(".narkomfin-progress-label")
   const { scene, camera, renderer } = setup()
 
 
@@ -27,11 +27,14 @@ const init = ({
 
   loadModel(
     modelPath,
-    (e) => { progressLabel.textContent = STATUS.LOADING + ` ${e.loaded / MODEL_LENGTH * 100 | 0}%` },
-    ( ) => { progressLabel.textContent = STATUS.ERROR },
-    ( ) => { progressLabel.textContent = STATUS.DECODING },
+    (e) => { progressLabel && (progressLabel.textContent = STATUS.LOADING + ` ${e.loaded / MODEL_LENGTH * 100 | 0}%`) },
+    ( ) => { progressLabel && (progressLabel.textContent = STATUS.ERROR) },
+    ( ) => { progressLabel && (progressLabel.textContent = STATUS.DECODING) },
   ).then((gltf) => {
-    container.replaceChild(renderer.domElement, progressLabel)
+    progressLabel
+      ? container.replaceChild(renderer.domElement, progressLabel)
+      : container.appendChild(renderer.domElement)
+
     scene.add(traverseModel(gltf))
   })
 
