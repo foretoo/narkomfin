@@ -20,17 +20,21 @@ export default defineConfig({
     emptyOutDir: false,
     lib: {
       entry: "/src/main.ts",
-      formats: [ "es" ],
+      formats: [ "iife" ],
+      name: "init",
       fileName: "bundle",
     },
     outDir: "public",
-    rollupOptions: {
-      external: [ "three" ],
-      output: {
-        paths: {
-          three: "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.module.min.js",
-        },
-      },
-    },
+    // rollupOptions: {
+    //   input: "/src/main.ts",
+    //   output: {
+    //     dir: "public",
+    //     entryFileNames: "bundle.js",
+    //     paths: {
+    //       three: "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.module.min.js",
+    //     },
+    //   },
+    //   external: [ "three" ],
+    // },
   },
 })

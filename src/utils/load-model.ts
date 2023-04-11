@@ -17,10 +17,8 @@ gltfLoader.setDRACOLoader(dracoLoader)
 
 
 
-const assetsPath = (import.meta.env.PROD ? "https://foretoo.github.io/narkomfin" : "")  + "/public/"
-
 export const loadModel = (
-  name: string,
+  path: string,
   onProgress?: Parameters<typeof gltfLoader.load>[2],
   onError?: Parameters<typeof gltfLoader.load>[3],
   onDecode?: () => void,
@@ -30,7 +28,7 @@ export const loadModel = (
 
   return new Promise((res) => {
     gltfLoader.load(
-      assetsPath + `${name}.gltf`,
+      path,
       res,
       onProgress,
       onError,

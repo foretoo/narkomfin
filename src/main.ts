@@ -7,11 +7,15 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { MODEL_LENGTH, STATUS } from "@const"
 import { loadModel, onEasedPointerMove } from "@utils"
 import { setup } from "./setup"
-import { traverseModel } from "./traverse-model_1"
+import { traverseModel } from "./traverse-model_2"
+import { IInitProps } from "./types"
 
 
 
-export const init = (container: HTMLDivElement) => {
+const init = ({
+  container,
+  modelPath,
+}: IInitProps) => {
 
   const progressLabel = container.querySelector(".narkomfin-progress-label")!
   const { scene, camera, renderer } = setup()
@@ -22,7 +26,7 @@ export const init = (container: HTMLDivElement) => {
   //////// HOUSE MODEL
 
   loadModel(
-    "narkom_compressed1",
+    modelPath,
     (e) => { progressLabel.textContent = STATUS.LOADING + ` ${e.loaded / MODEL_LENGTH * 100 | 0}%` },
     ( ) => { progressLabel.textContent = STATUS.ERROR },
     ( ) => { progressLabel.textContent = STATUS.DECODING },
@@ -39,6 +43,11 @@ export const init = (container: HTMLDivElement) => {
   const cameraPivot = new PerspectiveCamera()
 
   const controls = new OrbitControls(cameraPivot, renderer.domElement)
+  controls.enablePan = false
+  controls.minDistance = 5
+  controls.maxDistance = 10
+  controls.minPolarAngle = Math.PI * 0.05
+  controls.maxPolarAngle = Math.PI * 0.45
 
   cameraPivot.position.set(1, 3, 6)
   cameraPivot.add(camera)
@@ -63,7 +72,6 @@ export const init = (container: HTMLDivElement) => {
   directLight.castShadow = true
   directLight.shadow.mapSize = new Vector2(1024, 1024).multiplyScalar(4)
   directLight.shadow.camera.far = directLight.position.length() + cameraPivot.position.length() + 4.5
-  directLight.shadow.bias = -0.001
   cameraPivot.add(directLight)
 
   // const directCamera = new CameraHelper(directLight.shadow.camera)
@@ -95,3 +103,5 @@ export const init = (container: HTMLDivElement) => {
     renderer.render(scene, camera)
   })
 }
+
+export default init

@@ -2,6 +2,13 @@ import type { BufferGeometry, Group, Mesh, MeshStandardMaterial, Sphere } from "
 
 
 
+export interface IInitProps {
+  container: HTMLDivElement
+  modelPath: string
+}
+
+
+
 export interface HouseInnerMesh extends Mesh {
   geometry: BufferGeometry & {
     boundingSphere: Sphere
