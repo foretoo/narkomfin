@@ -21,12 +21,14 @@ export const traverseModel = (
     clone.frustumCulled = false
 
     switch (clone.name) {
+      case "glass":
+        clone.material = new MeshStandardMaterial({ color: 0x888888, metalness: 0.666 })
+        break
       case "walls":
         clone.material = new MeshStandardMaterial({ color: 0xdddddd })
         break
       case "doors":
       case "base":
-      case "glass":
         clone.material = new MeshStandardMaterial({ color: 0x888888 })
         break
       case "tree":
