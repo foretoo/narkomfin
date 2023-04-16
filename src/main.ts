@@ -15,9 +15,9 @@ import { IInitProps } from "./types"
 const init = ({
   container,
   modelPath,
+  onProgress,
 }: IInitProps) => {
 
-  const progressLabel = container.querySelector(".narkomfin-progress-label")
   const { scene, camera, cameraPivot, renderer, controls } = setup()
 
 
@@ -27,14 +27,12 @@ const init = ({
 
   loadModel(
     modelPath,
-    (e) => { progressLabel && (progressLabel.textContent = STATUS.LOADING + ` ${e.loaded / MODEL_LENGTH * 100 | 0}%`) },
-    ( ) => { progressLabel && (progressLabel.textContent = STATUS.ERROR) },
-    ( ) => { progressLabel && (progressLabel.textContent = STATUS.DECODING) },
+    (e) => onProgress(STATUS.LOADING, e.loaded / MODEL_LENGTH * 100 | 0),
+    ( ) => onProgress(STATUS.ERROR),
+    ( ) => onProgress(STATUS.DECODING),
   ).then((gltf) => {
-    progressLabel
-      ? container.replaceChild(renderer.domElement, progressLabel)
-      : container.appendChild(renderer.domElement)
-
+    onProgress(STATUS.DONE)
+    container.appendChild(renderer.domElement)
     scene.add(traverseModel(gltf))
   })
 

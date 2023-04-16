@@ -11,12 +11,30 @@
 
   <script type="module">
     import init from "./main.ts"
+
     const container = document.querySelector(".narkomfin-canvas-container")
+    const progressLabel = container.querySelector(".narkomfin-progress-label")
     const assetsPath = "/public/"
     const modelPath = assetsPath + "narkomfin2.txt"
+
     init({
       container,
       modelPath,
+      onProgress: (type, percent) => {
+        if (type === "LOADING") {
+          progressLabel.textContent = `Loading model ${percent}%`
+        }
+        else if (type === "DECODING") {
+          progressLabel.textContent = "Preparing a scene"
+        }
+        else if (type === "ERROR") {
+          progressLabel.textContent = "Something went wrong"
+        }
+        // type === "DONE"
+        else {
+          container.removeChild(progressLabel)
+        }
+      }
     })
   </script>
 

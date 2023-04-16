@@ -1,7 +1,8 @@
 export const STATUS = {
-  LOADING: "Loading model",
-  DECODING: "Preparing a scene",
-  ERROR: "Error",
+  LOADING: "LOADING",
+  DECODING: "DECODING",
+  ERROR: "ERROR",
+  DONE: "DONE",
 }
 
 export const MODEL_LENGTH = 1134066

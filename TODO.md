@@ -9,6 +9,6 @@
 - [x] ~~attach lighting to camera~~
 - [x] ~~depth of field~~
 - [ ] camera animation site surf
-- [ ] prepare progress api callback
+- [x] prepare progress api callback
 - [x] fov 45
 - [ ] smart zoom
