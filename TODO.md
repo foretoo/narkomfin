@@ -5,7 +5,10 @@
 - [ ] static render
 - [x] ~~pointermove minor rotation~~
 - [x] ~~ease onpointermove rotation~~
-- [ ] clamp pointerdown move
+- [x] clamp pointerdown move
 - [x] ~~attach lighting to camera~~
 - [x] ~~depth of field~~
 - [ ] camera animation site surf
+- [ ] prepare progress api callback
+- [ ] fov 45
+- [ ] smart zoom
