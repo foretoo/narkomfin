@@ -2,6 +2,7 @@
 - [x] ~~prepare loading managment~~
 - [x] ~~switch to dark theme~~
 - [x] ~~handle model size according to view size~~
+- [ ] handle model's view angle according to view size
 - [ ] static render
 - [x] ~~pointermove minor rotation~~
 - [x] ~~ease onpointermove rotation~~
