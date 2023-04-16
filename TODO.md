@@ -1,7 +1,7 @@
 - [x] ~~base scene~~
 - [x] ~~prepare loading managment~~
 - [ ] switch to dark theme
-- [ ] handle model size according to view size
+- [x] handle model size according to view size
 - [ ] static render
 - [x] ~~pointermove minor rotation~~
 - [x] ~~ease onpointermove rotation~~
@@ -10,5 +10,5 @@
 - [x] ~~depth of field~~
 - [ ] camera animation site surf
 - [ ] prepare progress api callback
-- [ ] fov 45
+- [x] fov 45
 - [ ] smart zoom

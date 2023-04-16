@@ -18,7 +18,7 @@ const init = ({
 }: IInitProps) => {
 
   const progressLabel = container.querySelector(".narkomfin-progress-label")
-  const { scene, camera, renderer } = setup()
+  const { scene, camera, cameraPivot, renderer, controls } = setup()
 
 
 
@@ -41,20 +41,7 @@ const init = ({
 
 
   ////////
-  //////// CAMERA PIVOT
-
-  const cameraPivot = new PerspectiveCamera()
-
-  const controls = new OrbitControls(cameraPivot, renderer.domElement)
-  controls.enablePan = false
-  controls.minDistance = 5
-  controls.maxDistance = 10
-  controls.minPolarAngle = Math.PI * 0.05
-  controls.maxPolarAngle = Math.PI * 0.45
-
-  cameraPivot.position.set(1, 3, 6)
-  cameraPivot.add(camera)
-  scene.add(cameraPivot)
+  //////// CAMERA ON POINTER MOVE
 
   onEasedPointerMove((pointer) => {
     camera.position.x = -pointer.x
