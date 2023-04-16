@@ -17,7 +17,7 @@
     const assetsPath = "/public/"
     const modelPath = assetsPath + "narkomfin2.txt"
 
-    init({
+    const toggleDark = init({
       container,
       modelPath,
       onProgress: (type, percent) => {
@@ -34,13 +34,20 @@
         else {
           container.removeChild(progressLabel)
         }
-      }
+      },
+      // dark: true,
     })
+
+    const switcher = document.querySelector(".theme-switcher")
+    switcher.addEventListener("click", () => toggleDark())
+
   </script>
 
   <div class="narkomfin-canvas-container">
     <div class="narkomfin-progress-label">Loading interactive environment</div>
   </div>
+
+  <button class="theme-switcher">theme</button>
 
 </body>
 </html>

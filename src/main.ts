@@ -1,29 +1,34 @@
-import { DirectionalLight, HemisphereLight, PerspectiveCamera, Vector2 } from "three"
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import { BufferGeometry, Color, DirectionalLight, HemisphereLight, Mesh, MeshStandardMaterial, Vector2 } from "three"
 // import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 // import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 // import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
-import { MODEL_LENGTH, STATUS } from "@const"
+import { BG, BG_DARK, MODEL_LENGTH, STATUS } from "@const"
 import { loadModel, onEasedPointerMove } from "@utils"
 import { setup } from "./setup"
 import { traverseModel } from "./traverse-model_2"
-import { IInitProps } from "./types"
+import { House, IInitProps } from "./types"
 
 
 
 const init = ({
   container,
   modelPath,
-  onProgress,
+  onProgress = () => {},
+  dark = false,
 }: IInitProps) => {
 
   const { scene, camera, cameraPivot, renderer, controls } = setup()
+
+  scene.background = new Color(dark ? BG_DARK : BG)
+  renderer.shadowMap.enabled = !dark
 
 
 
   ////////
   //////// HOUSE MODEL
+
+  let narkomfin: House
 
   loadModel(
     modelPath,
@@ -33,7 +38,8 @@ const init = ({
   ).then((gltf) => {
     onProgress(STATUS.DONE)
     container.appendChild(renderer.domElement)
-    scene.add(traverseModel(gltf))
+    narkomfin = traverseModel(gltf, dark)
+    scene.add(narkomfin)
   })
 
 
@@ -52,10 +58,10 @@ const init = ({
   ////////
   //////// LIGHT & SHADOW
 
-  const ambientLight = new HemisphereLight(0x997755, 0x557799, 0.5)
+  const ambientLight = new HemisphereLight(0x997755, 0x557799, dark ? 0.033 : 0.5)
   scene.add(ambientLight)
 
-  const directLight = new DirectionalLight(0xffffff, 0.75)
+  const directLight = new DirectionalLight(0xffffff, dark ? 0.06 : 0.75)
   directLight.position.set(2, 3, 4)
   directLight.castShadow = true
   directLight.shadow.mapSize = new Vector2(1024, 1024).multiplyScalar(4)
@@ -90,6 +96,39 @@ const init = ({
     controls.update()
     renderer.render(scene, camera)
   })
+
+
+
+  const toggleDark = (force?: boolean) => {
+    dark = force ?? !dark
+
+    const glass = narkomfin.getObjectByName("glass") as Mesh<BufferGeometry, MeshStandardMaterial>
+
+    if (dark) {
+      glass.material.emissiveIntensity = 1
+      narkomfin.traverse((obj) => {
+        obj.receiveShadow = false
+        obj.castShadow = false
+      })
+      ambientLight.intensity = 0.033
+      directLight.intensity = 0.06
+      directLight.castShadow = false
+      scene.background = new Color(BG_DARK)
+    }
+    else {
+      glass.material.emissiveIntensity = 0
+      narkomfin.traverse((obj) => {
+        obj.receiveShadow = true
+        obj.castShadow = true
+      })
+      ambientLight.intensity = 0.5
+      directLight.intensity = 0.75
+      directLight.castShadow = true
+      scene.background = new Color(BG)
+    }
+  }
+
+  return toggleDark
 }
 
 export default init

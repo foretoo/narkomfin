@@ -1,12 +1,10 @@
-import { ACESFilmicToneMapping, Color, PCFSoftShadowMap, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer } from "three"
-import { BG } from "@const"
+import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer } from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 
 
 export const setup = () => {
   const scene = new Scene()
-  scene.background = new Color(BG)
 
   const camera = new PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 100)
 
@@ -15,7 +13,6 @@ export const setup = () => {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
   renderer.outputEncoding = sRGBEncoding
   renderer.toneMapping = ACESFilmicToneMapping
-  renderer.shadowMap.enabled = true
   renderer.shadowMap.type = PCFSoftShadowMap
 
   const cameraPivot = new PerspectiveCamera()

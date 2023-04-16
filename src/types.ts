@@ -5,7 +5,8 @@ import type { BufferGeometry, Group, Mesh, MeshStandardMaterial, Sphere } from "
 export interface IInitProps {
   container: HTMLDivElement
   modelPath: string
-  onProgress: (type: string, progress?: number) => void
+  onProgress?: (type: string, progress?: number) => void
+  dark?: boolean
 }
 
 

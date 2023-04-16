@@ -6,6 +6,7 @@ import { House, HouseInnerMesh } from "./types"
 
 export const traverseModel = (
   gltf: GLTF,
+  dark: boolean,
 ) => {
   const model = gltf.scene
   const scale = Array(3).fill(0.075) as [number, number, number]
@@ -22,7 +23,12 @@ export const traverseModel = (
 
     switch (clone.name) {
       case "glass":
-        clone.material = new MeshStandardMaterial({ color: 0x888888, metalness: 0.666 })
+        clone.material = new MeshStandardMaterial({
+          color: 0x888888,
+          emissive: 0xffeedd,
+          emissiveIntensity: dark ? 1 : 0,
+          metalness: 0.666,
+        })
         break
       case "walls":
         clone.material = new MeshStandardMaterial({ color: 0xdddddd })
