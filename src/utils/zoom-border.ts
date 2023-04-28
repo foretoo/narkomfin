@@ -94,15 +94,9 @@ export const setZoomBorders = (
   return (on: boolean) => {
     if (on) {
       controls.addEventListener("change", handleZoomBorders)
-      controls.enableZoom = true
-      controls.minAzimuthAngle = -Math.PI
-      controls.maxAzimuthAngle =  Math.PI
     }
     else {
       controls.removeEventListener("change", handleZoomBorders)
-      controls.enableZoom = false
-      controls.minAzimuthAngle = -Math.PI * 0.8
-      controls.maxAzimuthAngle =  Math.PI * 0.6
     }
   }
 }

@@ -31,7 +31,6 @@ export const traverseModel = async (
       clone.castShadow = /binding|terrain/.test(clone.name) ? false : true
       clone.receiveShadow = true
       clone.frustumCulled = false
-      console.log(clone.name)
 
       if (clone.name === "binding") {
         i++

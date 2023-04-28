@@ -45,7 +45,8 @@ const init = ({
     animating = true
     cafe = mode
 
-    toggleBorders(!cafe)
+    cafe && toggleBorders(false)
+    controls.enableZoom = !cafe
 
     const newCameraPos = cafe ? new Vector3(-0.5, 1, 2.5) : new Vector3(5, 3, 9).multiplyScalar(1 / camera.aspect)
     const newTargetPos = cafe ? cafeTarget : scene.position.clone()
@@ -73,7 +74,12 @@ const init = ({
       controls.target.copy(currentTarget)
       camera.lookAt(currentTarget)
 
-      if (t === 1) animating = false
+      if (t === 1) {
+        animating = false
+        !cafe && toggleBorders(true)
+        controls.minAzimuthAngle = cafe ? -Math.PI * 0.8 : Infinity
+        controls.maxAzimuthAngle = cafe ?  Math.PI * 0.6 : Infinity
+      }
       else requestAnimationFrame(animate)
     })
   }
@@ -92,7 +98,8 @@ const init = ({
     ( ) => onProgress(STATUS.DECODING),
   )
     .then((gltf) => traverseModel(gltf, dark))
-    .then((narkomfin) => {
+    .then((textured_gltf) => {
+      narkomfin = textured_gltf
       onProgress(STATUS.DONE)
       container.appendChild(renderer.domElement)
       scene.add(narkomfin)
