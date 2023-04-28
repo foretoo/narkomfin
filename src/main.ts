@@ -90,12 +90,13 @@ const init = ({
     (e) => onProgress(STATUS.LOADING, e.loaded / MODEL_LENGTH * 100 | 0),
     undefined,
     ( ) => onProgress(STATUS.DECODING),
-  ).then((gltf) => {
-    onProgress(STATUS.DONE)
-    container.appendChild(renderer.domElement)
-    narkomfin = traverseModel(gltf, dark)
-    scene.add(narkomfin)
-  })
+  )
+    .then((gltf) => traverseModel(gltf, dark))
+    .then((narkomfin) => {
+      onProgress(STATUS.DONE)
+      container.appendChild(renderer.domElement)
+      scene.add(narkomfin)
+    })
 
 
 
@@ -154,8 +155,8 @@ const init = ({
         obj.receiveShadow = false
         obj.castShadow = false
       })
-      ambientLight.intensity = 0.033
-      directLight.intensity = 0.06
+      ambientLight.intensity = 0.05
+      directLight.intensity = 0.07
       directLight.castShadow = false
       scene.background = new Color(BG_DARK)
     }

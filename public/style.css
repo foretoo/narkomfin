@@ -28,7 +28,18 @@ html, body {
   color: #fff;
 }
 
-button.theme-switcher {
+button {
   position: absolute;
-  top: 0;
+  top: 1rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
+button.theme-switcher {
+  right: 1rem
+}
+
+button.cafe-tween {
+  left: 1rem;
 }
