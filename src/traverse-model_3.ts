@@ -16,6 +16,7 @@ let i = 0
 export const traverseModel = async (
   gltf: GLTF,
   dark: boolean,
+  texturePath: string,
 ): Promise<House> => {
   const model = gltf.scene
   const scale = Array(3).fill(0.075) as [number, number, number]
@@ -54,7 +55,7 @@ export const traverseModel = async (
 
       else {
         clone.material = new MeshStandardMaterial()
-        loader.load(`../public/${clone.name}.png`, (texture) => {
+        loader.load(`${texturePath}${clone.name}.png`, (texture) => {
           i++
           texture.flipY = false
           clone.material.map = texture

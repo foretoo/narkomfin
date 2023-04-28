@@ -14,6 +14,7 @@ import { House, IInitProps } from "./types"
 const init = ({
   container,
   modelPath,
+  texturePath,
   onProgress = () => {},
   dark = false,
 }: IInitProps) => {
@@ -97,7 +98,7 @@ const init = ({
     undefined,
     ( ) => onProgress(STATUS.DECODING),
   )
-    .then((gltf) => traverseModel(gltf, dark))
+    .then((gltf) => traverseModel(gltf, dark, texturePath))
     .then((textured_gltf) => {
       narkomfin = textured_gltf
       onProgress(STATUS.DONE)

@@ -16,12 +16,14 @@
     window.addEventListener("load", () => {
       const container = document.body.querySelector(".narkomfin-canvas-container")
       const progressLabel = container.querySelector(".narkomfin-progress-label")
-      const assetsPath = "https://foretoo.github.io/narkomfin/public/"
-      const modelPath = assetsPath + "narkomfin3.txt"
 
       const { toggleDark, toggleCafe } = init({
         container,
-        modelPath,
+
+        modelPath: "https://foretoo.github.io/narkomfin/public/narkomfin3.txt",
+
+        texturePath: "https://raw.githubusercontent.com/foretoo/narkomfin/main/public/",
+
         onProgress: (type, percent) => {
           if (type === "LOADING") {
             progressLabel.textContent = `Loading model ${percent}%`

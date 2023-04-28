@@ -14,12 +14,12 @@
 
     const container = document.querySelector(".narkomfin-canvas-container")
     const progressLabel = container.querySelector(".narkomfin-progress-label")
-    const assetsPath = "/public/"
-    const modelPath = assetsPath + "narkomfin3.txt"
 
     const { toggleDark, toggleCafe } = init({
       container,
-      modelPath,
+      modelPath: "/public/narkomfin3.txt",
+      texturePath: "../public/",
+
       onProgress: (type, percent) => {
         if (type === "LOADING") {
           progressLabel.textContent = `Loading model ${percent}%`
