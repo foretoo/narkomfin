@@ -1,4 +1,4 @@
-import { BufferAttribute, BufferGeometry, CubicBezierCurve, CurvePath, LineCurve, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Raycaster, Scene, Vector2 } from "three"
+import { BufferAttribute, BufferGeometry, CubicBezierCurve, CurvePath, LineCurve, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Raycaster, Vector2, Vector3 } from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 
@@ -67,13 +67,13 @@ const zoomBorderMesh = new Mesh(geometry, material)
 
 export const setZoomBorders = (
   controls: OrbitControls,
-  scene: Scene,
+  target: Vector3,
 ) => {
   const raycaster = new Raycaster()
   const gizmo = new Object3D()
 
-  controls.addEventListener("change", (e) => {
-    const cameraPivot = (e.target as OrbitControls).object
+  const handleZoomBorders = (e: { target: OrbitControls }) => {
+    const cameraPivot = e.target.object
     const camera = cameraPivot.children.find((obj) => obj instanceof PerspectiveCamera)!
 
     cameraPivot.getWorldPosition(gizmo.position)
@@ -86,6 +86,23 @@ export const setZoomBorders = (
     gizmo.position.set(intersect[0].point.x, 0, intersect[0].point.z)
     controls.minDistance = gizmo.position.length()
 
-    camera.lookAt(scene.position)
-  })
+    camera.lookAt(target)
+  }
+
+  controls.addEventListener("change", handleZoomBorders)
+
+  return (on: boolean) => {
+    if (on) {
+      controls.addEventListener("change", handleZoomBorders)
+      controls.enableZoom = true
+      controls.minAzimuthAngle = -Math.PI
+      controls.maxAzimuthAngle =  Math.PI
+    }
+    else {
+      controls.removeEventListener("change", handleZoomBorders)
+      controls.enableZoom = false
+      controls.minAzimuthAngle = -Math.PI * 0.8
+      controls.maxAzimuthAngle =  Math.PI * 0.6
+    }
+  }
 }

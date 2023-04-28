@@ -19,7 +19,6 @@ export const setup = () => {
 
   const controls = new OrbitControls(cameraPivot, renderer.domElement)
   controls.enablePan = false
-  controls.minDistance = 5 // should i multiply it by "1 / camera.aspect"
   controls.maxDistance = 11 // should i multiply it by "1 / camera.aspect"
   controls.minPolarAngle = Math.PI * 0.05
   controls.maxPolarAngle = Math.PI * 0.45

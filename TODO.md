@@ -9,8 +9,9 @@
 - [x] ~~clamp pointerdown move~~
 - [x] ~~attach lighting to camera~~
 - [x] ~~depth of field~~
-- [ ] camera animation site surf
+- [x] camera animation site surf
 - [x] ~~prepare progress api callback~~
 - [x] ~~fov 45~~
 - [x] smart zoom
 - [ ] handle error
+- [ ] remove encoding state

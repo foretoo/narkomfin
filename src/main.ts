@@ -1,10 +1,10 @@
-import { BufferGeometry, Color, DirectionalLight, HemisphereLight, Mesh, MeshStandardMaterial, Vector2 } from "three"
+import { BufferGeometry, Color, CubicBezierCurve3, DirectionalLight, HemisphereLight, Mesh, MeshStandardMaterial, Vector2, Vector3 } from "three"
 // import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 // import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 // import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
 import { BG, BG_DARK, MODEL_LENGTH, STATUS } from "@const"
-import { loadModel, onEasedPointerMove, setZoomBorders } from "@utils"
+import { clamp, loadModel, onEasedPointerMove, setZoomBorders } from "@utils"
 import { setup } from "./setup"
 import { traverseModel } from "./traverse-model_3"
 import { House, IInitProps } from "./types"
@@ -23,13 +23,60 @@ const init = ({
   scene.background = new Color(dark ? BG_DARK : BG)
   renderer.shadowMap.enabled = !dark
 
-  setZoomBorders(controls, scene)
+  const currentTarget = scene.position.clone()
+
+  const toggleBorders = setZoomBorders(controls, currentTarget)
 
   onEasedPointerMove((pointer) => {
     camera.position.x = -pointer.x
     camera.position.y = -pointer.y
-    camera.lookAt(scene.position)
+    camera.lookAt(currentTarget)
   }, 5)
+
+
+
+  let animating = false
+  let cafe = false
+  const cafeTarget = new Vector3(-3, 0, 1)
+  const duration = 1500
+
+  const toggleCafe = (mode: boolean) => {
+    if (cafe === mode || animating) return
+    animating = true
+    cafe = mode
+
+    toggleBorders(!cafe)
+
+    const newCameraPos = cafe ? new Vector3(-0.5, 1, 2.5) : new Vector3(5, 3, 9).multiplyScalar(1 / camera.aspect)
+    const newTargetPos = cafe ? cafeTarget : scene.position.clone()
+    const cameraHand = newCameraPos.clone()
+      .add(new Vector3().subVectors(newCameraPos, newTargetPos))
+      .normalize()
+      .multiplyScalar(0.5)
+
+    const curve = new CubicBezierCurve3(
+      cameraPivot.position,
+      cameraPivot.position.clone().normalize().multiplyScalar(-0.5).add(cameraPivot.position),
+      cameraHand,
+      newCameraPos,
+    )
+
+    const start = performance.now()
+
+    requestAnimationFrame(function animate() {
+      const now = performance.now()
+      let t = clamp((now - start) / duration, 0, 1)
+      t = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+
+      curve.getPointAt(t, cameraPivot.position)
+      currentTarget.copy(cafeTarget).multiplyScalar(cafe ? t : 1 - t)
+      controls.target.copy(currentTarget)
+      camera.lookAt(currentTarget)
+
+      if (t === 1) animating = false
+      else requestAnimationFrame(animate)
+    })
+  }
 
 
 
@@ -125,7 +172,7 @@ const init = ({
     }
   }
 
-  return toggleDark
+  return { toggleDark, toggleCafe }
 }
 
 export default init

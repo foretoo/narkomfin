@@ -17,7 +17,7 @@
     const assetsPath = "/public/"
     const modelPath = assetsPath + "narkomfin2.txt"
 
-    const toggleDark = init({
+    const { toggleDark, toggleCafe } = init({
       container,
       modelPath,
       onProgress: (type, percent) => {
@@ -38,6 +38,13 @@
     const switcher = document.querySelector(".theme-switcher")
     switcher.addEventListener("click", () => toggleDark())
 
+    let cafeMode = false
+    const cafe = document.querySelector(".cafe-tween")
+    cafe.addEventListener("click", () => {
+      cafeMode = !cafeMode
+      toggleCafe(cafeMode)
+    })
+
   </script>
 
   <div class="narkomfin-canvas-container">
@@ -45,6 +52,7 @@
   </div>
 
   <button class="theme-switcher">theme</button>
+  <button class="cafe-tween">cafe</button>
 
 </body>
 </html>
