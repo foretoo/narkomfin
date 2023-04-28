@@ -12,4 +12,5 @@
 - [ ] camera animation site surf
 - [x] ~~prepare progress api callback~~
 - [x] ~~fov 45~~
-- [ ] smart zoom
+- [x] smart zoom
+- [ ] handle error

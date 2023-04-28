@@ -1,4 +1,4 @@
-import { BufferGeometry, Color, DirectionalLight, HemisphereLight, Mesh, MeshStandardMaterial, Vector2 } from "three"
+import { BufferGeometry, Color, DirectionalLight, HemisphereLight, Mesh, MeshStandardMaterial, Object3D, Raycaster, Vector2 } from "three"
 // import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 // import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 // import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
@@ -8,6 +8,7 @@ import { loadModel, onEasedPointerMove } from "@utils"
 import { setup } from "./setup"
 import { traverseModel } from "./traverse-model_2"
 import { House, IInitProps } from "./types"
+import { border } from "./border"
 
 
 
@@ -33,13 +34,30 @@ const init = ({
   loadModel(
     modelPath,
     (e) => onProgress(STATUS.LOADING, e.loaded / MODEL_LENGTH * 100 | 0),
-    ( ) => onProgress(STATUS.ERROR),
+    undefined,
     ( ) => onProgress(STATUS.DECODING),
   ).then((gltf) => {
     onProgress(STATUS.DONE)
     container.appendChild(renderer.domElement)
     narkomfin = traverseModel(gltf, dark)
     scene.add(narkomfin)
+  })
+
+  const raycaster = new Raycaster()
+  const gizmo = new Object3D()
+
+  controls.addEventListener("change", () => {
+    cameraPivot.getWorldPosition(gizmo.position)
+    gizmo.position.y = 0
+    gizmo.position.normalize().multiplyScalar(20)
+
+    raycaster.set(gizmo.position, gizmo.position.clone().normalize().multiplyScalar(-1))
+    const intersect = raycaster.intersectObject(border)
+
+    gizmo.position.set(intersect[0].point.x, 0, intersect[0].point.z)
+    controls.minDistance = gizmo.position.length()
+
+    camera.lookAt(scene.position)
   })
 
 

@@ -52,7 +52,7 @@ export const traverseModel = (
     }
 
     group.add(clone)
-    group.position.y = -1
+    group.position.y = -1.5
   })
 
   return group
