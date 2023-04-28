@@ -1,4 +1,4 @@
-import { Color, Group, Mesh, MeshStandardMaterial, TextureLoader } from "three"
+import { Group, Mesh, MeshStandardMaterial, TextureLoader } from "three"
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 import { House, HouseInnerMesh } from "./types"
 

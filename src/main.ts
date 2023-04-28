@@ -1,7 +1,7 @@
-import { BufferGeometry, Color, CubicBezierCurve3, DirectionalLight, HemisphereLight, Mesh, MeshStandardMaterial, Vector2, Vector3 } from "three"
-// import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
-// import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
-// import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
+import { BufferGeometry, Color, CubicBezierCurve3, DirectionalLight, HemisphereLight, IUniform, Mesh, MeshStandardMaterial, Vector2, Vector3 } from "three"
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
+import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
 import { BG, BG_DARK, MODEL_LENGTH, STATUS } from "@const"
 import { clamp, loadModel, onEasedPointerMove, setZoomBorders } from "@utils"
@@ -75,6 +75,8 @@ const init = ({
       controls.target.copy(currentTarget)
       camera.lookAt(currentTarget)
 
+      bokehPass.uniforms.focus.value = cafe ? 4 - t : 3 + t
+
       if (t === 1) {
         animating = false
         !cafe && toggleBorders(true)
@@ -129,16 +131,16 @@ const init = ({
   ////////
   //////// POSTPROCESSING
 
-  // const renderPass = new RenderPass(scene, camera)
-  // const bokehPass = new BokehPass(scene, camera, {
-  //   focus: 4.0,
-  //   aperture: 0.002,
-  //   maxblur: 0.005,
-  // })
+  const renderPass = new RenderPass(scene, camera)
+  const bokehPass = new BokehPass(scene, camera, {
+    focus: 4.0,
+    aperture: 0.002,
+    maxblur: 0.005,
+  }) as BokehPass & { uniforms: { focus: IUniform<number> }}
 
-  // const composer = new EffectComposer(renderer)
-  // composer.addPass(renderPass)
-  // composer.addPass(bokehPass)
+  const composer = new EffectComposer(renderer)
+  composer.addPass(renderPass)
+  dark && composer.addPass(bokehPass)
 
 
 
@@ -147,7 +149,7 @@ const init = ({
 
   renderer.setAnimationLoop(() => {
     controls.update()
-    renderer.render(scene, camera)
+    composer.render()
   })
 
 
@@ -167,6 +169,7 @@ const init = ({
       directLight.intensity = 0.07
       directLight.castShadow = false
       scene.background = new Color(BG_DARK)
+      composer.addPass(bokehPass)
     }
     else {
       glass.material.emissiveIntensity = 0
@@ -178,6 +181,7 @@ const init = ({
       directLight.intensity = 0.75
       directLight.castShadow = true
       scene.background = new Color(BG)
+      composer.removePass(bokehPass)
     }
   }
 
