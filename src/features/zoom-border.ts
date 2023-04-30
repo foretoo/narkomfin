@@ -1,5 +1,5 @@
 import { BufferAttribute, BufferGeometry, CubicBezierCurve, CurvePath, LineCurve, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Raycaster, Vector2, Vector3 } from "three"
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import type { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 
 
@@ -67,10 +67,10 @@ const zoomBorderMesh = new Mesh(geometry, material)
 
 export const setZoomBorders = (
   controls: OrbitControls,
-  target: Vector3,
 ) => {
   const raycaster = new Raycaster()
   const gizmo = new Object3D()
+  const target = controls.target
 
   const handleZoomBorders = (e: { target: OrbitControls }) => {
     const cameraPivot = e.target.object

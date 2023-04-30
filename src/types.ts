@@ -1,4 +1,5 @@
-import type { BufferGeometry, Group, Mesh, MeshStandardMaterial, Sphere } from "three"
+import type { BufferGeometry, Group, IUniform, Mesh, MeshStandardMaterial, Sphere } from "three"
+import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
 
 
@@ -12,14 +13,22 @@ export interface IInitProps {
 
 
 
-export interface HouseInnerMesh extends Mesh {
+export interface IHouseInnerMesh extends Mesh {
   geometry: BufferGeometry & {
     boundingSphere: Sphere
   }
   material: MeshStandardMaterial
 }
 
-export interface House extends Group {
-  children: HouseInnerMesh[]
-  add(...object: HouseInnerMesh[]): this
+export interface IHouse extends Group {
+  children: IHouseInnerMesh[]
+  add(...object: IHouseInnerMesh[]): this
+}
+
+
+
+export interface IBokehPass extends BokehPass {
+  uniforms: {
+    focus: IUniform<number>
+  }
 }

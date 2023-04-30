@@ -15,7 +15,10 @@
     const container = document.querySelector(".narkomfin-canvas-container")
     const progressLabel = container.querySelector(".narkomfin-progress-label")
 
-    const { toggleDark, toggleCafe } = init({
+    let handleDark = () => {}
+    let handleCafeAnimation = () => {}
+
+    init({
       container,
       modelPath: "/public/narkomfin3.txt",
       texturePath: "../public/",
@@ -33,16 +36,20 @@
         }
       },
       // dark: true,
+
+    }).then(({ toggleDark, toggleCafe }) => {
+      handleDark = toggleDark
+      handleCafeAnimation = toggleCafe
     })
 
     const switcher = document.querySelector(".theme-switcher")
-    switcher.addEventListener("click", () => toggleDark())
+    switcher.addEventListener("click", () => handleDark())
 
     let cafeMode = false
     const cafe = document.querySelector(".cafe-tween")
     cafe.addEventListener("click", () => {
       cafeMode = !cafeMode
-      toggleCafe(cafeMode)
+      handleCafeAnimation(cafeMode)
     })
 
   </script>

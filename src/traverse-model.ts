@@ -1,53 +1,72 @@
-import { DoubleSide, Group, Mesh, MeshStandardMaterial } from "three"
+import { Group, Mesh, MeshStandardMaterial, TextureLoader } from "three"
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
-import { House, HouseInnerMesh } from "./types"
+import { IHouse, IHouseInnerMesh } from "./types"
 
-export const traverseModel = (
+
+
+const loader = new TextureLoader()
+
+const material111 = new MeshStandardMaterial({ color: 0x111111 })
+
+const N = 10
+let i = 0
+
+
+
+export const traverseModel = async (
   gltf: GLTF,
-) => {
+  dark: boolean,
+  texturePath: string,
+): Promise<IHouse> => {
   const model = gltf.scene
-  const scale = Array(3).fill(0.000075) as [number, number, number]
+  const scale = Array(3).fill(0.075) as [number, number, number]
+  const house = new Group() as IHouse
+  house.position.y = -1.5
+  house.name = "narkomfin"
 
-  const group = new Group() as House
+  return await new Promise((res) => {
+    model.traverse((object) => {
+      if (!(object instanceof Mesh)) return
 
-  model.traverse((object) => {
-    if (!(object instanceof Mesh)) return
+      const clone = object.clone() as IHouseInnerMesh
+      clone.geometry.scale(...scale)
+      clone.castShadow = /binding|terrain/.test(clone.name) ? false : true
+      clone.receiveShadow = true
+      clone.frustumCulled = false
 
-    const clone = object.clone() as HouseInnerMesh
-    clone.geometry.scale(...scale)
-    clone.castShadow = true
-    clone.receiveShadow = true
-    clone.frustumCulled = false
+      if (clone.name === "binding") {
+        i++
+        clone.material = new MeshStandardMaterial({ color: 0x282522 })
+      }
 
-    switch (clone.name) {
-    case "floor001":
-    case "floor":
-      clone.material = new MeshStandardMaterial({ color: 0x444444, side: DoubleSide })
-      break
-    case "columns":
-    case "metal":
-      clone.material = new MeshStandardMaterial({ color: 0x444444, metalness: 0.8 })
-      break
-    case "walls":
-      clone.material = new MeshStandardMaterial({ color: 0x888888 })
-      break
-    case "doors":
-      clone.material = new MeshStandardMaterial({ color: 0xcccccc })
-      break
-    case "borders":
-      clone.material = new MeshStandardMaterial({ color: 0x222222 })
-      break
-    case "glass":
-      clone.material = new MeshStandardMaterial({ color: 0xaaccee, metalness: 0.6 })
-      break
-    }
+      else if (clone.name === "glass") {
+        i++
+        clone.material = new MeshStandardMaterial({
+          color: 0x888888,
+          emissive: 0xffeedd,
+          emissiveIntensity: dark ? 1 : 0,
+          metalness: 0.666,
+        })
+      }
 
-    group.add(clone)
+      else if (/borders|columns|metal_and_loungers/.test(clone.name)) {
+        i++
+        clone.material = material111
+      }
+
+      else {
+        clone.material = new MeshStandardMaterial()
+        loader.load(`${texturePath}${clone.name}.png`, (texture) => {
+          i++
+          texture.flipY = false
+          clone.material.map = texture
+          clone.material.needsUpdate = true
+
+          if (i === N) res(house)
+        })
+      }
+
+      house.add(clone)
+    })
   })
-
-  const floor = model.getObjectByName("floor001") as HouseInnerMesh
-  const pivot = floor.geometry.boundingSphere.center.multiplyScalar(-1)
-  group.children.forEach((mesh) => void mesh.position.copy(pivot))
-
-  return group
 }
