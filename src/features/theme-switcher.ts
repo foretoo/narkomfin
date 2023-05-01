@@ -26,8 +26,8 @@ export const setDarkThemeSwitcher = (
         obj.receiveShadow = false
         obj.castShadow = false
       })
-      ambientLight.intensity = 0.05
-      directLight.intensity = 0.07
+      ambientLight.intensity = 0.2
+      directLight.intensity = 0.2
       directLight.castShadow = false
       scene.background = new Color(BG_DARK)
       composer.addPass(bokehPass)
