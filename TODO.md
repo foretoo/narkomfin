@@ -15,3 +15,4 @@
 - [x] smart zoom
 - [ ] handle error
 - [ ] remove encoding state
+- [ ] add setting bg to api
