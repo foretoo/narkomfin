@@ -116,7 +116,6 @@ const init = async ({
   //////// RENDERING
 
   renderer.setAnimationLoop(() => {
-    controls.update()
     composer.render()
   })
 
