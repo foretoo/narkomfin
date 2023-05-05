@@ -2,10 +2,6 @@
   margin: 0;
   padding: 0;
   border: none;
-  font-family: monospace;
-  font-size: 20px;
-  line-height: 1rem;
-  color: #111;
   box-sizing: border-box;
 }
 
@@ -15,6 +11,11 @@ html, body {
   position: fixed;
   overflow: hidden;
   background-color: #E1E1DF;
+
+  font-size: 20px;
+  font-family: monospace;
+  color: #111;
+  line-height: 1rem;
 }
 
 .narkomfin-canvas-container {
@@ -30,17 +31,24 @@ html, body {
 
 button {
   position: absolute;
-  top: 1rem;
   padding: 0.2rem 0.5rem;
   border-radius: 0.2rem;
   box-shadow: 0px 2px 5px #1112;
   cursor: pointer;
-}
-
-button.theme-switcher {
-  right: 1rem
+  font: inherit;
 }
 
 button.cafe-tween {
+  top: 1rem;
   left: 1rem;
+}
+button.theme-switcher {
+  top: 4rem;
+  left: 1rem;
+}
+
+.lil-gui.root {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

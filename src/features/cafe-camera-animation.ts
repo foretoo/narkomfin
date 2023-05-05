@@ -1,5 +1,7 @@
-import { CubicBezierCurve3, PerspectiveCamera, QuadraticBezierCurve3, Scene, Vector3 } from "three"
+import { CubicBezierCurve3, PerspectiveCamera, QuadraticBezierCurve3, Scene, Spherical, Vector3 } from "three"
 import type { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import { GUI } from "lil-gui"
+
 import type { setZoomBorders } from "./zoom-border"
 import { clamp } from "@utils"
 import { IBokehPass } from "src/types"
@@ -14,6 +16,54 @@ const cafeCameraPos = new Vector3(-0.5, 1, 2.5)
 const duration = 1500
 
 const PI = Math.PI
+
+const gui = new GUI({ container: document.body })
+
+interface IEase {
+  current: "easeInQuad" | "easeOutQuad" | "easeInOutQuad" | "easeInCubic" | "easeOutCubic" | "easeInOutCubic"
+  functions: { [K in IEase["current"]]: (x: number) => number }
+}
+
+const ease: IEase = {
+  current: "easeInOutQuad",
+  functions: {
+    easeInQuad(x: number): number {
+      console.log("easeInQuad")
+      return x * x
+    },
+    easeOutQuad(x: number): number {
+      console.log("easeOutQuad")
+      return 1 - (1 - x) * (1 - x)
+    },
+    easeInOutQuad(x: number): number {
+      console.log("easeInOutQuad")
+      return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2
+    },
+    easeInCubic(x: number): number {
+      console.log("easeInCubic")
+      return x * x * x
+    },
+    easeOutCubic(x: number): number {
+      console.log("easeOutCubic")
+      return 1 - Math.pow(1 - x, 3)
+    },
+    easeInOutCubic(x: number): number {
+      console.log("easeInOutCubic")
+      return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+    },
+  },
+}
+
+gui.add(ease, "current", {
+  easeInQuad: "easeInQuad",
+  easeOutQuad: "easeOutQuad",
+  easeInOutQuad: "easeInOutQuad",
+  easeInCubic: "easeInCubic",
+  easeOutCubic: "easeOutCubic",
+  easeInOutCubic: "easeInOutCubic",
+} as {
+  [K in IEase["current"]]: K
+}).name("easing function:")
 
 
 
@@ -33,7 +83,11 @@ export const setCafeCameraAnimation = (
     animating = true
     cafe = mode
 
-    cafe && toggleBorders(false)
+    if (cafe) {
+      toggleBorders(false)
+      controls.minDistance = 0
+      controls.maxDistance = Infinity
+    }
     controls.enableZoom = !cafe
     controls.enabled = false
 
@@ -85,11 +139,11 @@ export const setCafeCameraAnimation = (
     requestAnimationFrame(function animate() {
       const now = performance.now()
       const t = clamp((now - start) / duration, 0, 1)
-      const ct = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2
+      const ct = ease.functions[ease.current](t) // t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2
 
       curve.getPointAt(ct, cameraPivot.position)
       target.copy(cafeTarget).multiplyScalar(cafe ? ct : 1 - ct)
-      controls.minDistance = controls.maxDistance = curDistance + difDistance * ct
+      controls.spherical.radius = curDistance + difDistance * ct
       controls.update()
       camera.lookAt(controls.target)
 
