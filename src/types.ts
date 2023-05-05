@@ -30,5 +30,7 @@ export interface IHouse extends Group {
 export interface IBokehPass extends BokehPass {
   uniforms: {
     focus: IUniform<number>
+    aperture: IUniform<number>
+    maxblur: IUniform<number>
   }
 }

@@ -1,11 +1,11 @@
 import { CubicBezierCurve3, PerspectiveCamera, QuadraticBezierCurve3, Scene, Spherical, Vector3 } from "three"
 import type { OrbitControls } from "../libs/OrbitControls"
-import { GUI } from "lil-gui"
 
 import type { setZoomBorders } from "./zoom-border"
 import { clamp } from "@utils"
 import { IBokehPass } from "src/types"
 import { MAX_DISTANCE, getInitCameraPos } from "@const"
+import { gui } from "../setup"
 
 
 
@@ -18,7 +18,7 @@ const duration = 1500
 const PI = Math.PI
 const upVec = new Vector3(0, 1, 0)
 
-const gui = new GUI({ container: document.body })
+
 
 interface IEase {
   current: "easeInQuad" | "easeOutQuad" | "easeInOutQuad" | "easeInCubic" | "easeOutCubic" | "easeInOutCubic"

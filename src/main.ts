@@ -5,7 +5,7 @@ import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
 import { BG, BG_DARK, MODEL_LENGTH, STATUS } from "@const"
 import { loadModel } from "@utils"
-import { setup } from "./setup"
+import { gui, setup } from "./setup"
 import { onEasedPointerMove, setDarkThemeSwitcher, setZoomBorders } from "./features"
 import { traverseModel } from "./traverse-model"
 import { IHouse, IBokehPass, IInitProps } from "./types"
@@ -74,14 +74,19 @@ const init = async ({
 
   const renderPass = new RenderPass(scene, camera)
   const bokehPass = new BokehPass(scene, camera, {
-    focus: 4.0,
-    aperture: 0.002,
-    maxblur: 0.005,
+    focus: 4,
+    aperture: 0.001,
+    maxblur: 0.01,
   }) as IBokehPass
 
   const composer = new EffectComposer(renderer)
   composer.addPass(renderPass)
   dark && composer.addPass(bokehPass)
+
+
+  gui.add(bokehPass.uniforms.aperture, "value", 0, 0.01, 0.001).name("aperture")
+  gui.add(bokehPass.uniforms.focus, "value", 0, 10).name("focus")
+  gui.add(bokehPass.uniforms.maxblur, "value", 0, 0.02, 0.001).name("maxblur")
 
 
 

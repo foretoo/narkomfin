@@ -1,6 +1,7 @@
 import { getInitCameraPos, MAX_DISTANCE } from "@const"
 import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer } from "three"
 import { OrbitControls } from "./libs/OrbitControls"
+import GUI from "lil-gui"
 
 
 
@@ -43,3 +44,5 @@ export const setup = () => {
     controls,
   }
 }
+
+export const gui = new GUI({ container: document.body })
