@@ -5,7 +5,7 @@ import { GUI } from "lil-gui"
 import type { setZoomBorders } from "./zoom-border"
 import { clamp } from "@utils"
 import { IBokehPass } from "src/types"
-import { getInitCameraPos } from "@const"
+import { MAX_DISTANCE, getInitCameraPos } from "@const"
 
 
 
@@ -16,6 +16,7 @@ const cafeCameraPos = new Vector3(-0.5, 1, 2.5)
 const duration = 1500
 
 const PI = Math.PI
+const upVec = new Vector3(0, 1, 0)
 
 const gui = new GUI({ container: document.body })
 
@@ -28,27 +29,21 @@ const ease: IEase = {
   current: "easeInOutQuad",
   functions: {
     easeInQuad(x: number): number {
-      console.log("easeInQuad")
       return x * x
     },
     easeOutQuad(x: number): number {
-      console.log("easeOutQuad")
       return 1 - (1 - x) * (1 - x)
     },
     easeInOutQuad(x: number): number {
-      console.log("easeInOutQuad")
       return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2
     },
     easeInCubic(x: number): number {
-      console.log("easeInCubic")
       return x * x * x
     },
     easeOutCubic(x: number): number {
-      console.log("easeOutCubic")
       return 1 - Math.pow(1 - x, 3)
     },
     easeInOutCubic(x: number): number {
-      console.log("easeInOutCubic")
       return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
     },
   },
@@ -114,7 +109,7 @@ export const setCafeCameraAnimation = (
 
 
 
-    const d = curve.v0.distanceTo(curve.v2) / 11 // MAX DISTANCE
+    const d = curve.v0.distanceTo(curve.v2) / MAX_DISTANCE
     const t = clamp(theta - PI * 0.3, 0, PI * 0.2) / (PI * 0.2) // if theta 0.3-0.5
     const f = phi < -1 ? 1 : phi > 1.4 ? 1 : 0 // if phi behind building
     let a = (phi < -1 && phi > -2.5) ? (1.5 - phi - 2.5) / 1.5 : 0 // if phi behind cafe
@@ -128,7 +123,7 @@ export const setCafeCameraAnimation = (
         .subVectors(curve.v2, curve.v0)
         .normalize()
         .multiplyScalar(1 + a * (2 - d) * 3)
-        .applyAxisAngle(new Vector3(0, 1, 0), -Math.PI / 2),
+        .applyAxisAngle(upVec, -Math.PI / 2),
     )
     curve.v1.y = (curve.v0.y * 2 + curve.v2.y) / 3 + d + t * f * 2
 
@@ -153,7 +148,7 @@ export const setCafeCameraAnimation = (
         animating = false
         if (!cafe) {
           toggleBorders(true)
-          controls.maxDistance = 11 // from setup (move to const)
+          controls.maxDistance = MAX_DISTANCE
         }
         controls.enabled = true
         controls.minAzimuthAngle = cafe ? -Math.PI * 0.8 : Infinity

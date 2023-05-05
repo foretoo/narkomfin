@@ -1,4 +1,4 @@
-import { getInitCameraPos } from "@const"
+import { getInitCameraPos, MAX_DISTANCE } from "@const"
 import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer } from "three"
 import { OrbitControls } from "./libs/OrbitControls"
 
@@ -20,7 +20,7 @@ export const setup = () => {
 
   const controls = new OrbitControls(cameraPivot, renderer.domElement)
   controls.enablePan = false
-  controls.maxDistance = 11 // should i multiply it by "1 / camera.aspect"
+  controls.maxDistance = MAX_DISTANCE
   controls.minPolarAngle = Math.PI * 0.05
   controls.maxPolarAngle = Math.PI * 0.45
 
