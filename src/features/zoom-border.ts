@@ -1,5 +1,5 @@
 import { BufferAttribute, BufferGeometry, CubicBezierCurve, CurvePath, LineCurve, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Raycaster, Vector2, Vector3 } from "three"
-import type { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import type { OrbitControls } from "../libs/OrbitControls"
 
 
 

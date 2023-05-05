@@ -1,5 +1,5 @@
 import { CubicBezierCurve3, PerspectiveCamera, QuadraticBezierCurve3, Scene, Spherical, Vector3 } from "three"
-import type { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import type { OrbitControls } from "../libs/OrbitControls"
 import { GUI } from "lil-gui"
 
 import type { setZoomBorders } from "./zoom-border"
