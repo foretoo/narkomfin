@@ -23,24 +23,24 @@ export const setDarkThemeSwitcher = (
     if (dark) {
       glass.material.emissiveIntensity = 1
       narkomfin.traverse((obj) => {
-        obj.receiveShadow = false
-        obj.castShadow = false
+        // obj.receiveShadow = false
+        // obj.castShadow = false
       })
       ambientLight.intensity = 0.2
       directLight.intensity = 0.2
-      directLight.castShadow = false
+      // directLight.castShadow = false
       scene.background = new Color(BG_DARK)
       composer.addPass(bokehPass)
     }
     else {
       glass.material.emissiveIntensity = 0
       narkomfin.traverse((obj) => {
-        obj.receiveShadow = true
-        obj.castShadow = true
+        // obj.receiveShadow = true
+        // obj.castShadow = true
       })
       ambientLight.intensity = 0.5
       directLight.intensity = 0.75
-      directLight.castShadow = true
+      // directLight.castShadow = true
       scene.background = new Color(BG)
       composer.removePass(bokehPass)
     }

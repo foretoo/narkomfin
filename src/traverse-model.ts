@@ -30,8 +30,8 @@ export const traverseModel = async (
 
       const clone = object.clone() as IHouseInnerMesh
       clone.geometry.scale(...scale)
-      clone.castShadow = /binding|terrain/.test(clone.name) ? false : true
-      clone.receiveShadow = true
+      // clone.castShadow = /binding|terrain/.test(clone.name) ? false : true
+      // clone.receiveShadow = true
       clone.frustumCulled = false
 
       if (clone.name === "binding") {

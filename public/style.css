@@ -14,7 +14,7 @@ html, body {
   height: 100%;
   position: fixed;
   overflow: hidden;
-  background-color: #E1E1DF;
+  background-color: #777;
 }
 
 .narkomfin-canvas-container {
