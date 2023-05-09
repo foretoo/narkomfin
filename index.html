@@ -11,7 +11,11 @@
 
 <body>
 
-  <script src="./public/narkomfin-scene-bundle-11.txt"></script>
+  <script id="bundle">
+    const bundle = document.createElement("script")
+    bundle.src = "./public/narkomfin-scene-bundle-11.txt" + "?v=" + Date.now()
+    document.querySelector("#bundle").replaceWith(bundle)
+  </script>
   <script>
     window.addEventListener("load", () => {
       const container = document.body.querySelector(".narkomfin-canvas-container")
@@ -23,7 +27,7 @@
       init({
         container,
 
-        modelPath: "https://foretoo.github.io/narkomfin/public/narkomfin3.txt",
+        modelPath: "https://foretoo.github.io/narkomfin/public/narkomfin4.txt",
 
         texturePath: "https://raw.githubusercontent.com/foretoo/narkomfin/main/public/",
 
