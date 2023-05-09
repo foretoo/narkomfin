@@ -76,7 +76,7 @@ const init = async ({
   const bokehPass = new BokehPass(scene, camera, {
     focus: 4.0,
     aperture: 0.002,
-    maxblur: 0.005,
+    maxblur: 0.01,
   }) as IBokehPass
 
   const composer = new EffectComposer(renderer)
