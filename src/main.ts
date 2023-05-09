@@ -1,8 +1,7 @@
-import { BufferGeometry, Color, DirectionalLight, EquirectangularReflectionMapping, HemisphereLight, Mesh, MeshStandardMaterial, Vector2 } from "three"
+import { Color, DirectionalLight, HemisphereLight, Vector2 } from "three"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
-import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader"
 
 import { BG, BG_DARK, MODEL_LENGTH, STATUS } from "@const"
 import { loadModel } from "@utils"
@@ -67,13 +66,6 @@ const init = async ({
 
   // const directCamera = new CameraHelper(directLight.shadow.camera)
   // scene.add(directCamera)
-
-  new RGBELoader().load(`${texturePath}env.hdr`, (texture) => {
-    texture.mapping = EquirectangularReflectionMapping
-    const glass = narkomfin.getObjectByName("glass") as Mesh<BufferGeometry, MeshStandardMaterial>
-    const com_glass = narkomfin.getObjectByName("com_glass") as Mesh<BufferGeometry, MeshStandardMaterial>
-    glass.material.envMap = com_glass.material.envMap = texture
-  })
 
 
 

@@ -1,6 +1,7 @@
-import { Color, Group, Mesh, MeshStandardMaterial, TextureLoader } from "three"
+import { BufferGeometry, Color, EquirectangularReflectionMapping, Group, Mesh, MeshStandardMaterial, TextureLoader } from "three"
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 import { IHouse, IHouseInnerMesh } from "./types"
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader"
 
 
 
@@ -24,7 +25,7 @@ export const traverseModel = async (
   house.position.y = -1.5
   house.name = "narkomfin"
 
-  return await new Promise((res) => {
+  await new Promise((res) => {
     model.traverse((object) => {
       if (!(object instanceof Mesh)) return
 
@@ -87,11 +88,23 @@ export const traverseModel = async (
           }
 
           house.add(clone)
-          i === N && res(house)
+          i === N && res(null)
         })
       }
     })
   })
+
+  await new Promise((res) => {
+    new RGBELoader().load(`${texturePath}env.hdr`, (texture) => {
+      texture.mapping = EquirectangularReflectionMapping
+      const glass = house.getObjectByName("glass") as Mesh<BufferGeometry, MeshStandardMaterial>
+      const com_glass = house.getObjectByName("com_glass") as Mesh<BufferGeometry, MeshStandardMaterial>
+      glass.material.envMap = com_glass.material.envMap = texture
+      res(null)
+    })
+  })
+
+  return house
 };
 
 `
