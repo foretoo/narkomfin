@@ -52,7 +52,9 @@ export const traverseModel = async (
           color: 0x888888,
           emissive: 0xffeedd,
           emissiveIntensity: dark ? 1 : 0,
-          metalness: 0.666,
+          metalness: 1,
+          roughness: 0,
+          envMapIntensity: 2,
         })
         house.add(clone)
       }
@@ -63,9 +65,11 @@ export const traverseModel = async (
           color: 0x888888,
           emissive: 0xffeedd,
           emissiveIntensity: dark ? 1 : 0,
-          metalness: 0.666,
+          metalness: 1,
+          roughness: 0,
+          envMapIntensity: 2,
           transparent: true,
-          opacity: 0.2,
+          opacity: 0.5,
         })
         house.add(clone)
       }
