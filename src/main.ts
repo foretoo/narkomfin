@@ -35,13 +35,13 @@ const init = async ({
 
   await loadModel(
     modelPath,
+    texturePath,
     (e) => onProgress(STATUS.LOADING, e.loaded / MODEL_LENGTH * 100 | 0),
     undefined,
     ( ) => onProgress(STATUS.DECODING),
   )
-    .then((gltf) => traverseModel(gltf, dark, texturePath))
-    .then((textured_gltf) => {
-      narkomfin = textured_gltf
+    .then((data) => {
+      narkomfin = traverseModel(data, dark)
       onProgress(STATUS.DONE)
       container.appendChild(renderer.domElement)
       scene.add(narkomfin)

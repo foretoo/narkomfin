@@ -3,6 +3,10 @@ import { clamp } from "./utils"
 
 
 
+export const pngs = [
+  "balconies", "interior", "floors", "walls", "trees", "terrain",
+] as const
+
 export const STATUS = {
   LOADING: "LOADING",
   DECODING: "DECODING",

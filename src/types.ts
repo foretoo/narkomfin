@@ -1,5 +1,6 @@
-import type { BufferGeometry, Group, IUniform, Mesh, MeshStandardMaterial, Sphere } from "three"
-import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
+import type { BufferGeometry, DataTexture, Group, IUniform, Mesh, MeshStandardMaterial, Sphere, Texture } from "three"
+import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
+import type { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
 
 
@@ -10,6 +11,10 @@ export interface IInitProps {
   onProgress?: (type: string, progress?: number) => void
   dark?: boolean
 }
+
+
+
+export type IFetchedData = (GLTF | Texture | DataTexture)[]
 
 
 

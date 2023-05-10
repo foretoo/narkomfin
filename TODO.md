@@ -12,9 +12,9 @@
 - [x] ~~camera animation site surf~~
 - [x] ~~prepare progress api callback~~
 - [x] ~~fov 45~~
-- [x] smart zoom
+- [x] ~~smart zoom~~
 - [ ] handle error
 - [ ] remove encoding state
-- [ ] add textures loading to loading managment
+- [x] ~~add textures loading to loading managment~~
 - [ ] add setting bg to api
 - [ ] handle resize more properly
