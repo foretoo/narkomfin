@@ -2,18 +2,19 @@
 - [x] ~~prepare loading managment~~
 - [x] ~~switch to dark theme~~
 - [x] ~~handle model size according to view size~~
-- [x] handle model's view angle according to view size
+- [x] ~~handle model's view angle according to view size~~
 - [ ] static render
 - [x] ~~pointermove minor rotation~~
 - [x] ~~ease onpointermove rotation~~
 - [x] ~~clamp pointerdown move~~
 - [x] ~~attach lighting to camera~~
 - [x] ~~depth of field~~
-- [x] camera animation site surf
+- [x] ~~camera animation site surf~~
 - [x] ~~prepare progress api callback~~
 - [x] ~~fov 45~~
 - [x] smart zoom
 - [ ] handle error
 - [ ] remove encoding state
+- [ ] add textures loading to loading managment
 - [ ] add setting bg to api
 - [ ] handle resize more properly
