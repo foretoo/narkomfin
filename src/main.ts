@@ -36,9 +36,9 @@ const init = async ({
   await loadModel(
     modelPath,
     texturePath,
-    (e) => onProgress(STATUS.LOADING, e.loaded / MODEL_LENGTH * 100 | 0),
+    (e) => onProgress(STATUS.LOADING, e.loaded / MODEL_LENGTH * 80 | 0),
     undefined,
-    ( ) => onProgress(STATUS.DECODING),
+    ( ) => onProgress(STATUS.LOADING, 85),
   )
     .then((data) => {
       narkomfin = traverseModel(data, dark)

@@ -27,10 +27,6 @@
         if (type === "LOADING") {
           progressLabel.textContent = `Loading model ${percent}%`
         }
-        else if (type === "DECODING") {
-          progressLabel.textContent = "Preparing a scene"
-        }
-        // type === "DONE"
         else {
           container.removeChild(progressLabel)
         }

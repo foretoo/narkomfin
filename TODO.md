@@ -14,7 +14,7 @@
 - [x] ~~fov 45~~
 - [x] ~~smart zoom~~
 - [ ] handle error
-- [ ] remove encoding state
+- [x] ~~remove encoding state~~
 - [x] ~~add textures loading to loading managment~~
 - [ ] add setting bg to api
 - [ ] handle resize more properly
