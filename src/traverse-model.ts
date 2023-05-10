@@ -1,7 +1,8 @@
-import { BufferGeometry, Color, EquirectangularReflectionMapping, Group, Mesh, MeshStandardMaterial, TextureLoader } from "three"
+import { BufferGeometry, EquirectangularReflectionMapping, Group, Mesh, MeshStandardMaterial, TextureLoader } from "three"
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
-import { IHouse, IHouseInnerMesh } from "./types"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader"
+
+import { IHouse, IHouseInnerMesh } from "./types"
 
 
 
@@ -9,7 +10,7 @@ const loader = new TextureLoader()
 
 const material111 = new MeshStandardMaterial({ color: 0x111111 })
 
-const N = 10 // number of geometries of the model
+const N = 9 // number of geometries of the model
 let i = 0
 
 
@@ -19,6 +20,7 @@ export const traverseModel = async (
   dark: boolean,
   texturePath: string,
 ): Promise<IHouse> => {
+
   const model = gltf.scene
   const scale = Array(3).fill(0.075) as [number, number, number]
   const house = new Group() as IHouse
@@ -38,12 +40,6 @@ export const traverseModel = async (
       if (/metal/.test(clone.name)) {
         i++
         clone.material = material111
-        house.add(clone)
-      }
-
-      else if (/band/.test(clone.name)) {
-        i++
-        clone.material = new MeshStandardMaterial({ color: 0x333333 })
         house.add(clone)
       }
 
@@ -83,10 +79,6 @@ export const traverseModel = async (
           clone.material.map = texture
           clone.material.needsUpdate = true
 
-          if (clone.name === "terrain") {
-            clone.material.color = new Color(0xffffff)
-          }
-
           house.add(clone)
           i === N && res(null)
         })
@@ -105,18 +97,4 @@ export const traverseModel = async (
   })
 
   return house
-};
-
-`
-balconies
-interior
-floors
-walls
-terrain
-trees_benches_poles
-
-glass
-com_glass
-metal
-band
-`
+}
