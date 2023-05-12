@@ -11,56 +11,65 @@
 
 <body>
 
-  <script src="./public/narkomfin-scene-bundle-14.txt"></script>
-
-  <script>
-    window.addEventListener("load", () => {
-      const container = document.body.querySelector(".narkomfin-canvas-container")
-      const progressLabel = container.querySelector(".narkomfin-progress-label")
-
-      let handleDark = () => {}
-      let handleCafeAnimation = () => {}
-
-      init({
-        container,
-
-        modelPath: "https://foretoo.github.io/narkomfin/public/narkomfin13.txt",
-
-        texturePath: "https://raw.githubusercontent.com/foretoo/narkomfin/main/public/",
-
-        onProgress: (type, percent) => {
-          if (type === "LOADING") {
-            progressLabel.textContent = `Loading model ${percent}%`
-          }
-          else {
-            container.removeChild(progressLabel)
-          }
-        },
-        // dark: true,
-
-      }).then(({ toggleDark, toggleCafe }) => {
-        handleDark = toggleDark
-        handleCafeAnimation = toggleCafe
-      })
-
-      const switcher = document.body.querySelector(".theme-switcher")
-      switcher.addEventListener("click", () => handleDark())
-
-      let cafeMode = false
-      const cafe = document.querySelector(".cafe-tween")
-      cafe.addEventListener("click", () => {
-        cafeMode = !cafeMode
-        handleCafeAnimation(cafeMode)
-      })
-    })
-  </script>
-
   <div class="narkomfin-canvas-container">
     <div class="narkomfin-progress-label">Loading interactive environment</div>
   </div>
 
   <button class="theme-switcher">theme</button>
   <button class="cafe-tween">cafe</button>
+  <button class="bg-switcher">bg</button>
+
+  <script src="./public/narkomfin-scene-bundle-15.txt"></script>
+
+  <script>
+    const container = document.body.querySelector(".narkomfin-canvas-container")
+    const progressLabel = container.querySelector(".narkomfin-progress-label")
+
+    let handleDark = () => {}
+    let handleCafeAnimation = () => {}
+    let handleBg = () => {}
+
+    init({
+      container,
+
+      modelPath: "https://foretoo.github.io/narkomfin/public/narkomfin13.txt",
+
+      texturePath: "https://raw.githubusercontent.com/foretoo/narkomfin/main/public/",
+
+      onProgress: (type, percent) => {
+        if (type === "LOADING") {
+          progressLabel.textContent = `Loading model ${percent}%`
+        }
+        else {
+          container.removeChild(progressLabel)
+        }
+      },
+      // dark: true,
+      // BG: "#E1E1DF",
+      // BG_DARK: "#1E1E1E",
+
+    }).then(({ toggleDark, toggleCafe, switchBg }) => {
+      handleDark = toggleDark
+      handleCafeAnimation = toggleCafe
+      handleBg = switchBg
+    })
+
+    const switcher = document.body.querySelector(".theme-switcher")
+    switcher.addEventListener("click", () => handleDark())
+
+    let cafeMode = false
+    const cafe = document.querySelector(".cafe-tween")
+    cafe.addEventListener("click", () => {
+      cafeMode = !cafeMode
+      handleCafeAnimation(cafeMode)
+    })
+
+    const bgSwitcher = document.querySelector(".bg-switcher")
+    bgSwitcher.addEventListener("click", () => {
+      const randomColor = [...Array(6)].reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#")
+      handleBg(randomColor)
+    })
+  </script>
 
 </body>
 
