@@ -1,11 +1,12 @@
 import { BufferGeometry, Color, DirectionalLight, HemisphereLight, Mesh, MeshStandardMaterial, Scene } from "three"
 import { IHouse, IBokehPass } from "src/types"
-import { BG, BG_DARK } from "@const"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 
 
 
 export const setDarkThemeSwitcher = (
+  BG: string,
+  BG_DARK: string,
   dark: boolean,
   scene: Scene,
   composer: EffectComposer,

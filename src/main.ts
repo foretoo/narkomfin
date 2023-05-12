@@ -3,10 +3,10 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
-import { BG, BG_DARK, MODEL_LENGTH, STATUS } from "@const"
+import { MODEL_LENGTH, STATUS } from "@const"
 import { loadModel } from "@utils"
 import { setup } from "./setup"
-import { onEasedPointerMove, setDarkThemeSwitcher, setZoomBorders } from "./features"
+import { onEasedPointerMove, setBgSwitcher, setDarkThemeSwitcher, setZoomBorders } from "./features"
 import { traverseModel } from "./traverse-model"
 import { IHouse, IBokehPass, IInitProps } from "./types"
 import { setCafeCameraAnimation } from "./features"
@@ -19,6 +19,8 @@ const init = async ({
   texturePath,
   onProgress = () => {},
   dark = false,
+  BG = "#E1E1DF",
+  BG_DARK = "#1E1E1E",
 }: IInitProps) => {
 
   const { scene, camera, cameraPivot, renderer, controls } = setup()
@@ -104,11 +106,15 @@ const init = async ({
   )
 
   const toggleDark = setDarkThemeSwitcher(
+    BG,
+    BG_DARK,
     dark,
     scene,
     composer,
     bokehPass,
   )
+
+  const switchBg = setBgSwitcher(scene)
 
 
 
@@ -121,7 +127,7 @@ const init = async ({
 
 
 
-  return { toggleDark, toggleCafe }
+  return { toggleDark, toggleCafe, switchBg }
 }
 
 export default init

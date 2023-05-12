@@ -31,6 +31,7 @@ html, body {
 
 button {
   position: absolute;
+  left: 1rem;
   padding: 0.2rem 0.5rem;
   border-radius: 0.2rem;
   box-shadow: 0px 2px 5px #1112;
@@ -40,11 +41,12 @@ button {
 
 button.cafe-tween {
   top: 1rem;
-  left: 1rem;
 }
 button.theme-switcher {
   top: 4rem;
-  left: 1rem;
+}
+button.bg-switcher {
+  top: 7rem;
 }
 
 .lil-gui.root {

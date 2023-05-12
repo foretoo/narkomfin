@@ -17,6 +17,7 @@
 
     let handleDark = () => {}
     let handleCafeAnimation = () => {}
+    let handleBg = () => {}
 
     init({
       container,
@@ -32,20 +33,29 @@
         }
       },
       // dark: true,
+      // BG: "#E1E1DF",
+      // BG_DARK: "#1E1E1E",
 
-    }).then(({ toggleDark, toggleCafe }) => {
+    }).then(({ toggleDark, toggleCafe, switchBg }) => {
       handleDark = toggleDark
       handleCafeAnimation = toggleCafe
+      handleBg = switchBg
     })
 
-    const switcher = document.querySelector(".theme-switcher")
-    switcher.addEventListener("click", () => handleDark())
+    const themeSwitcher = document.querySelector(".theme-switcher")
+    themeSwitcher.addEventListener("click", () => handleDark())
 
     let cafeMode = false
     const cafe = document.querySelector(".cafe-tween")
     cafe.addEventListener("click", () => {
       cafeMode = !cafeMode
       handleCafeAnimation(cafeMode)
+    })
+
+    const bgSwitcher = document.querySelector(".bg-switcher")
+    bgSwitcher.addEventListener("click", () => {
+      const randomColor = [...Array(6)].reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#")
+      handleBg(randomColor)
     })
 
   </script>
@@ -56,6 +66,7 @@
 
   <button class="theme-switcher">theme</button>
   <button class="cafe-tween">cafe</button>
+  <button class="bg-switcher">bg</button>
 
 </body>
 </html>

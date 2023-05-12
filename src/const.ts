@@ -14,9 +14,6 @@ export const STATUS = {
 
 export const MODEL_LENGTH = 1281669
 
-export const BG = "#E1E1DF"
-export const BG_DARK = "#1E1E1E"
-
 
 
 export const MAX_DISTANCE = 11

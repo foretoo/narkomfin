@@ -10,6 +10,8 @@ export interface IInitProps {
   texturePath: string
   onProgress?: (type: string, progress?: number) => void
   dark?: boolean
+  BG: string
+  BG_DARK: string
 }
 
 
