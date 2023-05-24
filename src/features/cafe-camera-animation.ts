@@ -1,4 +1,4 @@
-import { CubicBezierCurve3, PerspectiveCamera, QuadraticBezierCurve3, Scene, Spherical, Vector3 } from "three"
+import { PerspectiveCamera, QuadraticBezierCurve3, Scene, Vector3 } from "three"
 import type { OrbitControls } from "../libs/OrbitControls"
 import { GUI } from "lil-gui"
 
@@ -131,7 +131,7 @@ export const setCafeCameraAnimation = (
 
 
 
-    requestAnimationFrame(function animate() {
+    setTimeout(function animate() {
       const now = performance.now()
       const t = clamp((now - start) / duration, 0, 1)
       const ct = ease.functions[ease.current](t) // t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2
@@ -154,7 +154,7 @@ export const setCafeCameraAnimation = (
         controls.minAzimuthAngle = cafe ? -Math.PI * 0.8 : Infinity
         controls.maxAzimuthAngle = cafe ?  Math.PI * 0.55 : Infinity
       }
-      else requestAnimationFrame(animate)
-    })
+      else setTimeout(animate, 0)
+    }, 0)
   }
 }
