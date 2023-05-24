@@ -1,4 +1,4 @@
-import { Color, DirectionalLight, HemisphereLight, Vector2 } from "three"
+import { AmbientLight, Color, DirectionalLight, HemisphereLight, Vector2 } from "three"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
@@ -54,7 +54,7 @@ const init = async ({
   ////////
   //////// LIGHT & SHADOW
 
-  const ambientLight = new HemisphereLight(0x997755, 0x557799, dark ? 0.033 : 0.5)
+  const ambientLight = new AmbientLight(0x997755, 0.5)
   ambientLight.name = "ambientLight"
   scene.add(ambientLight)
 
@@ -83,7 +83,7 @@ const init = async ({
 
   const composer = new EffectComposer(renderer)
   composer.addPass(renderPass)
-  dark && composer.addPass(bokehPass)
+  // dark && composer.addPass(bokehPass)
 
 
 

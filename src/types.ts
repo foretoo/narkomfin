@@ -25,11 +25,19 @@ export interface IHouseInnerMesh extends Mesh {
     boundingSphere: Sphere
   }
   material: MeshStandardMaterial
+  userData: {
+    lightTexture: Texture
+    darkTexture: Texture
+  }
 }
 
 export interface IHouse extends Group {
   children: IHouseInnerMesh[]
   add(...object: IHouseInnerMesh[]): this
+  userData: {
+    bulbs: IHouseInnerMesh
+  }
+  traverse: (callback: (obj: IHouseInnerMesh) => void) => void
 }
 
 
