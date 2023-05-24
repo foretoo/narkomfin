@@ -22,7 +22,7 @@ export const setup = () => {
   controls.enablePan = false
   controls.maxDistance = MAX_DISTANCE
   controls.minPolarAngle = Math.PI * 0.05
-  controls.maxPolarAngle = Math.PI * 0.45
+  controls.maxPolarAngle = Math.PI * 0.49
 
   cameraPivot.position.copy(getInitCameraPos())
   controls.update()
