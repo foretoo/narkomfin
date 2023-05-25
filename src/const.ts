@@ -16,7 +16,7 @@ export const MODEL_LENGTH = 1281669
 
 
 
-export const MAX_DISTANCE = 11
+export const MAX_DISTANCE = 12
 
 const cameraPos = new Vector3()
 const cameraSpheriacal = new Spherical()
