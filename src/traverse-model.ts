@@ -117,7 +117,7 @@ function emissive(
       `
       vec4 emissiveColor = texture2D(emissiveMap, vUv);
       totalEmissiveRadiance *= emissiveColor.rgb;
-      float steppedEmissive = step(0.2, length(totalEmissiveRadiance) * 0.57735);
+      float steppedEmissive = step(0.18, length(totalEmissiveRadiance) * 0.57735);
       totalEmissiveRadiance *= (steppedEmissive + 0.5) * 0.666667;
       `,
     )
