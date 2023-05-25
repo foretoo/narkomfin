@@ -83,7 +83,6 @@ export const setCafeCameraAnimation = (
       controls.minDistance = 0
       controls.maxDistance = Infinity
     }
-    controls.enableZoom = !cafe
     controls.enabled = false
 
     const newCameraPos = cafe
@@ -149,6 +148,10 @@ export const setCafeCameraAnimation = (
         if (!cafe) {
           toggleBorders(true)
           controls.maxDistance = MAX_DISTANCE
+        }
+        else {
+          controls.minDistance = 1.75
+          controls.maxDistance = 5
         }
         controls.enabled = true
         controls.minAzimuthAngle = cafe ? -Math.PI * 0.8 : Infinity

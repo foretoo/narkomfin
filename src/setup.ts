@@ -37,6 +37,10 @@ export const setup = () => {
   cameraPivot.add(camera)
   scene.add(cameraPivot)
 
+  controls.addEventListener("change", () => {
+    camera.lookAt(controls.target)
+  })
+
   window.addEventListener("resize", () => {
     camera.aspect = innerWidth / innerHeight
     camera.updateProjectionMatrix()
