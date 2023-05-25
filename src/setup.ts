@@ -16,6 +16,14 @@ export const setup = () => {
   renderer.toneMapping = ACESFilmicToneMapping
   renderer.shadowMap.type = PCFSoftShadowMap
 
+  renderer.domElement.style.cursor = "grab"
+  renderer.domElement.addEventListener("pointerdown", () => {
+    renderer.domElement.style.cursor = "grabbing"
+  })
+  renderer.domElement.addEventListener("pointerup", () => {
+    renderer.domElement.style.cursor = "grab"
+  })
+
   const cameraPivot = new PerspectiveCamera()
 
   const controls = new OrbitControls(cameraPivot, renderer.domElement)
