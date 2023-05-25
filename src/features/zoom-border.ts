@@ -70,12 +70,12 @@ export const setZoomBorders = (
 ) => {
   const raycaster = new Raycaster()
   const gizmo = new Object3D()
+
   const target = controls.target
+  const cameraPivot = controls.object
+  const camera = cameraPivot.children.find((obj) => obj instanceof PerspectiveCamera)!
 
-  const handleZoomBorders = (e: { target: OrbitControls }) => {
-    const cameraPivot = e.target.object
-    const camera = cameraPivot.children.find((obj) => obj instanceof PerspectiveCamera)!
-
+  const handleZoomBorders = () => {
     cameraPivot.getWorldPosition(gizmo.position)
     gizmo.position.y = 0
     gizmo.position.normalize().multiplyScalar(20)
