@@ -18,4 +18,7 @@
 - [x] ~~add textures loading to loading managment~~
 - [x] ~~add setting bg to api~~
 - [ ] handle resize more properly
-- [ ] improve camera animation to cafe on edge cases 
+- [ ] improve camera animation to cafe on edge cases (or make it go to a circle around cafe, not one point only)
+- [ ] preload night textures
+- [ ] improve dof
+- [ ] smooth theme transition
