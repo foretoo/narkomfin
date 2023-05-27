@@ -9,14 +9,23 @@ import { MAX_DISTANCE, getInitCameraPos } from "@const"
 
 
 
-let animating = false
-let cafe = false
-const cafeTarget = new Vector3(-3, 0, 1)
-const cafeCameraPos = new Vector3(-0.5, 1, 2.5)
-const duration = 1500
+type TMode = "cafe" | "roof" | "init"
 
+let animating = false
+let _mode: TMode  = "init"
 const PI = Math.PI
-const upVec = new Vector3(0, 1, 0)
+
+
+
+const cafeTarget = new Vector3(-3, 0, 1)
+const cafeCircle = new Vector3(-3, 0.62, 1)
+const cafeRadius = 2
+
+const roofTarget = new Vector3(-1, 0.8, -0.7)
+const roofCircle = new Vector3(-1, 1.5, -0.7)
+const roofRadius = 2.5
+
+
 
 const gui = new GUI({ container: document.body })
 
@@ -73,12 +82,12 @@ export const setCafeCameraAnimation = (
   const camera = cameraPivot.children[0] as PerspectiveCamera
   const target = controls.target
 
-  return (mode: boolean) => {
-    if (cafe === mode || animating) return
+  return (mode: TMode) => {
+    if (_mode === mode || animating) return
     animating = true
-    cafe = mode
+    _mode = mode
 
-    if (cafe) {
+    if (/cafe|roof/.test(mode)) {
       toggleBorders(false)
       controls.minDistance = 0
       controls.maxDistance = Infinity
@@ -160,4 +169,15 @@ export const setCafeCameraAnimation = (
       else setTimeout(animate, 0)
     }, 0)
   }
+}
+
+
+
+function getNewPosition(
+  curCamPos: Vector3,
+  mode: TMode,
+) {
+  if (mode === "cafe") {}
+  else if (mode === "roof") {}
+  else {}
 }
