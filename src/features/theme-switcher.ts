@@ -13,14 +13,12 @@ export const setDarkThemeSwitcher = (
   composer: EffectComposer,
   bokehPass: IBokehPass,
 ) => {
-  const narkomfin = scene.getObjectByName("narkomfin") as IHouse
 
+  const narkomfin = scene.getObjectByName("narkomfin") as IHouse
   const ambientLight = scene.getObjectByName("ambientLight") as HemisphereLight
   const directLight = scene.getObjectByName("directLight") as DirectionalLight
-
   const glass = narkomfin.getObjectByName("glass") as IHouseInnerMesh
   const com_glass = narkomfin.getObjectByName("com_glass") as IHouseInnerMesh
-
   const bulbs = narkomfin.userData.bulbs
 
   return (force?: boolean) => {

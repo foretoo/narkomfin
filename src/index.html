@@ -40,22 +40,21 @@
       handleDark = toggleDark
       handleCafeAnimation = toggleCafe
       handleBg = switchBg
-    })
 
-    const themeSwitcher = document.querySelector(".theme-switcher")
-    themeSwitcher.addEventListener("click", () => handleDark())
+      document.querySelector(".theme-switcher")
+        .addEventListener("click", () => {
+          handleDark()
+        })
 
-    let cafeMode = false
-    const cafe = document.querySelector(".cafe-tween")
-    cafe.addEventListener("click", () => {
-      cafeMode = !cafeMode
-      handleCafeAnimation(cafeMode)
-    })
+      document.querySelector(".cafe-tween")
+        .addEventListener("click", function() {
+          handleCafeAnimation(this.toggleAttribute('cameraOn'))
+        })
 
-    const bgSwitcher = document.querySelector(".bg-switcher")
-    bgSwitcher.addEventListener("click", () => {
-      const randomColor = [...Array(6)].reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#")
-      handleBg(randomColor)
+      document.querySelector(".bg-switcher")
+        .addEventListener("click", () => {
+          handleBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
+        })
     })
 
   </script>
