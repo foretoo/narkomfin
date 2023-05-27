@@ -8,7 +8,7 @@ import { pngs } from "@const"
 
 
 
-const manager = new LoadingManager()
+const manager = new LoadingManager() // 20 items
 
 
 
@@ -36,7 +36,11 @@ export const loadModel = async (
   onDecode?: () => void,
 ): Promise<IFetchedData> => {
 
-  manager.itemStart = (url) => void (/^data:/.test(url) && onDecode && onDecode())
+  manager.onProgress = (url, loaded, total) => {}
+
+  manager.itemStart = (url) => {
+    (/^data:/.test(url) && onDecode && onDecode())
+  }
 
   const fetches: IFetches = [
     ...pngs.map<Promise<Texture>>((name) => (

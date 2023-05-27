@@ -22,3 +22,4 @@
 - [ ] preload night textures
 - [ ] improve dof
 - [ ] smooth theme transition
+- [ ] fix loading managment (onProgress should handle loading textures and model in parallel way)

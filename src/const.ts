@@ -1,5 +1,4 @@
 import { Spherical, Vector3 } from "three"
-import { clamp } from "./utils"
 
 
 
@@ -11,8 +10,6 @@ export const STATUS = {
   LOADING: "LOADING",
   DONE: "DONE",
 }
-
-export const MODEL_LENGTH = 1281669
 
 
 

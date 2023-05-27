@@ -28,7 +28,7 @@
             "SwitchCase": 1
         }],
         "linebreak-style": [ 1, "unix" ],
-        "no-unused-vars": [ 1, { "vars": "local" }],
+        "no-unused-vars": [ 1, { "vars": "local", "args": "none" }],
         "object-curly-newline": [ 1, {
             "multiline": true,
             "consistent": true

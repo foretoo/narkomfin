@@ -3,7 +3,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
-import { MODEL_LENGTH, STATUS } from "@const"
+import { STATUS } from "@const"
 import { loadModel } from "@utils"
 import { setup } from "./setup"
 import { onEasedPointerMove, setBgSwitcher, setDarkThemeSwitcher, setZoomBorders } from "./features"
@@ -38,7 +38,7 @@ const init = async ({
   await loadModel(
     modelPath,
     texturePath,
-    (e) => onProgress(STATUS.LOADING, e.loaded / MODEL_LENGTH * 80 | 0),
+    (e) => onProgress(STATUS.LOADING, e.loaded / e.total * 80 | 0),
     undefined,
     ( ) => onProgress(STATUS.LOADING, 85),
   )
