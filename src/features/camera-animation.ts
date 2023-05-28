@@ -1,12 +1,11 @@
-import { PerspectiveCamera, QuadraticBezierCurve3, Scene, Vector3 } from "three"
-import type { OrbitControls } from "../libs/OrbitControls"
+import { QuadraticBezierCurve3, Vector3 } from "three"
 import { GUI } from "lil-gui"
 
-import type { setZoomBorders } from "./zoom-border"
+import { toggleZoomBorder } from "./zoom-border"
 import { clamp } from "@utils"
-import { IBokehPass } from "src/types"
 import { MAX_DISTANCE, getInitCameraPos } from "@const"
 import { TPointerListener, easedPointer } from "./eased-pointer"
+import { bokehPass, cameraPivot, controls, scene } from "../setup"
 
 
 
@@ -63,16 +62,10 @@ gui.add(ease, "current", {
 
 
 
-export const setCafeCameraAnimation = (
-  scene: Scene,
-  controls: OrbitControls,
-  toggleBorders: ReturnType<typeof setZoomBorders>,
+export const setCameraAnimation = (
   pointerHandler: TPointerListener,
-  bokehPass: IBokehPass,
 ) => {
 
-  const cameraPivot = controls.object
-  const camera = cameraPivot.children[0] as PerspectiveCamera
   const target = controls.target
 
   return (mode: boolean) => {
@@ -81,7 +74,7 @@ export const setCafeCameraAnimation = (
     cafe = mode
 
     if (cafe) {
-      toggleBorders(false)
+      toggleZoomBorder(false)
       controls.minDistance = 0
       controls.maxDistance = Infinity
     }
@@ -150,7 +143,7 @@ export const setCafeCameraAnimation = (
       if (t === 1) {
         animating = false
         if (!cafe) {
-          toggleBorders(true)
+          toggleZoomBorder(true)
           controls.maxDistance = MAX_DISTANCE
         }
         else {

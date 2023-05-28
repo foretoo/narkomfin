@@ -5,11 +5,11 @@ import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
 import { MAX_DISTANCE, STATUS } from "@const"
 import { loadModel } from "@utils"
-import { setup } from "./setup"
-import { easedPointer, setBgSwitcher, setDarkThemeSwitcher, setZoomBorders } from "./features"
+import { camera, cameraPivot, composer, controls, renderPass, renderer, scene } from "./setup"
+import { easedPointer, switchBg, setThemeSwitcher, toggleZoomBorder } from "./features"
 import { traverseModel } from "./traverse-model"
 import { IHouse, IBokehPass, IInitProps } from "./types"
-import { setCafeCameraAnimation } from "./features"
+import { setCameraAnimation } from "./features"
 
 
 
@@ -22,8 +22,6 @@ const init = async ({
   BG = "#E1E1DF",
   BG_DARK = "#1E1E1E",
 }: IInitProps) => {
-
-  const { scene, camera, cameraPivot, renderer, controls } = setup()
 
   scene.background = new Color(dark ? BG_DARK : BG)
   renderer.shadowMap.enabled = !dark
@@ -74,14 +72,6 @@ const init = async ({
   ////////
   //////// POSTPROCESSING
 
-  const renderPass = new RenderPass(scene, camera)
-  const bokehPass = new BokehPass(scene, camera, {
-    focus: 4.0,
-    aperture: 0.002,
-    maxblur: 0.01,
-  }) as IBokehPass
-
-  const composer = new EffectComposer(renderer)
   composer.addPass(renderPass)
   // dark && composer.addPass(bokehPass)
 
@@ -89,6 +79,8 @@ const init = async ({
 
   ////////
   //////// FEATURES
+
+  toggleZoomBorder(true)
 
   const easedPointerHandler = (pointer: { x: number, y: number }) => {
     const d = cameraPivot.position.distanceTo(controls.target) / MAX_DISTANCE * 2
@@ -98,26 +90,11 @@ const init = async ({
   }
   easedPointer.subscribe(easedPointerHandler)
 
-  const toggleBorders = setZoomBorders(controls)
-
-  const toggleCafe = setCafeCameraAnimation(
-    scene,
-    controls,
-    toggleBorders,
+  const toggleCafe = setCameraAnimation(
     easedPointerHandler,
-    bokehPass,
   )
 
-  const toggleDark = setDarkThemeSwitcher(
-    BG,
-    BG_DARK,
-    dark,
-    scene,
-    composer,
-    bokehPass,
-  )
-
-  const switchBg = setBgSwitcher(scene)
+  const toggleDark = setThemeSwitcher(BG, BG_DARK, dark)
 
 
 

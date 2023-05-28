@@ -1,5 +1,5 @@
-import { BufferAttribute, BufferGeometry, CubicBezierCurve, CurvePath, LineCurve, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Raycaster, Vector2, Vector3 } from "three"
-import type { OrbitControls } from "../libs/OrbitControls"
+import { BufferAttribute, BufferGeometry, CubicBezierCurve, CurvePath, LineCurve, Mesh, MeshBasicMaterial, Object3D, Raycaster, Vector2 } from "three"
+import { camera, cameraPivot, controls } from "../setup"
 
 
 
@@ -53,50 +53,42 @@ const attrPoints = new Float32Array(
   }, []),
 )
 
+
+
 const geometry = new BufferGeometry()
 geometry.setAttribute("position", new BufferAttribute(attrPoints, 3))
 
 const material = new MeshBasicMaterial()
 material.wireframe = true
 
-
-
 const zoomBorderMesh = new Mesh(geometry, material)
 
 
 
-export const setZoomBorders = (
-  controls: OrbitControls,
-) => {
-  const raycaster = new Raycaster()
-  const gizmo = new Object3D()
+const raycaster = new Raycaster()
+const gizmo = new Object3D()
 
-  const target = controls.target
-  const cameraPivot = controls.object
-  const camera = cameraPivot.children.find((obj) => obj instanceof PerspectiveCamera)!
+const handleZoomBorders = () => {
+  cameraPivot.getWorldPosition(gizmo.position)
+  gizmo.position.y = 0
+  gizmo.position.normalize().multiplyScalar(20)
 
-  const handleZoomBorders = () => {
-    cameraPivot.getWorldPosition(gizmo.position)
-    gizmo.position.y = 0
-    gizmo.position.normalize().multiplyScalar(20)
+  raycaster.set(gizmo.position, gizmo.position.clone().normalize().multiplyScalar(-1))
+  const intersect = raycaster.intersectObject(zoomBorderMesh)
 
-    raycaster.set(gizmo.position, gizmo.position.clone().normalize().multiplyScalar(-1))
-    const intersect = raycaster.intersectObject(zoomBorderMesh)
+  gizmo.position.set(intersect[0].point.x, 0, intersect[0].point.z)
+  controls.minDistance = gizmo.position.length()
 
-    gizmo.position.set(intersect[0].point.x, 0, intersect[0].point.z)
-    controls.minDistance = gizmo.position.length()
+  camera.lookAt(controls.target)
+}
 
-    camera.lookAt(target)
+
+
+export const toggleZoomBorder = (on: boolean) => {
+  if (on) {
+    controls.addEventListener("change", handleZoomBorders)
   }
-
-  controls.addEventListener("change", handleZoomBorders)
-
-  return (on: boolean) => {
-    if (on) {
-      controls.addEventListener("change", handleZoomBorders)
-    }
-    else {
-      controls.removeEventListener("change", handleZoomBorders)
-    }
+  else {
+    controls.removeEventListener("change", handleZoomBorders)
   }
 }

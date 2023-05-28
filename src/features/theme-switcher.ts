@@ -1,17 +1,15 @@
 import { Color, DirectionalLight, HemisphereLight, Scene } from "three"
-import type { IHouse, IBokehPass, IHouseInnerMesh } from "src/types"
+import type { IHouse, IBokehPass, IHouseInnerMesh } from "../types"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { pngs } from "@const"
+import { scene } from "../setup"
 
 
 
-export const setDarkThemeSwitcher = (
+export const setThemeSwitcher = (
   BG: string,
   BG_DARK: string,
   dark: boolean,
-  scene: Scene,
-  composer: EffectComposer,
-  bokehPass: IBokehPass,
 ) => {
 
   const narkomfin = scene.getObjectByName("narkomfin") as IHouse
