@@ -32,8 +32,8 @@ const init = async ({
 
   await loadModel(
     path,
-    (e) => onProgress(STATUS.LOADING, e.loaded / e.total * 80 | 0),
-    undefined,
+    (n) => onProgress(STATUS.LOADING, n * 80 | 0),
+    (e) => {  },
     ( ) => onProgress(STATUS.LOADING, 85),
   )
     .then((data) => {
