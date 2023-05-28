@@ -1,9 +1,9 @@
-- [x] ~~base scene~~
+- [x] ~~base scene in a proper scale and position~~
 - [x] ~~prepare loading managment~~
 - [x] ~~switch to dark theme~~
 - [x] ~~handle model size according to view size~~
 - [x] ~~handle model's view angle according to view size~~
-- [ ] static render
+- [x] ~~static render~~
 - [x] ~~pointermove minor rotation~~
 - [x] ~~ease onpointermove rotation~~
 - [x] ~~clamp pointerdown move~~
@@ -11,9 +11,11 @@
 - [x] ~~depth of field~~
 - [x] ~~camera animation site surf~~
 - [x] ~~prepare progress api callback~~
-- [x] ~~fov 45~~
-- [x] ~~smart zoom~~
-- [x] ~~handle error~~
+- [x] ~~smart main zoom~~
+- [ ] smart roof zoom
+- [x] ~~handle no threejs error~~
+- [ ] handle no webgl error
+- [ ] handle load error
 - [x] ~~remove encoding state~~
 - [x] ~~add textures loading to loading managment~~
 - [x] ~~add setting bg to api~~

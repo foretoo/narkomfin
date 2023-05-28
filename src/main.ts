@@ -5,7 +5,7 @@ import { IHouse, IInitProps } from "./types"
 
 import { loadModel } from "./load-model"
 import { traverseModel } from "./traverse-model"
-import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder } from "./features"
+import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder, errorHandler, toggleDarkErrored } from "./features"
 
 import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
 
@@ -20,7 +20,10 @@ const init = async ({
   BG_DARK = "#1E1E1E",
 }: IInitProps) => {
 
-  if (noThreeError) return { noThreeError }
+  if (noThreeError) {
+    errorHandler({ container, path, onProgress, dark, BG, BG_DARK })
+    return { toggleDark: toggleDarkErrored, noThreeError }
+  }
 
   scene.background = new Color(dark ? BG_DARK : BG)
   renderer.shadowMap.enabled = !dark

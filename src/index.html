@@ -33,7 +33,13 @@
 
     })
     .then((e) => {
-      if (e.noThreeError) return
+      if (e.noThreeError) {
+        const { toggleDark } = e
+        document.querySelector(".theme-switcher").addEventListener("click", () => {
+          toggleDark()
+        })
+        return
+      }
 
       const { toggleDark, tweenCamera, switchBg } = e
 

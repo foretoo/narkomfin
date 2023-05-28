@@ -9,6 +9,7 @@ export const pngs = [
 export const STATUS = {
   LOADING: "LOADING",
   DONE: "DONE",
+  ERROR: "ERROR",
 }
 
 
