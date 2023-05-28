@@ -22,7 +22,7 @@ const cafeTarget = new Vector3(-3, 0, 1)
 const cafeCameraPos = new Vector3(-0.5, 1, 2.5)
 
 const roofTarget = new Vector3(-1, 0.8, -0.7)
-const roofCircle = new Vector3(-1, 1.5, -0.7)
+const roofCircle = new Vector3(-1, 1.8, -0.7)
 const roofRadius = 2.5
 
 
@@ -84,7 +84,7 @@ const getInitCurve = () => {
   const difSphericalRadius = newSphericalRadius - startSphericalRadius
 
   const cameraCurve = new QuadraticBezierCurve3(
-    cameraPivot.position,
+    cameraPivot.position.clone(),
     new Vector3(),
     newCameraPos,
   )
@@ -121,7 +121,7 @@ const getCafeCurve = () => {
   const difSphericalRadius = newSphericalRadius - startSphericalRadius
 
   const cameraCurve = new QuadraticBezierCurve3(
-    cameraPivot.position,
+    cameraPivot.position.clone(),
     new Vector3(),
     newCameraPos,
   )
@@ -155,9 +155,30 @@ const getCafeCurve = () => {
 
 
 
+const getRoofCurve = () => {
+  const camV = cameraPivot.position.clone()
+  camV.y = roofCircle.y
+  const subV = new Vector3().subVectors(roofCircle, camV)
+  subV.setLength(subV.length() - roofRadius)
+
+  const newCameraPos = subV.add(camV)
+  const newTargetPos = roofTarget
+
+  const targetCurve = new LineCurve3(controls.target.clone(), newTargetPos)
+  const cameraCurve = new LineCurve3(cameraPivot.position.clone(), newCameraPos)
+
+  const newSphericalRadius = newCameraPos.distanceTo(newTargetPos)
+  const startSphericalRadius = cameraPivot.position.distanceTo(controls.target)
+  const difSphericalRadius = newSphericalRadius - startSphericalRadius
+
+  return { cameraCurve, targetCurve, startSphericalRadius, difSphericalRadius }
+}
+
+
+
 const getCurveMap = {
   cafe: getCafeCurve,
-  roof: getCafeCurve,
+  roof: getRoofCurve,
   init: getInitCurve,
 }
 

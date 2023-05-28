@@ -93,25 +93,29 @@ const init = async ({
   cameraTweener.subscribe((type, t) => {
     easedPointerHandler(easedPointer)
     // bokehPass.uniforms.focus.value = cafe ? 4 - t : 3 + t
-    if (type === "cafe") {
-      if (t === 0) {
-        toggleZoomBorder(false)
-        controls.minDistance = 0
-        controls.maxDistance = Infinity
-      }
-      else if (t === 1) {
-        controls.minDistance = 1.75
-        controls.maxDistance = 5
-        controls.minAzimuthAngle = -Math.PI * 0.8
-        controls.maxAzimuthAngle =  Math.PI * 0.55
-      }
+
+    if (t === 0) {
+      toggleZoomBorder(false)
+      controls.minDistance = 0
+      controls.maxDistance = Infinity
+      controls.minAzimuthAngle = controls.maxAzimuthAngle = Infinity
     }
-    else if (type === "init") {
-      if (t === 1) {
-        toggleZoomBorder(true)
-        controls.maxDistance = MAX_DISTANCE
-        controls.minAzimuthAngle = controls.maxAzimuthAngle = Infinity
-      }
+
+    if (type === "cafe" && t === 1) {
+      controls.minDistance = 1.75
+      controls.maxDistance = 5
+      controls.minAzimuthAngle = -Math.PI * 0.8
+      controls.maxAzimuthAngle =  Math.PI * 0.55
+    }
+
+    if (type === "roof" && t === 1) {
+      controls.minDistance = 1.75
+      controls.maxDistance = 5
+    }
+
+    if (type === "init" && t === 1) {
+      toggleZoomBorder(true) // handle controls.minDistance
+      controls.maxDistance = MAX_DISTANCE
     }
   })
 
