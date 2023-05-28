@@ -31,24 +31,24 @@
       // BG: "#E1E1DF",
       // BG_DARK: "#1E1E1E",
 
-    }).then(({ toggleDark, tweenCamera, switchBg }) => {
+    })
+    .then((e) => {
+      if (e.noThreeError) return
+
+      const { toggleDark, tweenCamera, switchBg } = e
 
       document.querySelector(".theme-switcher").addEventListener("click", () => {
         toggleDark()
       })
-
       document.querySelector(".cafe-tween").addEventListener("click", () => {
         tweenCamera("cafe")
       })
-
       document.querySelector(".roof-tween").addEventListener("click", () => {
         tweenCamera("roof")
       })
-
       document.querySelector(".init-tween").addEventListener("click", () => {
         tweenCamera("init")
       })
-
       document.querySelector(".bg-switcher").addEventListener("click", () => {
         switchBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
       })

@@ -13,7 +13,7 @@
 - [x] ~~prepare progress api callback~~
 - [x] ~~fov 45~~
 - [x] ~~smart zoom~~
-- [ ] handle error
+- [x] ~~handle error~~
 - [x] ~~remove encoding state~~
 - [x] ~~add textures loading to loading managment~~
 - [x] ~~add setting bg to api~~
@@ -24,3 +24,4 @@
 - [ ] smooth theme transition
 - [x] ~~fix loading managment (onProgress should handle loading textures and model in parallel way)~~
 - [ ] reduce texture sizes
+- [ ] make threejs separate chunk

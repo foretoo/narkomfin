@@ -1,13 +1,13 @@
-import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
+import { bokehPass, camera, cameraPivot, composer, controls, renderPass, renderer, scene, noThreeError } from "./setup"
 
 import { MAX_DISTANCE, STATUS } from "@const"
-import { loadModel } from "@utils"
 import { IHouse, IInitProps } from "./types"
 
-import { bokehPass, camera, cameraPivot, composer, controls, renderPass, renderer, scene } from "./setup"
-import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder } from "./features"
+import { loadModel } from "./load-model"
 import { traverseModel } from "./traverse-model"
+import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder } from "./features"
 
+import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
 
 
 
@@ -19,6 +19,8 @@ const init = async ({
   BG = "#E1E1DF",
   BG_DARK = "#1E1E1E",
 }: IInitProps) => {
+
+  if (noThreeError) return { noThreeError }
 
   scene.background = new Color(dark ? BG_DARK : BG)
   renderer.shadowMap.enabled = !dark
