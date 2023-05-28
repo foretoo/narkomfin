@@ -6,8 +6,7 @@ import type { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
 export interface IInitProps {
   container: HTMLDivElement
-  modelPath: string
-  texturePath: string
+  path: string
   onProgress?: (type: string, progress?: number) => void
   dark?: boolean
   BG: string

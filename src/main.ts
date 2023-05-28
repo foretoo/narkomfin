@@ -1,22 +1,19 @@
 import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
-import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
 import { MAX_DISTANCE, STATUS } from "@const"
 import { loadModel } from "@utils"
+import { IHouse, IInitProps } from "./types"
+
 import { camera, cameraPivot, composer, controls, renderPass, renderer, scene } from "./setup"
-import { easedPointer, switchBg, setThemeSwitcher, toggleZoomBorder } from "./features"
+import { easedPointer, switchBg, setCameraAnimation, setThemeSwitcher, toggleZoomBorder } from "./features"
 import { traverseModel } from "./traverse-model"
-import { IHouse, IBokehPass, IInitProps } from "./types"
-import { setCameraAnimation } from "./features"
+
 
 
 
 const init = async ({
   container,
-  modelPath,
-  texturePath,
+  path,
   onProgress = () => {},
   dark = false,
   BG = "#E1E1DF",
@@ -34,8 +31,7 @@ const init = async ({
   let narkomfin: IHouse
 
   await loadModel(
-    modelPath,
-    texturePath,
+    path,
     (e) => onProgress(STATUS.LOADING, e.loaded / e.total * 80 | 0),
     undefined,
     ( ) => onProgress(STATUS.LOADING, 85),

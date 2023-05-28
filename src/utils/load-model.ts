@@ -29,8 +29,7 @@ type IFetches = Promise<GLTF | Texture | DataTexture>[]
 
 
 export const loadModel = async (
-  modelPath: string,
-  texturePath: string,
+  path: string,
   onProgress?: Parameters<typeof gltfLoader.load>[2],
   onError?: Parameters<typeof gltfLoader.load>[3],
   onDecode?: () => void,
@@ -44,20 +43,20 @@ export const loadModel = async (
 
   const fetches: IFetches = [
     ...pngs.map<Promise<Texture>>((name) => (
-      new Promise((res) => void textureLoader.load(`${texturePath}${name}.png`, res))
+      new Promise((res) => void textureLoader.load(`${path}${name}.png`, res))
     )),
 
     ...pngs.map<Promise<Texture>>((name) => (
-      new Promise((res) => void textureLoader.load(`${texturePath}${name}_night.png`, res))
+      new Promise((res) => void textureLoader.load(`${path}${name}_night.png`, res))
     )),
 
-    new Promise((res) => void textureLoader.load(`${texturePath}glass_night.png`, res)),
+    new Promise((res) => void textureLoader.load(`${path}glass_night.png`, res)),
 
-    new Promise((res) => void textureLoader.load(`${texturePath}bulbs.png`, res)),
+    new Promise((res) => void textureLoader.load(`${path}bulbs.png`, res)),
 
-    new Promise((res) => void hdrLoader.load(`${texturePath}env.hdr`, res)),
+    new Promise((res) => void hdrLoader.load(`${path}env.hdr`, res)),
 
-    new Promise((res) => void gltfLoader.load(modelPath, res, onProgress, onError)),
+    new Promise((res) => void gltfLoader.load(`${path}narkom14.txt`, res, onProgress, onError)),
   ]
 
   return Promise.all(fetches)
