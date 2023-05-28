@@ -91,6 +91,7 @@ const init = async ({
 
 
   cameraTweener.subscribe((type, t) => {
+    easedPointerHandler(easedPointer)
     // bokehPass.uniforms.focus.value = cafe ? 4 - t : 3 + t
     if (type === "cafe") {
       if (t === 0) {
@@ -103,9 +104,6 @@ const init = async ({
         controls.maxDistance = 5
         controls.minAzimuthAngle = -Math.PI * 0.8
         controls.maxAzimuthAngle =  Math.PI * 0.55
-      }
-      else {
-        easedPointerHandler(easedPointer)
       }
     }
     else if (type === "init") {
