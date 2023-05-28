@@ -1,8 +1,7 @@
-import { Color, DirectionalLight, HemisphereLight, Scene } from "three"
-import type { IHouse, IBokehPass, IHouseInnerMesh } from "../types"
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
+import { Color, DirectionalLight } from "three"
 import { pngs } from "@const"
-import { scene } from "../setup"
+import type { IHouse, IHouseInnerMesh } from "../types"
+import { bokehPass, composer, scene } from "../setup"
 
 
 
@@ -13,7 +12,6 @@ export const setThemeSwitcher = (
 ) => {
 
   const narkomfin = scene.getObjectByName("narkomfin") as IHouse
-  const ambientLight = scene.getObjectByName("ambientLight") as HemisphereLight
   const directLight = scene.getObjectByName("directLight") as DirectionalLight
   const glass = narkomfin.getObjectByName("glass") as IHouseInnerMesh
   const com_glass = narkomfin.getObjectByName("com_glass") as IHouseInnerMesh
@@ -38,12 +36,11 @@ export const setThemeSwitcher = (
       })
       narkomfin.add(bulbs)
 
-      ambientLight.intensity = 0.2
-      directLight.intensity = 0.2
+      directLight.intensity = 0.3
       directLight.castShadow = false
 
       scene.background = new Color(BG_DARK)
-      // composer.addPass(bokehPass)
+      composer.addPass(bokehPass)
     }
     else {
       glass.material.emissiveIntensity = 0
@@ -61,12 +58,11 @@ export const setThemeSwitcher = (
       })
       narkomfin.remove(bulbs)
 
-      ambientLight.intensity = 0.5
       directLight.intensity = 0.75
       directLight.castShadow = true
 
       scene.background = new Color(BG)
-      // composer.removePass(bokehPass)
+      composer.removePass(bokehPass)
     }
   }
 }

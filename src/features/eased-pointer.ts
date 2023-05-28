@@ -1,5 +1,5 @@
 import { Vector2 } from "three"
-import { sumAbs } from "../utils/sum-abs"
+import { sumAbs } from "@utils"
 
 
 

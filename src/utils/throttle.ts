@@ -1,7 +1,7 @@
 export const throttle = <T extends unknown[]>(
   fn: (...args: T) => void,
   waitTime: number,
-  context?: unknown,
+  context: unknown = null,
 ) => {
   let timeoutId: number
   let lastTime = 0

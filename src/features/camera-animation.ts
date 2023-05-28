@@ -186,8 +186,6 @@ const getCurveMap = {
 
 
 
-const gui = new GUI({ container: document.body })
-
 interface IEase {
   current: "easeInQuad" | "easeOutQuad" | "easeInOutQuad" | "easeInCubic" | "easeOutCubic" | "easeInOutCubic"
   functions: { [K in IEase["current"]]: (x: number) => number }
@@ -216,6 +214,8 @@ const ease: IEase = {
     },
   },
 }
+
+const gui = new GUI()
 
 gui.add(ease, "current", {
   easeInQuad: "easeInQuad",

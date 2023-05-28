@@ -52,7 +52,7 @@ const init = async ({
   ambientLight.name = "ambientLight"
   scene.add(ambientLight)
 
-  const directLight = new DirectionalLight(0xffffff, dark ? 0.06 : 0.75)
+  const directLight = new DirectionalLight(0xffffff, dark ? 0.3 : 0.75)
   directLight.name = "directLight"
   directLight.position.set(2, 3, 4)
   directLight.castShadow = true
@@ -69,7 +69,7 @@ const init = async ({
   //////// POSTPROCESSING
 
   composer.addPass(renderPass)
-  // dark && composer.addPass(bokehPass)
+  dark && composer.addPass(bokehPass)
 
 
 
@@ -90,9 +90,9 @@ const init = async ({
 
 
 
+  const bokeh = bokehPass.uniforms.focus
   cameraTweener.subscribe((type, t) => {
     easedPointerHandler(easedPointer)
-    // bokehPass.uniforms.focus.value = cafe ? 4 - t : 3 + t
 
     if (t === 0) {
       toggleZoomBorder(false)
@@ -100,22 +100,28 @@ const init = async ({
       controls.maxDistance = Infinity
       controls.minAzimuthAngle = controls.maxAzimuthAngle = Infinity
     }
-
-    if (type === "cafe" && t === 1) {
-      controls.minDistance = 1.75
-      controls.maxDistance = 5
-      controls.minAzimuthAngle = -Math.PI * 0.8
-      controls.maxAzimuthAngle =  Math.PI * 0.55
+    else if (t === 1) {
+      if (type === "cafe") {
+        controls.minDistance = 1.75
+        controls.maxDistance = 5
+        controls.minAzimuthAngle = -Math.PI * 0.8
+        controls.maxAzimuthAngle =  Math.PI * 0.55
+      }
+      else if (type === "roof") {
+        controls.minDistance = 1.75
+        controls.maxDistance = 5
+      }
+      else { // type === "init"
+        toggleZoomBorder(true) // handle controls.minDistance
+        controls.maxDistance = MAX_DISTANCE
+      }
     }
 
-    if (type === "roof" && t === 1) {
-      controls.minDistance = 1.75
-      controls.maxDistance = 5
+    if (/cafe|roof/.test(type) && bokeh.value === 4) {
+      bokeh.value = 4 - t
     }
-
-    if (type === "init" && t === 1) {
-      toggleZoomBorder(true) // handle controls.minDistance
-      controls.maxDistance = MAX_DISTANCE
+    else if (type === "init" && bokeh.value === 3) {
+      bokeh.value = 3 + t
     }
   })
 
