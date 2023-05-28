@@ -21,6 +21,10 @@ const duration = 1500
 const cafeTarget = new Vector3(-3, 0, 1)
 const cafeCameraPos = new Vector3(-0.5, 1, 2.5)
 
+const roofTarget = new Vector3(-1, 0.8, -0.7)
+const roofCircle = new Vector3(-1, 1.5, -0.7)
+const roofRadius = 2.5
+
 
 
 const tweenCamera = (type: TCamAnimType) => {
