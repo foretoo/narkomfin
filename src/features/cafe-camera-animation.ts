@@ -6,6 +6,7 @@ import type { setZoomBorders } from "./zoom-border"
 import { clamp } from "@utils"
 import { IBokehPass } from "src/types"
 import { MAX_DISTANCE, getInitCameraPos } from "@const"
+import { TPointerListener, easedPointer } from "./eased-pointer"
 
 
 
@@ -66,6 +67,7 @@ export const setCafeCameraAnimation = (
   scene: Scene,
   controls: OrbitControls,
   toggleBorders: ReturnType<typeof setZoomBorders>,
+  pointerHandler: TPointerListener,
   bokehPass: IBokehPass,
 ) => {
 
@@ -141,7 +143,7 @@ export const setCafeCameraAnimation = (
       target.copy(cafeTarget).multiplyScalar(cafe ? tt : 1 - tt)
       controls.spherical.radius = curDistance + difDistance * tt
       controls.update()
-      camera.lookAt(controls.target)
+      pointerHandler(easedPointer)
 
       bokehPass.uniforms.focus.value = cafe ? 4 - t : 3 + t
 

@@ -1,12 +1,12 @@
-import { AmbientLight, Color, DirectionalLight, HemisphereLight, Vector2 } from "three"
+import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 
-import { STATUS } from "@const"
+import { MAX_DISTANCE, STATUS } from "@const"
 import { loadModel } from "@utils"
 import { setup } from "./setup"
-import { onEasedPointerMove, setBgSwitcher, setDarkThemeSwitcher, setZoomBorders } from "./features"
+import { easedPointer, setBgSwitcher, setDarkThemeSwitcher, setZoomBorders } from "./features"
 import { traverseModel } from "./traverse-model"
 import { IHouse, IBokehPass, IInitProps } from "./types"
 import { setCafeCameraAnimation } from "./features"
@@ -90,18 +90,21 @@ const init = async ({
   ////////
   //////// FEATURES
 
-  const toggleBorders = setZoomBorders(controls)
-
-  onEasedPointerMove((pointer) => {
-    camera.position.x = -pointer.x
-    camera.position.y = -pointer.y
+  const easedPointerHandler = (pointer: { x: number, y: number }) => {
+    const d = cameraPivot.position.distanceTo(controls.target) / MAX_DISTANCE * 2
+    camera.position.x = -pointer.x * d
+    camera.position.y = -pointer.y * d
     camera.lookAt(controls.target)
-  }, 5)
+  }
+  easedPointer.subscribe(easedPointerHandler)
+
+  const toggleBorders = setZoomBorders(controls)
 
   const toggleCafe = setCafeCameraAnimation(
     scene,
     controls,
     toggleBorders,
+    easedPointerHandler,
     bokehPass,
   )
 
