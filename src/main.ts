@@ -4,8 +4,8 @@ import { MAX_DISTANCE, STATUS } from "@const"
 import { loadModel } from "@utils"
 import { IHouse, IInitProps } from "./types"
 
-import { camera, cameraPivot, composer, controls, renderPass, renderer, scene } from "./setup"
-import { easedPointer, switchBg, setCameraAnimation, setThemeSwitcher, toggleZoomBorder } from "./features"
+import { bokehPass, camera, cameraPivot, composer, controls, renderPass, renderer, scene } from "./setup"
+import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder } from "./features"
 import { traverseModel } from "./traverse-model"
 
 
@@ -57,7 +57,7 @@ const init = async ({
   directLight.position.set(2, 3, 4)
   directLight.castShadow = true
   directLight.shadow.mapSize = new Vector2(1024, 1024).multiplyScalar(4)
-  directLight.shadow.camera.far = directLight.position.length() + cameraPivot.position.length() + 4.5
+  directLight.shadow.camera.far = directLight.position.length() + MAX_DISTANCE + 4.5
   cameraPivot.add(directLight)
 
   // const directCamera = new CameraHelper(directLight.shadow.camera)
@@ -78,6 +78,8 @@ const init = async ({
 
   toggleZoomBorder(true)
 
+
+
   const easedPointerHandler = (pointer: { x: number, y: number }) => {
     const d = cameraPivot.position.distanceTo(controls.target) / MAX_DISTANCE * 2
     camera.position.x = -pointer.x * d
@@ -86,9 +88,36 @@ const init = async ({
   }
   easedPointer.subscribe(easedPointerHandler)
 
-  const toggleCafe = setCameraAnimation(
-    easedPointerHandler,
-  )
+
+
+  cameraTweener.subscribe((type, t) => {
+    // bokehPass.uniforms.focus.value = cafe ? 4 - t : 3 + t
+    if (type === "cafe") {
+      if (t === 0) {
+        toggleZoomBorder(false)
+        controls.minDistance = 0
+        controls.maxDistance = Infinity
+      }
+      else if (t === 1) {
+        controls.minDistance = 1.75
+        controls.maxDistance = 5
+        controls.minAzimuthAngle = -Math.PI * 0.8
+        controls.maxAzimuthAngle =  Math.PI * 0.55
+      }
+      else {
+        easedPointerHandler(easedPointer)
+      }
+    }
+    else if (type === "init") {
+      if (t === 1) {
+        toggleZoomBorder(true)
+        controls.maxDistance = MAX_DISTANCE
+        controls.minAzimuthAngle = controls.maxAzimuthAngle = Infinity
+      }
+    }
+  })
+
+
 
   const toggleDark = setThemeSwitcher(BG, BG_DARK, dark)
 
@@ -103,7 +132,7 @@ const init = async ({
 
 
 
-  return { toggleDark, toggleCafe, switchBg }
+  return { toggleDark, tweenCamera: cameraTweener.tween, switchBg }
 }
 
 export default init

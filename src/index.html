@@ -15,10 +15,6 @@
     const container = document.querySelector(".narkomfin-canvas-container")
     const progressLabel = container.querySelector(".narkomfin-progress-label")
 
-    let handleDark = () => {}
-    let handleCafeAnimation = () => {}
-    let handleBg = () => {}
-
     init({
       container,
       path: "../public/model/",
@@ -35,25 +31,27 @@
       // BG: "#E1E1DF",
       // BG_DARK: "#1E1E1E",
 
-    }).then(({ toggleDark, toggleCafe, switchBg }) => {
-      handleDark = toggleDark
-      handleCafeAnimation = toggleCafe
-      handleBg = switchBg
+    }).then(({ toggleDark, tweenCamera, switchBg }) => {
 
-      document.querySelector(".theme-switcher")
-        .addEventListener("click", () => {
-          handleDark()
-        })
+      document.querySelector(".theme-switcher").addEventListener("click", () => {
+        toggleDark()
+      })
 
-      document.querySelector(".cafe-tween")
-        .addEventListener("click", function() {
-          handleCafeAnimation(this.toggleAttribute('cameraOn'))
-        })
+      document.querySelector(".cafe-tween").addEventListener("click", () => {
+        tweenCamera("cafe")
+      })
 
-      document.querySelector(".bg-switcher")
-        .addEventListener("click", () => {
-          handleBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
-        })
+      document.querySelector(".roof-tween").addEventListener("click", () => {
+        tweenCamera("roof")
+      })
+
+      document.querySelector(".init-tween").addEventListener("click", () => {
+        tweenCamera("init")
+      })
+
+      document.querySelector(".bg-switcher").addEventListener("click", () => {
+        switchBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
+      })
     })
 
   </script>
@@ -63,8 +61,10 @@
   </div>
 
   <button class="theme-switcher">theme</button>
-  <button class="cafe-tween">cafe</button>
   <button class="bg-switcher">bg</button>
+  <button class="cafe-tween">cafe</button>
+  <button class="roof-tween">roof</button>
+  <button class="init-tween">init</button>
 
 </body>
 </html>

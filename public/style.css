@@ -39,14 +39,20 @@ button {
   font: inherit;
 }
 
-button.cafe-tween {
+button.theme-switcher {
   top: 1rem;
 }
-button.theme-switcher {
+button.bg-switcher {
   top: 4rem;
 }
-button.bg-switcher {
+button.cafe-tween {
   top: 7rem;
+}
+button.roof-tween {
+  top: 10rem;
+}
+button.init-tween {
+  top: 13rem;
 }
 
 .lil-gui.root {
