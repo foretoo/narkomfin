@@ -3,39 +3,53 @@ import { sumAbs } from "../utils/sum-abs"
 
 
 
-export const onEasedPointerMove = (
-  callback: (easedPointer: Vector2) => void,
-  velocity = 1,
-  threshold = 3e-3,
-) => {
+const listeners: ((easedPointer: Vector2) => void)[] = []
 
-  const seekPointer = new Vector2()
-  const easedPointer = new Vector2()
-  let easing = false
+const seek = new Vector2()
+const ease = new Vector2()
 
-  let lastTime = 0
-  const easeMovement = () => {
-    const currTime = performance.now()
-    const dt = (currTime - lastTime) * 0.001 * velocity
-    const dx = seekPointer.x - easedPointer.x
-    const dy = seekPointer.y - easedPointer.y
-    easedPointer.x += dx * dt
-    easedPointer.y += dy * dt
-    lastTime = currTime
+let easing = false
+let lastTime = 0
 
-    callback(easedPointer)
+let velocity = 5
+let threshold = 3e-3
 
-    if (sumAbs(dx, dy) > threshold) requestAnimationFrame(easeMovement)
-    else easing = false
+
+
+const easeMovement = () => {
+  const currTime = performance.now()
+  const dt = (currTime - lastTime) * 0.001 * velocity
+  const dx = seek.x - ease.x
+  const dy = seek.y - ease.y
+  ease.x += dx * dt
+  ease.y += dy * dt
+  lastTime = currTime
+
+  for (const listener of listeners) {
+    listener(ease)
   }
 
-  addEventListener("pointermove", (e: PointerEvent) => {
-    seekPointer.x =  e.clientX / innerWidth  - 0.5
-    seekPointer.y = -e.clientY / innerHeight + 0.5
+  if (sumAbs(dx, dy) > threshold) requestAnimationFrame(easeMovement)
+  else easing = false
+}
 
-    if (easing) return
-    easing = true
-    lastTime = performance.now()
-    requestAnimationFrame(easeMovement)
-  })
+addEventListener("pointermove", (e: PointerEvent) => {
+  seek.x =  e.clientX / innerWidth  - 0.5
+  seek.y = -e.clientY / innerHeight + 0.5
+
+  if (easing) return
+  easing = true
+  lastTime = performance.now()
+  requestAnimationFrame(easeMovement)
+})
+
+
+
+export const easedPointer = {
+  get x() { return ease.x },
+  get y() { return ease.y },
+
+  subscribe(callback: (easedPointer: Vector2) => void) {
+    listeners.push(callback)
+  },
 }

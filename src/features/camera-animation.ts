@@ -1,4 +1,4 @@
-import { PerspectiveCamera, QuadraticBezierCurve3, Scene, Vector3 } from "three"
+import { BufferGeometry, Line, LineBasicMaterial, LineCurve3, Mesh, MeshBasicMaterial, PerspectiveCamera, QuadraticBezierCurve3, Scene, SphereGeometry, Vector2, Vector3 } from "three"
 import type { OrbitControls } from "../libs/OrbitControls"
 import { GUI } from "lil-gui"
 
@@ -6,6 +6,7 @@ import type { setZoomBorders } from "./zoom-border"
 import { clamp } from "@utils"
 import { IBokehPass } from "src/types"
 import { MAX_DISTANCE, getInitCameraPos } from "@const"
+import { easedPointer } from "./on-eased-pointer-move"
 
 
 
@@ -18,7 +19,7 @@ const PI = Math.PI
 
 
 const cafeTarget = new Vector3(-3, 0, 1)
-const cafeCircle = new Vector3(-3, 0.62, 1)
+const cafeCircle = new Vector3(-3, 0.8, 1)
 const cafeRadius = 2
 
 const roofTarget = new Vector3(-1, 0.8, -0.7)
@@ -71,15 +72,15 @@ gui.add(ease, "current", {
 
 
 
-export const setCafeCameraAnimation = (
+export const setCameraAnimation = (
   scene: Scene,
   controls: OrbitControls,
   toggleBorders: ReturnType<typeof setZoomBorders>,
+  pointerToCameraHandler: (pointer: Vector2) => void,
   bokehPass: IBokehPass,
 ) => {
 
   const cameraPivot = controls.object
-  const camera = cameraPivot.children[0] as PerspectiveCamera
   const target = controls.target
 
   return (mode: TMode) => {
@@ -94,80 +95,76 @@ export const setCafeCameraAnimation = (
     }
     controls.enabled = false
 
-    const newCameraPos = cafe
-      ? cafeCameraPos
-      : getInitCameraPos()
 
-    const newTargetPos = cafe
-      ? cafeTarget
-      : scene.position
 
-    const newDistance = newCameraPos.distanceTo(newTargetPos)
-    const curDistance = cameraPivot.position.distanceTo(target)
-    const difDistance = newDistance - curDistance
+    const startTargetPos = target.clone()
+    const startSphericalRadius = cameraPivot.position.distanceTo(target)
+    const { newCameraPos, newTargetPos } = getNewPosition(cameraPivot.position, mode)!
+    const endSphericalRadius = newCameraPos.distanceTo(newTargetPos)
+    const subSphericalRadius = endSphericalRadius - startSphericalRadius
 
-    const curve = new QuadraticBezierCurve3(
+
+
+    const cameraCurve = new QuadraticBezierCurve3(
       cameraPivot.position,
       new Vector3(),
       newCameraPos,
     )
 
-    const theta = controls.getPolarAngle()
-    const phi = controls.getAzimuthalAngle()
+    cameraCurve.v1.x = (cameraCurve.v0.x + cameraCurve.v2.x) / 2
+    cameraCurve.v1.y = cameraCurve.v2.y
+    cameraCurve.v1.z = (cameraCurve.v0.z + cameraCurve.v2.z) / 2
+
+    cameraCurve.updateArcLengths()
 
 
 
-    const d = curve.v0.distanceTo(curve.v2) / MAX_DISTANCE
-    const t = clamp(theta - PI * 0.3, 0, PI * 0.2) / (PI * 0.2) // if theta 0.3-0.5
-    const f = phi < -1 ? 1 : phi > 1.4 ? 1 : 0 // if phi behind building
-    let a = (phi < -1 && phi > -2.5) ? (1.5 - phi - 2.5) / 1.5 : 0 // if phi behind cafe
-    a = a ? 1 - (a - 0.5) * (a - 0.5) / 0.5 ** 2 : 0 // make a -> from 0-1 to 0-1-0
+    const duration = 1500
 
-    curve.v1.x = (curve.v0.x * 2 + curve.v2.x) / 3
-    curve.v1.y = (curve.v0.y * 2 + curve.v2.y) / 3
-    curve.v1.z = (curve.v0.z * 2 + curve.v2.z) / 3
-    a && curve.v1.add(
-      new Vector3()
-        .subVectors(curve.v2, curve.v0)
-        .normalize()
-        .multiplyScalar(1 + a * (2 - d) * 3)
-        .applyAxisAngle(upVec, -Math.PI / 2),
+
+
+    const targetCurve = new LineCurve3(
+      startTargetPos,
+      newTargetPos,
     )
-    curve.v1.y = (curve.v0.y * 2 + curve.v2.y) / 3 + d + t * f * 2
+
+
 
     const start = performance.now()
 
-
-
-    setTimeout(function animate() {
+    function animate() {
       const now = performance.now()
       const t = clamp((now - start) / duration, 0, 1)
-      const ct = ease.functions[ease.current](t) // t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2
+      const tt = ease.functions[ease.current](t) // eased t
 
-      curve.getPointAt(ct, cameraPivot.position)
-      target.copy(cafeTarget).multiplyScalar(cafe ? ct : 1 - ct)
-      controls.spherical.radius = curDistance + difDistance * ct
+      cameraCurve.getPointAt(tt, cameraPivot.position)
+      targetCurve.getPointAt(tt, target)
+      controls.spherical.radius = startSphericalRadius + subSphericalRadius * t
       controls.update()
-      camera.lookAt(controls.target)
+      pointerToCameraHandler(easedPointer as unknown as Vector2)
 
-      bokehPass.uniforms.focus.value = cafe ? 4 - t : 3 + t
+      // bokehPass.uniforms.focus.value = cafe ? 4 - t : 3 + t
 
       if (t === 1) {
         animating = false
-        if (!cafe) {
+
+        if (mode === "init") {
           toggleBorders(true)
           controls.maxDistance = MAX_DISTANCE
+          controls.minAzimuthAngle = controls.maxAzimuthAngle = Infinity
         }
-        else {
+        else if (mode === "cafe") {
           controls.minDistance = 1.75
           controls.maxDistance = 5
+          controls.minAzimuthAngle = -Math.PI * 0.8
+          controls.maxAzimuthAngle =  Math.PI * 0.55
         }
+
         controls.enabled = true
-        controls.minAzimuthAngle = cafe ? -Math.PI * 0.8 : Infinity
-        controls.maxAzimuthAngle = cafe ?  Math.PI * 0.55 : Infinity
       }
       else setTimeout(animate, 0)
-    }, 0)
+    }
+    setTimeout(animate, 0)
   }
 }
 
@@ -177,7 +174,23 @@ function getNewPosition(
   curCamPos: Vector3,
   mode: TMode,
 ) {
-  if (mode === "cafe") {}
+  const tempV = curCamPos.clone()
+
+  if (mode === "cafe") {
+    tempV.y = cafeCircle.y
+    const subV = new Vector3().subVectors(cafeCircle, tempV)
+    const length = subV.length() - cafeRadius
+    subV.setLength(length)
+    return {
+      newCameraPos: subV.add(tempV),
+      newTargetPos: cafeTarget,
+    }
+  }
   else if (mode === "roof") {}
-  else {}
+  else {
+    return {
+      newCameraPos: getInitCameraPos(),
+      newTargetPos: new Vector3(),
+    }
+  }
 }

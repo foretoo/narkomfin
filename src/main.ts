@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, Color, DirectionalLight, HemisphereLight, LineBasicMaterial, LineLoop, Mesh, MeshBasicMaterial, SphereGeometry, Vector2, Vector3 } from "three"
+import { AmbientLight, BufferGeometry, Color, DirectionalLight, LineBasicMaterial, LineLoop, Mesh, MeshBasicMaterial, SphereGeometry, Vector2, Vector3 } from "three"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
@@ -6,10 +6,10 @@ import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 import { MAX_DISTANCE, STATUS } from "@const"
 import { loadModel } from "@utils"
 import { setup } from "./setup"
-import { onEasedPointerMove, setBgSwitcher, setDarkThemeSwitcher, setZoomBorders } from "./features"
+import { easedPointer, setBgSwitcher, setDarkThemeSwitcher, setZoomBorders } from "./features"
 import { traverseModel } from "./traverse-model"
 import { IHouse, IBokehPass, IInitProps } from "./types"
-import { setCafeCameraAnimation } from "./features"
+import { setCameraAnimation } from "./features"
 
 
 
@@ -26,7 +26,7 @@ const init = async ({
   const { scene, camera, cameraPivot, renderer, controls } = setup()
 
   scene.background = new Color(dark ? BG_DARK : BG)
-  renderer.shadowMap.enabled = !dark
+  // renderer.shadowMap.enabled = !dark
 
 
 
@@ -92,16 +92,19 @@ const init = async ({
 
   const toggleBorders = setZoomBorders(controls)
 
-  onEasedPointerMove((pointer) => {
-    camera.position.x = -pointer.x
-    camera.position.y = -pointer.y
+  const pointerToCameraHandler = (pointer: Vector2) => {
+    const d = cameraPivot.position.distanceTo(controls.target) / MAX_DISTANCE * 2
+    camera.position.x = -pointer.x * d
+    camera.position.y = -pointer.y * d
     camera.lookAt(controls.target)
-  }, 5)
+  }
+  easedPointer.subscribe(pointerToCameraHandler)
 
-  const toggleCafe = setCafeCameraAnimation(
+  const animateCameraTo = setCameraAnimation(
     scene,
     controls,
     toggleBorders,
+    pointerToCameraHandler,
     bokehPass,
   )
 
@@ -131,7 +134,7 @@ const init = async ({
     })),
     new LineBasicMaterial({ color: red }),
   )
-  cafeCircle.position.set(-3, 0.62, 1)
+  cafeCircle.position.set(-3, 0.8, 1)
   scene.add(cafeCircle)
   const cafeTarget = new Mesh(
     new SphereGeometry(0.2), new MeshBasicMaterial({ color: red }),
@@ -170,7 +173,7 @@ const init = async ({
 
 
 
-  return { toggleDark, toggleCafe, switchBg }
+  return { toggleDark, animateCameraTo, switchBg }
 }
 
 export default init
