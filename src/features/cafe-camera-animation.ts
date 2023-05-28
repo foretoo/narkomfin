@@ -126,18 +126,20 @@ export const setCafeCameraAnimation = (
     )
     curve.v1.y = (curve.v0.y * 2 + curve.v2.y) / 3 + d + t * f * 2
 
+    curve.updateArcLengths()
+
+
+
     const start = performance.now()
-
-
 
     setTimeout(function animate() {
       const now = performance.now()
       const t = clamp((now - start) / duration, 0, 1)
-      const ct = ease.functions[ease.current](t) // t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2
+      const tt = ease.functions[ease.current](t)
 
-      curve.getPointAt(ct, cameraPivot.position)
-      target.copy(cafeTarget).multiplyScalar(cafe ? ct : 1 - ct)
-      controls.spherical.radius = curDistance + difDistance * ct
+      curve.getPointAt(tt, cameraPivot.position)
+      target.copy(cafeTarget).multiplyScalar(cafe ? tt : 1 - tt)
+      controls.spherical.radius = curDistance + difDistance * tt
       controls.update()
       camera.lookAt(controls.target)
 
