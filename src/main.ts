@@ -20,6 +20,12 @@ const init = async ({
   BG_DARK = "#1E1E1E",
 }: IInitProps) => {
 
+  if (window.location.search === "?error") {
+    errorHandler({ container, path, onProgress, dark, BG, BG_DARK })
+    return { toggleDark: toggleDarkErrored, noThreeError: true }
+  }
+
+  // error from ./setup
   if (noThreeError) {
     errorHandler({ container, path, onProgress, dark, BG, BG_DARK })
     return { toggleDark: toggleDarkErrored, noThreeError }
