@@ -5,6 +5,8 @@ import { bokehPass, composer, scene } from "../setup"
 
 
 
+export const currTheme = { dark: false }
+
 export const setThemeSwitcher = (
   BG: string,
   BG_DARK: string,
@@ -19,6 +21,7 @@ export const setThemeSwitcher = (
 
   return (force?: boolean) => {
     dark = force ?? !dark
+    currTheme.dark = dark
 
     if (dark) {
       glass.material.emissiveIntensity = 1
