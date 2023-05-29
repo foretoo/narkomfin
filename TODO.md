@@ -27,3 +27,4 @@
 - [x] ~~fix loading managment (onProgress should handle loading textures and model in parallel way)~~
 - [x] ~~reduce texture sizes~~
 - [ ] make threejs separate chunk
+- [ ] change bokeh focus on zoom
