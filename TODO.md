@@ -25,5 +25,5 @@
 - [ ] improve dof
 - [ ] smooth theme transition
 - [x] ~~fix loading managment (onProgress should handle loading textures and model in parallel way)~~
-- [ ] reduce texture sizes
+- [x] ~~reduce texture sizes~~
 - [ ] make threejs separate chunk
