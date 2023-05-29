@@ -34,11 +34,12 @@ const init = async ({
   //////// HOUSE MODEL
 
   let narkomfin: IHouse
+  let onLoadError = false
 
   await loadModel(
     path,
     (n) => onProgress(STATUS.LOADING, n * 80 | 0),
-    (e) => {  },
+    ( ) => { },
     ( ) => onProgress(STATUS.LOADING, 85),
   )
     .then((data) => {
@@ -47,6 +48,15 @@ const init = async ({
       container.appendChild(renderer.domElement)
       scene.add(narkomfin)
     })
+    .catch((path: string) => {
+      onLoadError = true
+      console.error("Cant find image by src: " + path)
+    })
+
+  if (onLoadError) {
+    errorHandler({ container, path, onProgress, dark, BG, BG_DARK })
+    return { toggleDark: toggleDarkErrored, noThreeError }
+  }
 
 
 

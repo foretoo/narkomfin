@@ -1,4 +1,4 @@
-import { DataTexture, LoadingManager, Texture, TextureLoader } from "three"
+import { DataTexture, Loader, LoadingManager, Texture, TextureLoader } from "three"
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader"
@@ -31,27 +31,27 @@ type IFetches = Promise<GLTF | Texture | DataTexture>[]
 export const loadModel = async (
   path: string,
   onProgress: (loaded: number) => void = () => {},
-  onError: Parameters<typeof gltfLoader.load>[3]  = () => {},
+  onError = () => {},
   onDecode: () => void  = () => {},
-): Promise<IFetchedData> => {
+): Promise<IFetchedData> => new Promise((all_res, rej) => {
 
-  const fetches: IFetches = [
-    ...pngs.map<Promise<Texture>>((name) => (
-      new Promise((res) => void textureLoader.load(`${path}${name}.png`, res, undefined, onError))
-    )),
+  const fetches: IFetches = []
+  const fetchMap = new Map<string, TextureLoader | RGBELoader | GLTFLoader>()
 
-    ...pngs.map<Promise<Texture>>((name) => (
-      new Promise((res) => void textureLoader.load(`${path}${name}_night.png`, res, undefined, onError))
-    )),
+  for (const name of pngs) {
+    fetchMap.set(`${path}${name}.png`, textureLoader)
+    fetchMap.set(`${path}${name}_night.png`, textureLoader)
+  }
+  fetchMap.set(`${path}glass_night.png`, textureLoader)
+  fetchMap.set(`${path}bulbs.png`, textureLoader)
+  fetchMap.set(`${path}env.hdr`, hdrLoader)
+  fetchMap.set(`${path}narkom14.txt`, gltfLoader)
 
-    new Promise((res) => void textureLoader.load(`${path}glass_night.png`, res, undefined, onError)),
+  for (const [ src, loader ] of fetchMap.entries()) {
+    fetches.push(new Promise((res) => void loader.load(src, res, undefined, () => rej(src))))
+  }
 
-    new Promise((res) => void textureLoader.load(`${path}bulbs.png`, res, undefined, onError)),
 
-    new Promise((res) => void hdrLoader.load(`${path}env.hdr`, res, undefined, onError)),
-
-    new Promise((res) => void gltfLoader.load(`${path}narkom14.txt`, res, undefined, onError)),
-  ]
 
   let n = 0
   onProgress(0)
@@ -66,5 +66,5 @@ export const loadModel = async (
     (/^data:/.test(url) && onDecode && onDecode())
   }
 
-  return Promise.all(fetches)
-}
+  Promise.all(fetches).then((data) => all_res(data))
+})

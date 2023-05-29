@@ -14,8 +14,8 @@
 - [x] ~~smart main zoom~~
 - [ ] smart roof zoom
 - [x] ~~handle no threejs error~~
-- [ ] handle no webgl error
-- [ ] handle load error
+- [x] ~~handle no webgl error~~
+- [x] ~~handle load error~~
 - [x] ~~remove encoding state~~
 - [x] ~~add textures loading to loading managment~~
 - [x] ~~add setting bg to api~~

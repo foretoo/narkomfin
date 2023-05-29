@@ -8,7 +8,7 @@ import { pngs } from "@const"
 
 const material111 = new MeshStandardMaterial({ color: 0x111111 })
 
-type texturesObject = { [name: string]: { lightTexture: Texture, darkTexture: Texture }}
+type textureObject = { lightTexture: Texture, darkTexture: Texture }
 
 
 
@@ -28,13 +28,20 @@ export const traverseModel = (
   const glassTexture = data.pop() as Texture
   glassTexture.flipY = false
 
-  const textures = Object.fromEntries(pngs.map((name, i) => {
-    const lightTexture = data[i] as Texture
-    const darkTexture = data[i + pngs.length] as Texture
-    lightTexture.flipY = false
-    darkTexture.flipY = false
-    return  [ name, { lightTexture, darkTexture }]
-  })) as texturesObject
+  const textures = Object.fromEntries(
+    data.reduce<Array<[string, textureObject]>>((arr, _t, i) => {
+      if (i % 2) return arr
+      const name = pngs[i / 2 | 0]
+
+      const lightTexture = _t as Texture
+      const darkTexture = data[i + 1] as Texture
+      lightTexture.flipY = false
+      darkTexture.flipY = false
+
+      arr.push([ name, { lightTexture, darkTexture }])
+      return arr
+    }, []),
+  )
 
 
 
