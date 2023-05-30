@@ -1,10 +1,12 @@
+import type { IBokehPass, ICameraPivot } from "./types"
 import { getInitCameraPos, MAX_DISTANCE } from "@const"
-import { IBokehPass } from "./types"
-import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer } from "three"
+import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer, WebGLRenderTarget } from "three"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { OrbitControls } from "./libs/OrbitControls"
+import { BokehShader } from "./libs/BokehShader"
+
 
 
 let
@@ -14,7 +16,7 @@ let
   renderPass: RenderPass,
   bokehPass: IBokehPass,
   composer: EffectComposer,
-  cameraPivot: PerspectiveCamera,
+  cameraPivot: ICameraPivot,
   controls: OrbitControls,
   noThreeError = false
 
@@ -26,7 +28,8 @@ try {
   renderer = new WebGLRenderer({ antialias: true })
 
   renderer.setSize(innerWidth, innerHeight)
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
+  const pr = Math.min(devicePixelRatio, 2)
+  renderer.setPixelRatio(pr)
   renderer.outputEncoding = sRGBEncoding
   renderer.toneMapping = ACESFilmicToneMapping
   renderer.shadowMap.type = PCFSoftShadowMap
@@ -46,15 +49,22 @@ try {
   })
 
   renderPass = new RenderPass(scene, camera)
+
   bokehPass = new BokehPass(scene, camera, {
-    focus: 4.0,
-    aperture: 0.002,
-    maxblur: 0.01,
+    focus: 5,
+    aperture: 0,
+    maxblur: 0,
   }) as IBokehPass
+  bokehPass.materialBokeh.fragmentShader = BokehShader.fragmentShader
 
-  composer = new EffectComposer(renderer)
+  const target = new WebGLRenderTarget(innerWidth * pr, innerHeight * pr, { samples: 8 })
 
-  cameraPivot = new PerspectiveCamera()
+  composer = new EffectComposer(renderer, target)
+  composer.addPass(renderPass)
+  composer.addPass(bokehPass)
+
+  cameraPivot = new PerspectiveCamera() as ICameraPivot
+  cameraPivot.userData.type = "init"
 
   controls = new OrbitControls(cameraPivot, renderer.domElement)
 

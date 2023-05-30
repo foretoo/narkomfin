@@ -80,8 +80,8 @@ export const traverseModel = (
       else {
         clone.material.emissive = new Color(0xffcc88)
         clone.material.emissiveMap = glassTexture
-        clone.material.emissiveIntensity = dark ? 1 : 0
-        emissive(clone.material)
+        clone.material.emissiveIntensity = dark ? 1.5 : 0
+        // emissive(clone.material)
       }
     }
 
@@ -125,7 +125,7 @@ function emissive(
       vec4 emissiveColor = texture2D(emissiveMap, vUv);
       totalEmissiveRadiance *= emissiveColor.rgb;
       float steppedEmissive = step(0.18, length(totalEmissiveRadiance) * 0.57735);
-      totalEmissiveRadiance *= (steppedEmissive + 0.5) * 0.666667;
+      totalEmissiveRadiance *= (steppedEmissive + 0.5) * 0.6667;
       `,
     )
   }

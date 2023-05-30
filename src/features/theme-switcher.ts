@@ -1,7 +1,7 @@
-import { Color, DirectionalLight } from "three"
+import { AmbientLight, Color, DirectionalLight } from "three"
 import { pngs } from "@const"
 import type { IHouse, IHouseInnerMesh } from "../types"
-import { bokehPass, composer, scene } from "../setup"
+import { bokehPass, scene } from "../setup"
 
 
 
@@ -14,6 +14,7 @@ export const setThemeSwitcher = (
 ) => {
 
   const narkomfin = scene.getObjectByName("narkomfin") as IHouse
+  const ambientLight = scene.getObjectByName("ambientLight") as AmbientLight
   const directLight = scene.getObjectByName("directLight") as DirectionalLight
   const glass = narkomfin.getObjectByName("glass") as IHouseInnerMesh
   const com_glass = narkomfin.getObjectByName("com_glass") as IHouseInnerMesh
@@ -24,7 +25,7 @@ export const setThemeSwitcher = (
     currTheme.dark = dark
 
     if (dark) {
-      glass.material.emissiveIntensity = 1
+      glass.material.emissiveIntensity = 1.5
       glass.material.envMapIntensity = 0
 
       com_glass.material.envMapIntensity = 0
@@ -39,11 +40,12 @@ export const setThemeSwitcher = (
       })
       narkomfin.add(bulbs)
 
-      directLight.intensity = 0.3
+      ambientLight.intensity = 1.8
+      directLight.intensity = 0
       directLight.castShadow = false
 
+      bokehPass.enabled = true
       scene.background = new Color(BG_DARK)
-      composer.addPass(bokehPass)
     }
     else {
       glass.material.emissiveIntensity = 0
@@ -61,11 +63,12 @@ export const setThemeSwitcher = (
       })
       narkomfin.remove(bulbs)
 
+      ambientLight.intensity = 0.333
       directLight.intensity = 0.75
       directLight.castShadow = true
 
+      bokehPass.enabled = false
       scene.background = new Color(BG)
-      composer.removePass(bokehPass)
     }
   }
 }

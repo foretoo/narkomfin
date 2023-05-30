@@ -1,13 +1,14 @@
-import { bokehPass, camera, cameraPivot, composer, controls, renderPass, renderer, scene, noThreeError } from "./setup"
+import { bokehPass, camera, cameraPivot, composer, controls, renderer, scene, noThreeError } from "./setup"
 
 import { MAX_DISTANCE, STATUS } from "@const"
 import { IHouse, IInitProps } from "./types"
 
 import { loadModel } from "./load-model"
 import { traverseModel } from "./traverse-model"
-import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder, errorHandler, toggleDarkErrored } from "./features"
+import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder, errorHandler, toggleDarkErrored, TCamAnimType, TCamAnimTransition, currTheme } from "./features"
 
 import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
+import { mix } from "./utils/mix"
 
 
 
@@ -64,16 +65,18 @@ const init = async ({
     return { toggleDark: toggleDarkErrored, noThreeError }
   }
 
+  if (!dark) bokehPass.enabled = false
+
 
 
   ////////
   //////// LIGHT & SHADOW
 
-  const ambientLight = new AmbientLight(0x997755, 0.5)
+  const ambientLight = new AmbientLight(0xbb9977, dark ? 1.8 : 0.333)
   ambientLight.name = "ambientLight"
   scene.add(ambientLight)
 
-  const directLight = new DirectionalLight(0xffffff, dark ? 0.3 : 0.75)
+  const directLight = new DirectionalLight(0xffffff, dark ? 0 : 0.75)
   directLight.name = "directLight"
   directLight.position.set(2, 3, 4)
   directLight.castShadow = true
@@ -83,14 +86,6 @@ const init = async ({
 
   // const directCamera = new CameraHelper(directLight.shadow.camera)
   // scene.add(directCamera)
-
-
-
-  ////////
-  //////// POSTPROCESSING
-
-  composer.addPass(renderPass)
-  dark && composer.addPass(bokehPass)
 
 
 
@@ -111,16 +106,34 @@ const init = async ({
 
 
 
-  const bokeh = bokehPass.uniforms.focus
+  const bokehFocus = bokehPass.uniforms.focus
+  const bokehAperture = bokehPass.uniforms.aperture
+  const bokehBlur = bokehPass.uniforms.maxblur
+
+  const bokehFocusMap = {
+    init: [ 5, 0, 0 ], // [ bokehFocus, bokehBlur, bokehAperture ]
+    cafe: [ 3, 0.03, 0.004 ],
+    roof: [ 2, 0.03, 0.004 ],
+  }
+  let tween: TCamAnimTransition
+
   cameraTweener.subscribe((type, t) => {
     easedPointerHandler(easedPointer)
 
+    // onStart
     if (t === 0) {
+
+      ({ tween } = cameraPivot.userData)
+      if (/cafe|roof/.test(type) && currTheme.dark && !composer.passes.includes(bokehPass)) {
+        composer.addPass(bokehPass)
+      }
+
       toggleZoomBorder(false)
       controls.minDistance = 0
       controls.maxDistance = Infinity
       controls.minAzimuthAngle = controls.maxAzimuthAngle = Infinity
     }
+    // onEnd
     else if (t === 1) {
       if (type === "cafe") {
         controls.minDistance = 1.75
@@ -138,12 +151,23 @@ const init = async ({
       }
     }
 
-    if (/cafe|roof/.test(type) && bokeh.value === 4) {
-      bokeh.value = 4 - t
-    }
-    else if (type === "init" && bokeh.value === 3) {
-      bokeh.value = 3 + t
-    }
+    // onUpdate
+
+    bokehFocus.value = mix(
+      bokehFocusMap[tween.substring(0, 4) as TCamAnimType][0],
+      bokehFocusMap[tween.substring(5) as TCamAnimType][0],
+      t,
+    )
+    bokehBlur.value = mix(
+      bokehFocusMap[tween.substring(0, 4) as TCamAnimType][1],
+      bokehFocusMap[tween.substring(5) as TCamAnimType][1],
+      t,
+    )
+    bokehAperture.value = mix(
+      bokehFocusMap[tween.substring(0, 4) as TCamAnimType][2],
+      bokehFocusMap[tween.substring(5) as TCamAnimType][2],
+      t,
+    )
   })
 
 

@@ -7,7 +7,8 @@ import { cameraPivot, controls, scene } from "../setup"
 
 
 
-type TCamAnimType = "init" | "cafe" | "roof"
+export type TCamAnimType = "init" | "cafe" | "roof"
+export type TCamAnimTransition = Exclude<`${TCamAnimType}-${TCamAnimType}`, "init-init" | "cafe-cafe" | "roof-roof">
 type TCamAnimListener = (type: TCamAnimType, t: number) => void
 
 const listeners: TCamAnimListener[] = []
@@ -23,12 +24,14 @@ const cafeCameraPos = new Vector3(-0.5, 1, 2.5)
 
 const roofTarget = new Vector3(-1, 0.8, -0.7)
 const roofCircle = new Vector3(-1, 1.8, -0.7)
-const roofRadius = 2.5
+const roofRadius = 2.2
 
 
 
 const tweenCamera = (type: TCamAnimType) => {
   if (_type === type || animating) return
+  cameraPivot.userData.type = type
+  cameraPivot.userData.tween = `${_type}-${type}` as TCamAnimTransition
   animating = true
   _type = type
   controls.enabled = false
