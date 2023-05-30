@@ -22,6 +22,7 @@
 - [ ] handle resize more properly
 - [ ] improve camera animation to cafe on edge cases (or make it go to a circle around cafe, not one point only)
 - [ ] preload night textures
+- [ ] precompile dof
 - [ ] improve dof
 - [ ] smooth theme transition
 - [x] ~~fix loading managment (onProgress should handle loading textures and model in parallel way)~~
