@@ -74,7 +74,7 @@ const BokehShader = {
 
 		void main() {
 
-      if (maxblur < 0.01) {
+      if (maxblur < 0.001) {
       gl_FragColor = texture2D( tColor, vUv.xy );
       }
       else {

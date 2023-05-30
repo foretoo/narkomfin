@@ -56,6 +56,7 @@ try {
     maxblur: 0,
   }) as IBokehPass
   bokehPass.materialBokeh.fragmentShader = BokehShader.fragmentShader
+  bokehPass.enabled = false
 
   const target = new WebGLRenderTarget(innerWidth * pr, innerHeight * pr, { samples: 8 })
 

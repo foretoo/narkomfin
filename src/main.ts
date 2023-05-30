@@ -65,7 +65,7 @@ const init = async ({
     return { toggleDark: toggleDarkErrored, noThreeError }
   }
 
-  if (!dark) bokehPass.enabled = false
+  if (dark) bokehPass.enabled = true
 
 
 
@@ -112,8 +112,8 @@ const init = async ({
 
   const bokehFocusMap = {
     init: [ 5, 0, 0 ], // [ bokehFocus, bokehBlur, bokehAperture ]
-    cafe: [ 3, 0.03, 0.004 ],
-    roof: [ 2, 0.03, 0.004 ],
+    cafe: [ 3, 0.01, 0.005 ],
+    roof: [ 2, 0.02, 0.003 ],
   }
   let tween: TCamAnimTransition
 
@@ -124,9 +124,6 @@ const init = async ({
     if (t === 0) {
 
       ({ tween } = cameraPivot.userData)
-      if (/cafe|roof/.test(type) && currTheme.dark && !composer.passes.includes(bokehPass)) {
-        composer.addPass(bokehPass)
-      }
 
       toggleZoomBorder(false)
       controls.minDistance = 0
