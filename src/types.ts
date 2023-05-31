@@ -8,8 +8,9 @@ import type { TCamAnimTransition, TCamAnimType } from "./features"
 export interface IInitProps {
   container: HTMLDivElement
   path: string
-  onProgress?: (type: string, progress?: number) => void
-  dark?: boolean
+  onProgress: (type: string, progress?: number) => void
+  cameraType: TCamAnimType
+  dark: boolean
   BG: string
   BG_DARK: string
 }

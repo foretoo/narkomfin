@@ -187,6 +187,22 @@ const getCurveMap = {
 
 
 
+export const setCameraPosOnInit = (type: TCamAnimType = "init") => {
+  if (type === "cafe") {
+    cameraPivot.position.copy(cafeCameraPos)
+    controls.target.copy(cafeTarget)
+    controls.update()
+  }
+  else if (type === "roof") {
+    cameraPivot.position.set(roofCircle.x, roofCircle.y, roofCircle.z + roofRadius)
+    controls.target.copy(roofTarget)
+    controls.update()
+  }
+  else cameraPivot.position.copy(getInitCameraPos())
+}
+
+
+
 
 
 interface IEase {

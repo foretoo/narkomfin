@@ -5,7 +5,7 @@ import { IHouse, IInitProps } from "./types"
 
 import { loadModel } from "./load-model"
 import { traverseModel } from "./traverse-model"
-import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder, errorHandler, toggleDarkErrored, TCamAnimType, TCamAnimTransition, currTheme } from "./features"
+import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder, errorHandler, toggleDarkErrored, TCamAnimType, TCamAnimTransition, currTheme, setCameraPosOnInit } from "./features"
 
 import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
 import { mix } from "./utils/mix"
@@ -16,6 +16,7 @@ const init = async ({
   container,
   path,
   onProgress = () => {},
+  cameraType = "init",
   dark = false,
   BG = "#E1E1DF",
   BG_DARK = "#1E1E1E",
@@ -34,6 +35,7 @@ const init = async ({
 
   scene.background = new Color(dark ? BG_DARK : BG)
   renderer.shadowMap.enabled = !dark
+  setCameraPosOnInit(cameraType)
 
 
 
