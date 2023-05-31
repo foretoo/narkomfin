@@ -56,7 +56,6 @@ try {
     maxblur: 0,
   }) as IBokehPass
   bokehPass.materialBokeh.fragmentShader = BokehShader.fragmentShader
-  bokehPass.enabled = false
 
   const target = new WebGLRenderTarget(innerWidth * pr, innerHeight * pr, { samples: 8 })
 
@@ -65,7 +64,6 @@ try {
   composer.addPass(bokehPass)
 
   cameraPivot = new PerspectiveCamera() as ICameraPivot
-  cameraPivot.userData.type = "init"
 
   controls = new OrbitControls(cameraPivot, renderer.domElement)
 

@@ -1,11 +1,11 @@
 import { bokehPass, camera, cameraPivot, composer, controls, renderer, scene, noThreeError } from "./setup"
 
-import { MAX_DISTANCE, STATUS } from "@const"
+import { MAX_DISTANCE, STATUS, ambientLightIntensity, bokehFocusMap, directLightIntensity } from "@const"
 import { IHouse, IInitProps } from "./types"
 
 import { loadModel } from "./load-model"
 import { traverseModel } from "./traverse-model"
-import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder, errorHandler, toggleDarkErrored, TCamAnimType, TCamAnimTransition, currTheme, setCameraPosOnInit } from "./features"
+import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder, errorHandler, toggleDarkErrored, TCamAnimType, TCamAnimTransition, setCameraPosOnInit } from "./features"
 
 import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
 import { mix } from "./utils/mix"
@@ -67,18 +67,16 @@ const init = async ({
     return { toggleDark: toggleDarkErrored, noThreeError }
   }
 
-  if (dark) bokehPass.enabled = true
-
 
 
   ////////
   //////// LIGHT & SHADOW
 
-  const ambientLight = new AmbientLight(0xbb9977, dark ? 1.8 : 0.333)
+  const ambientLight = new AmbientLight(0xbb9977, dark ? ambientLightIntensity[1] : ambientLightIntensity[0])
   ambientLight.name = "ambientLight"
   scene.add(ambientLight)
 
-  const directLight = new DirectionalLight(0xffffff, dark ? 0 : 0.75)
+  const directLight = new DirectionalLight(0xffffff, dark ? directLightIntensity[1] : directLightIntensity[0])
   directLight.name = "directLight"
   directLight.position.set(2, 3, 4)
   directLight.castShadow = true
@@ -94,7 +92,7 @@ const init = async ({
   ////////
   //////// FEATURES
 
-  toggleZoomBorder(true)
+  cameraType === "init" && toggleZoomBorder(true)
 
 
 
@@ -109,14 +107,14 @@ const init = async ({
 
 
   const bokehFocus = bokehPass.uniforms.focus
-  const bokehAperture = bokehPass.uniforms.aperture
   const bokehBlur = bokehPass.uniforms.maxblur
+  const bokehAperture = bokehPass.uniforms.aperture
 
-  const bokehFocusMap = {
-    init: [ 5, 0, 0 ], // [ bokehFocus, bokehBlur, bokehAperture ]
-    cafe: [ 3, 0.01, 0.005 ],
-    roof: [ 2, 0.02, 0.003 ],
-  }
+  // on init setup bokeh
+  bokehFocus.value = bokehFocusMap[cameraType][0]
+  bokehBlur.value = bokehFocusMap[cameraType][1]
+  bokehAperture.value = bokehFocusMap[cameraType][2]
+
   let tween: TCamAnimTransition
 
   cameraTweener.subscribe((type, t) => {

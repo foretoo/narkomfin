@@ -12,6 +12,15 @@ export const STATUS = {
   ERROR: "ERROR",
 }
 
+export const bokehFocusMap = {
+  init: [ 5, 0, 0 ], // [ bokehFocus, bokehBlur, bokehAperture ]
+  cafe: [ 3, 0.01, 0.003 ],
+  roof: [ 2, 0.02, 0.003 ],
+} as const
+
+export const ambientLightIntensity = [ 1, 1.8 ] // light, dark
+export const directLightIntensity = [ 1, 0 ]
+
 
 
 export const MAX_DISTANCE = 15

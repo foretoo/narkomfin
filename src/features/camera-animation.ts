@@ -12,7 +12,6 @@ export type TCamAnimTransition = Exclude<`${TCamAnimType}-${TCamAnimType}`, "ini
 type TCamAnimListener = (type: TCamAnimType, t: number) => void
 
 const listeners: TCamAnimListener[] = []
-let _type: TCamAnimType = "init"
 
 let animating = false
 const duration = 1500
@@ -29,11 +28,10 @@ const roofRadius = 2.2
 
 
 const tweenCamera = (type: TCamAnimType) => {
-  if (_type === type || animating) return
+  if (cameraPivot.userData.type === type || animating) return
+  cameraPivot.userData.tween = `${cameraPivot.userData.type}-${type}` as TCamAnimTransition
   cameraPivot.userData.type = type
-  cameraPivot.userData.tween = `${_type}-${type}` as TCamAnimTransition
   animating = true
-  _type = type
   controls.enabled = false
 
   const { cameraCurve, targetCurve, startSphericalRadius, difSphericalRadius } = getCurveMap[type]()
@@ -188,6 +186,7 @@ const getCurveMap = {
 
 
 export const setCameraPosOnInit = (type: TCamAnimType = "init") => {
+  cameraPivot.userData.type = type
   if (type === "cafe") {
     cameraPivot.position.copy(cafeCameraPos)
     controls.target.copy(cafeTarget)

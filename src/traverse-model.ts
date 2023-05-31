@@ -71,7 +71,7 @@ export const traverseModel = (
         metalness: 1,
         roughness: 0,
         envMap: envMap,
-        envMapIntensity: dark ? 0 : 2,
+        envMapIntensity: dark ? 0 : 3,
       })
       if (/com_glass/.test(clone.name)) {
         clone.material.transparent = true
