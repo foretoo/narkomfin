@@ -20,6 +20,7 @@ export const bokehFocusMap = {
 
 export const ambientLightIntensity = [ 1, 1.8 ] // light, dark
 export const directLightIntensity = [ 1, 0 ]
+export const glassEmissive = [ 0, 1.1 ]
 
 
 

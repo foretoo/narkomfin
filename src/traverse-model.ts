@@ -2,7 +2,7 @@ import { Color, DataTexture, EquirectangularReflectionMapping, Group, Mesh, Mesh
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 
 import { IFetchedData, IHouse, IHouseInnerMesh } from "./types"
-import { pngs } from "@const"
+import { glassEmissive, pngs } from "@const"
 
 
 
@@ -80,7 +80,7 @@ export const traverseModel = (
       else {
         clone.material.emissive = new Color(0xffcc88)
         clone.material.emissiveMap = glassTexture
-        clone.material.emissiveIntensity = dark ? 1.5 : 0
+        clone.material.emissiveIntensity = dark ? glassEmissive[1] : glassEmissive[0]
         // emissive(clone.material)
       }
     }

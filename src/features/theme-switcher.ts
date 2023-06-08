@@ -1,5 +1,5 @@
 import { AmbientLight, Color, DirectionalLight } from "three"
-import { ambientLightIntensity, directLightIntensity, pngs } from "@const"
+import { ambientLightIntensity, directLightIntensity, glassEmissive, pngs } from "@const"
 import type { IHouse, IHouseInnerMesh } from "../types"
 import { scene } from "../setup"
 
@@ -25,7 +25,7 @@ export const setThemeSwitcher = (
     currTheme.dark = dark
 
     if (dark) {
-      glass.material.emissiveIntensity = 1.5
+      glass.material.emissiveIntensity = glassEmissive[1]
       glass.material.envMapIntensity = 0
 
       com_glass.material.envMapIntensity = 0
@@ -48,7 +48,7 @@ export const setThemeSwitcher = (
       scene.background = new Color(BG_DARK)
     }
     else {
-      glass.material.emissiveIntensity = 0
+      glass.material.emissiveIntensity = glassEmissive[0]
       glass.material.envMapIntensity = 3
 
       com_glass.material.envMapIntensity = 1
