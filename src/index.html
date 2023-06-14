@@ -19,14 +19,24 @@
   <button class="roof-tween">roof</button>
   <button class="init-tween">init</button>
 
+
+
+
+
   <script type="module">
     import init from "./main.ts"
 
     const container = document.querySelector(".narkomfin-canvas-container")
     const progressLabel = container.querySelector(".narkomfin-progress-label")
 
+    let isLight = !window.location.search.includes("dark")
+
+    const isCafe = window.location.search.includes("cafe")
+    const isRoof = window.location.search.includes("roof")
+
     init({
       container,
+
       path: "../public/model/",
 
       onProgress: (type, percent) => {
@@ -37,16 +47,19 @@
           container.removeChild(progressLabel)
         }
       },
-      // cameraType: "init",
-      // dark: true,
+
+      cameraType: isCafe ? "cafe" : isRoof ? "roof" : "init",
+
+      dark: !isLight,
+
       // BG: "#E1E1DF",
       // BG_DARK: "#1E1E1E",
 
     })
     .then((e) => {
-      if (e.noThreeError) {
+      if (e.error) {
         const { toggleDark } = e
-        document.querySelector(".theme-switcher").addEventListener("click", () => {
+        document.querySelector(".theme-switcher")?.addEventListener("click", () => {
           toggleDark()
         })
         return
@@ -54,24 +67,33 @@
 
       const { toggleDark, tweenCamera, switchBg } = e
 
-      document.querySelector(".theme-switcher").addEventListener("click", () => {
+      document.querySelector(".theme-switcher")?.addEventListener("click", () => {
         toggleDark()
+        isLight = !isLight
       })
-      document.querySelector(".cafe-tween").addEventListener("click", () => {
+      document.querySelector(".cafe-tween")?.addEventListener("click", () => {
         tweenCamera("cafe")
+        isLight && randomBG()
       })
-      document.querySelector(".roof-tween").addEventListener("click", () => {
+      document.querySelector(".roof-tween")?.addEventListener("click", () => {
         tweenCamera("roof")
+        isLight && randomBG()
       })
-      document.querySelector(".init-tween").addEventListener("click", () => {
+      document.querySelector(".init-tween")?.addEventListener("click", () => {
         tweenCamera("init")
+        isLight && switchBg("#E1E1DF")
       })
-      document.querySelector(".bg-switcher").addEventListener("click", () => {
+      const randomBG = () => {
         switchBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
-      })
+      }
+      document.querySelector(".bg-switcher")?.addEventListener("click", randomBG)
     })
 
   </script>
+
+
+
+
 
 </body>
 </html>

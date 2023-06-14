@@ -1,5 +1,5 @@
 import { LineCurve3, QuadraticBezierCurve3, Vector3 } from "three"
-import { GUI } from "lil-gui"
+// import { GUI } from "lil-gui"
 
 import { clamp } from "@utils"
 import { MAX_DISTANCE, getInitCameraPos } from "@const"
@@ -43,7 +43,7 @@ const tweenCamera = (type: TCamAnimType) => {
   setTimeout(function animate() {
     const now = performance.now()
     const t = clamp((now - start) / duration, 0, 1)
-    const tt = ease.functions[ease.current](t)
+    const tt = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2 // ease.functions[ease.current](t)
 
     cameraCurve.getPointAt(tt, cameraPivot.position)
     targetCurve.getPointAt(tt, controls.target)
@@ -204,44 +204,44 @@ export const setCameraPosOnInit = (type: TCamAnimType = "init") => {
 
 
 
-interface IEase {
-  current: "easeInQuad" | "easeOutQuad" | "easeInOutQuad" | "easeInCubic" | "easeOutCubic" | "easeInOutCubic"
-  functions: { [K in IEase["current"]]: (x: number) => number }
-}
+// interface IEase {
+//   current: "easeInQuad" | "easeOutQuad" | "easeInOutQuad" | "easeInCubic" | "easeOutCubic" | "easeInOutCubic"
+//   functions: { [K in IEase["current"]]: (x: number) => number }
+// }
 
-const ease: IEase = {
-  current: "easeInOutQuad",
-  functions: {
-    easeInQuad(x: number): number {
-      return x * x
-    },
-    easeOutQuad(x: number): number {
-      return 1 - (1 - x) * (1 - x)
-    },
-    easeInOutQuad(x: number): number {
-      return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2
-    },
-    easeInCubic(x: number): number {
-      return x * x * x
-    },
-    easeOutCubic(x: number): number {
-      return 1 - Math.pow(1 - x, 3)
-    },
-    easeInOutCubic(x: number): number {
-      return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
-    },
-  },
-}
+// const ease: IEase = {
+//   current: "easeInOutQuad",
+//   functions: {
+//     easeInQuad(x: number): number {
+//       return x * x
+//     },
+//     easeOutQuad(x: number): number {
+//       return 1 - (1 - x) * (1 - x)
+//     },
+//     easeInOutQuad(x: number): number {
+//       return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2
+//     },
+//     easeInCubic(x: number): number {
+//       return x * x * x
+//     },
+//     easeOutCubic(x: number): number {
+//       return 1 - Math.pow(1 - x, 3)
+//     },
+//     easeInOutCubic(x: number): number {
+//       return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+//     },
+//   },
+// }
 
-const gui = new GUI()
+// const gui = new GUI()
 
-gui.add(ease, "current", {
-  easeInQuad: "easeInQuad",
-  easeOutQuad: "easeOutQuad",
-  easeInOutQuad: "easeInOutQuad",
-  easeInCubic: "easeInCubic",
-  easeOutCubic: "easeOutCubic",
-  easeInOutCubic: "easeInOutCubic",
-} as {
-  [K in IEase["current"]]: K
-}).name("easing function:")
+// gui.add(ease, "current", {
+//   easeInQuad: "easeInQuad",
+//   easeOutQuad: "easeOutQuad",
+//   easeInOutQuad: "easeInOutQuad",
+//   easeInCubic: "easeInCubic",
+//   easeOutCubic: "easeOutCubic",
+//   easeInOutCubic: "easeInOutCubic",
+// } as {
+//   [K in IEase["current"]]: K
+// }).name("easing function:")

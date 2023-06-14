@@ -24,13 +24,13 @@ const init = async ({
 
   if (window.location.search === "?error") {
     errorHandler({ container, path, onProgress, dark, BG, BG_DARK })
-    return { toggleDark: toggleDarkErrored, noThreeError: true }
+    return { toggleDark: toggleDarkErrored, error: true }
   }
 
   // error from ./setup
   if (noThreeError) {
     errorHandler({ container, path, onProgress, dark, BG, BG_DARK })
-    return { toggleDark: toggleDarkErrored, noThreeError }
+    return { toggleDark: toggleDarkErrored, error: true }
   }
 
   scene.background = new Color(dark ? BG_DARK : BG)
@@ -64,7 +64,7 @@ const init = async ({
 
   if (onLoadError) {
     errorHandler({ container, path, onProgress, dark, BG, BG_DARK })
-    return { toggleDark: toggleDarkErrored, noThreeError }
+    return { toggleDark: toggleDarkErrored, error: true }
   }
 
 

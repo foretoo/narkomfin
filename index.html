@@ -21,59 +21,96 @@
   <button class="roof-tween">roof</button>
   <button class="init-tween">init</button>
 
+
+
+
+
   <script src="./public/narkomfin-scene-bundle-21.txt"></script>
 
   <script>
+    // контейнер куда будет вложен канвас
     const container = document.body.querySelector(".narkomfin-canvas-container")
     const progressLabel = container.querySelector(".narkomfin-progress-label")
 
+    // здесь узнаёшь страница ли это о кафе, или может где крыша должна быть
+    // как именно ты узнаёшь я не знаю, предполагаю что так как-то:
+    const isCafe = window.location.search.includes("cafe")
+    const isRoof = window.location.search.includes("roof")
+
+    let isLightTheme = !window.location.search.includes("dark")
+
     init({
+      // контейнер куда вложится канвас
       container,
+
+      // путь где лежат модель с текстурами, должен заканчиваться на слэш
       path: "https://raw.githubusercontent.com/foretoo/narkomfin/main/public/model/",
 
+      // обрабатываем загрузку
       onProgress: (type, percent) => {
         if (type === "LOADING") {
+          // загрузка идёт, можно делать что-то типо такого:
           progressLabel.textContent = `Loading model ${percent}%`
         }
         else {
+          // загрузка закончилась, можно сделать такое например:
           container.removeChild(progressLabel)
         }
       },
-      // cameraType: "init",
-      // dark: true,
+
+      // ставим положение камеры в зависимости от страницы
+      cameraType: isCafe ? "cafe" : isRoof ? "roof" : "init",
+
+      dark: !isLightTheme,
+
       // BG: "#E1E1DF",
       // BG_DARK: "#1E1E1E",
 
     })
     .then((e) => {
-      if (e.noThreeError) {
+      // обрабатываем ошибку
+      if (e.error) {
+        // если есть ошибка то будет работать только переключение темы
         const { toggleDark } = e
         document.querySelector(".theme-switcher").addEventListener("click", () => {
           toggleDark()
         })
-        return
       }
 
-      const { toggleDark, tweenCamera, switchBg } = e
+      // ошибки нет, работаем дальше
+      else {
+        const { toggleDark, tweenCamera, switchBg } = e
 
-      document.querySelector(".theme-switcher").addEventListener("click", () => {
-        toggleDark()
-      })
-      document.querySelector(".cafe-tween").addEventListener("click", () => {
-        tweenCamera("cafe")
-      })
-      document.querySelector(".roof-tween").addEventListener("click", () => {
-        tweenCamera("roof")
-      })
-      document.querySelector(".init-tween").addEventListener("click", () => {
-        tweenCamera("init")
-      })
-      document.querySelector(".bg-switcher").addEventListener("click", () => {
-        switchBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
-      })
+        document.querySelector(".theme-switcher").addEventListener("click", () => {
+          toggleDark()
+          isLightTheme = !isLightTheme
+        })
+        document.querySelector(".cafe-tween").addEventListener("click", () => {
+          tweenCamera("cafe")
+          if (isLightTheme) {
+            switchBg('#f0dbd5')
+          }
+        })
+        document.querySelector(".roof-tween").addEventListener("click", () => {
+          tweenCamera("roof")
+          if (isLightTheme) {
+            switchBg('#b6ced9')
+          }
+        })
+        document.querySelector(".init-tween").addEventListener("click", () => {
+          tweenCamera("init")
+          if (isLightTheme) {
+            switchBg('#e1e1df')
+          }
+        })
+      }
     })
 
   </script>
+
+
+
+
 
 </body>
 </html>
