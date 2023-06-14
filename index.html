@@ -81,27 +81,30 @@
       else {
         const { toggleDark, tweenCamera, switchBg } = e
 
-        document.querySelector(".theme-switcher").addEventListener("click", () => {
+        document.querySelector(".theme-switcher")?.addEventListener("click", () => {
           toggleDark()
           isLightTheme = !isLightTheme
         })
-        document.querySelector(".cafe-tween").addEventListener("click", () => {
+        document.querySelector(".cafe-tween")?.addEventListener("click", () => {
           tweenCamera("cafe")
           if (isLightTheme) {
             switchBg('#f0dbd5')
           }
         })
-        document.querySelector(".roof-tween").addEventListener("click", () => {
+        document.querySelector(".roof-tween")?.addEventListener("click", () => {
           tweenCamera("roof")
           if (isLightTheme) {
             switchBg('#b6ced9')
           }
         })
-        document.querySelector(".init-tween").addEventListener("click", () => {
+        document.querySelector(".init-tween")?.addEventListener("click", () => {
           tweenCamera("init")
           if (isLightTheme) {
             switchBg('#e1e1df')
           }
+        })
+        document.querySelector(".bg-switcher")?.addEventListener("click", () => {
+          switchBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
         })
       }
     })
