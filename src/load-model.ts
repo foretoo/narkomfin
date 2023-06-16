@@ -44,7 +44,7 @@ export const loadModel = async (
   }
   fetchMap.set(`${path}glass_night.png`, textureLoader)
   fetchMap.set(`${path}bulbs.png`, textureLoader)
-  fetchMap.set(`${path}env.hdr`, hdrLoader)
+  fetchMap.set(`${path}env.txt`, hdrLoader)
   fetchMap.set(`${path}narkom14.txt`, gltfLoader)
 
   for (const [ src, loader ] of fetchMap.entries()) {
