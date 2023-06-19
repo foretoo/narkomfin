@@ -16,7 +16,7 @@
   </div>
 
   <button class="theme-switcher">theme</button>
-  <button class="bg-switcher">bg</button>
+  <!-- <button class="bg-switcher">bg</button> -->
   <button class="cafe-tween">cafe</button>
   <button class="roof-tween">roof</button>
   <button class="init-tween">init</button>
@@ -103,9 +103,9 @@
             switchBg('#e1e1df')
           }
         })
-        document.querySelector(".bg-switcher")?.addEventListener("click", () => {
-          switchBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
-        })
+        // document.querySelector(".bg-switcher")?.addEventListener("click", () => {
+        //   switchBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
+        // })
       }
     })
 

@@ -14,7 +14,9 @@ export default defineConfig({
     },
   },
 
-  optimizeDeps: { entries: "/src/main.ts" },
+  optimizeDeps: {
+    entries: "/src/main.ts",
+  },
 
   build: {
     emptyOutDir: false,

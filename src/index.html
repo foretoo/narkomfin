@@ -14,7 +14,7 @@
   </div>
 
   <button class="theme-switcher">theme</button>
-  <button class="bg-switcher">bg</button>
+  <!-- <button class="bg-switcher">bg</button> -->
   <button class="cafe-tween">cafe</button>
   <button class="roof-tween">roof</button>
   <button class="init-tween">init</button>
@@ -73,20 +73,20 @@
       })
       document.querySelector(".cafe-tween")?.addEventListener("click", () => {
         tweenCamera("cafe")
-        isLight && randomBG()
+        // isLight && randomBG()
       })
       document.querySelector(".roof-tween")?.addEventListener("click", () => {
         tweenCamera("roof")
-        isLight && randomBG()
+        // isLight && randomBG()
       })
       document.querySelector(".init-tween")?.addEventListener("click", () => {
         tweenCamera("init")
-        isLight && switchBg("#E1E1DF")
+        // isLight && switchBg("#E1E1DF")
       })
       const randomBG = () => {
         switchBg(Array(6).fill().reduce((c,n)=>c+(Math.random()*16|0).toString(16),"#"))
       }
-      document.querySelector(".bg-switcher")?.addEventListener("click", randomBG)
+      // document.querySelector(".bg-switcher")?.addEventListener("click", randomBG)
     })
 
   </script>
