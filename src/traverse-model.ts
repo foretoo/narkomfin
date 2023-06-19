@@ -2,7 +2,7 @@ import { Color, DataTexture, EquirectangularReflectionMapping, Group, Mesh, Mesh
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 
 import { IFetchedData, IHouse, IHouseInnerMesh } from "./types"
-import { glassEmissive, pngs } from "@const"
+import { comGlassOpacity, glassEmissive, glassEnvIntensity, pngs } from "@const"
 
 
 
@@ -71,11 +71,11 @@ export const traverseModel = (
         metalness: 1,
         roughness: 0,
         envMap: envMap,
-        envMapIntensity: dark ? 0 : 3,
+        envMapIntensity: dark ? glassEnvIntensity[1] : glassEnvIntensity[0],
       })
       if (/com_glass/.test(clone.name)) {
         clone.material.transparent = true
-        clone.material.opacity = dark ? 0 : 0.5
+        clone.material.opacity = dark ? comGlassOpacity[1] : comGlassOpacity[0]
       }
       else {
         clone.material.emissive = new Color(0xffcc88)

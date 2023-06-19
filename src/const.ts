@@ -18,9 +18,11 @@ export const bokehFocusMap = {
   roof: [ 2, 0.02, 0.003 ],
 } as const
 
-export const ambientLightIntensity = [ 1, 1.8 ] // light, dark
-export const directLightIntensity = [ 1, 0 ]
+export const ambientLightIntensity = [  0.333, 1.8 ] // light, dark
+export const directLightIntensity = [ 0.75, 0 ]
 export const glassEmissive = [ 0, 1.1 ]
+export const comGlassOpacity = [ 0.5, 0.3 ]
+export const glassEnvIntensity = [ 3, 0 ]
 
 
 

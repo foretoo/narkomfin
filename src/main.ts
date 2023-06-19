@@ -33,12 +33,6 @@ const init = async ({
     return { toggleDark: toggleDarkErrored, error: true }
   }
 
-  scene.background = new Color(dark ? BG_DARK : BG)
-  renderer.shadowMap.enabled = !dark
-  setCameraPosOnInit(cameraType)
-
-
-
   ////////
   //////// HOUSE MODEL
 
@@ -69,6 +63,12 @@ const init = async ({
 
 
 
+  scene.background = new Color(dark ? BG_DARK : BG)
+  renderer.shadowMap.enabled = !dark
+  setCameraPosOnInit(cameraType)
+
+
+
   ////////
   //////// LIGHT & SHADOW
 
@@ -93,6 +93,8 @@ const init = async ({
   //////// FEATURES
 
   cameraType === "init" && toggleZoomBorder(true)
+
+  bokehPass.enabled = dark
 
 
 
