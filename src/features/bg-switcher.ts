@@ -1,5 +1,5 @@
-import { scene } from "../setup"
 import { Color } from "three"
+import { scene } from "../setup"
 
 
 

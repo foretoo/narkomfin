@@ -1,14 +1,13 @@
-import { bokehPass, camera, cameraPivot, composer, controls, renderer, scene, noThreeError } from "./setup"
+import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
 
+import type { IHouse, IInitProps } from "./types"
 import { MAX_DISTANCE, STATUS, ambientLightIntensity, bokehFocusMap, directLightIntensity } from "@const"
-import { IHouse, IInitProps } from "./types"
+import { mix } from "./utils/mix"
+import { bokehPass, camera, cameraPivot, composer, controls, renderer, scene, noThreeError } from "./setup"
 
 import { loadModel } from "./load-model"
 import { traverseModel } from "./traverse-model"
 import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder, errorHandler, toggleDarkErrored, TCamAnimType, TCamAnimTransition, setCameraPosOnInit } from "./features"
-
-import { AmbientLight, Color, DirectionalLight, Vector2 } from "three"
-import { mix } from "./utils/mix"
 
 
 

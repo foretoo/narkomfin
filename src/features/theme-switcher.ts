@@ -1,6 +1,7 @@
 import { AmbientLight, Color, DirectionalLight } from "three"
-import { ambientLightIntensity, comGlassOpacity, directLightIntensity, glassEmissive, glassEnvIntensity, pngs } from "@const"
+
 import type { IHouse, IHouseInnerMesh } from "../types"
+import { ambientLightIntensity, comGlassOpacity, directLightIntensity, glassEmissive, glassEnvIntensity, pngs } from "@const"
 import { bokehPass, scene } from "../setup"
 
 

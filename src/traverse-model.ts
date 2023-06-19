@@ -1,5 +1,5 @@
+import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 import { Color, DataTexture, EquirectangularReflectionMapping, Group, Mesh, MeshStandardMaterial, Texture } from "three"
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 
 import { IFetchedData, IHouse, IHouseInnerMesh } from "./types"
 import { comGlassOpacity, glassEmissive, glassEnvIntensity, pngs } from "@const"

@@ -1,11 +1,12 @@
-import type { IBokehPass, ICameraPivot } from "./types"
-import { getInitCameraPos, MAX_DISTANCE } from "@const"
 import { ACESFilmicToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer, WebGLRenderTarget } from "three"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
-import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
+
+import { BokehPass } from "./libs/BokehPass"
 import { OrbitControls } from "./libs/OrbitControls"
-import { BokehShader } from "./libs/BokehShader"
+
+import type { ICameraPivot } from "./types"
+import { getInitCameraPos, MAX_DISTANCE } from "@const"
 
 
 
@@ -14,7 +15,7 @@ let
   camera: PerspectiveCamera,
   renderer: WebGLRenderer,
   renderPass: RenderPass,
-  bokehPass: IBokehPass,
+  bokehPass: BokehPass,
   composer: EffectComposer,
   cameraPivot: ICameraPivot,
   controls: OrbitControls,
@@ -54,8 +55,7 @@ try {
     focus: 5,
     aperture: 0,
     maxblur: 0,
-  }) as IBokehPass
-  bokehPass.materialBokeh.fragmentShader = BokehShader.fragmentShader
+  })
 
   const target = new WebGLRenderTarget(innerWidth * pr, innerHeight * pr, { samples: 8 })
 

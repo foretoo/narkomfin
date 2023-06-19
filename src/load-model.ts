@@ -3,7 +3,7 @@ import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader"
 
-import { IFetchedData } from "src/types"
+import { IFetchedData } from "./types"
 import { pngs } from "@const"
 
 

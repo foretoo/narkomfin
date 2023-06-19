@@ -1,5 +1,5 @@
+import type { IInitProps } from "../types"
 import { STATUS } from "@const"
-import { IInitProps } from "../types"
 
 
 

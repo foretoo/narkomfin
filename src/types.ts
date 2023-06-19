@@ -1,6 +1,5 @@
-import type { BufferGeometry, DataTexture, Group, IUniform, Mesh, MeshStandardMaterial, PerspectiveCamera, Sphere, Texture } from "three"
+import type { BufferGeometry, DataTexture, Group, Mesh, MeshStandardMaterial, PerspectiveCamera, Sphere, Texture } from "three"
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
-import type { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
 import type { TCamAnimTransition, TCamAnimType } from "./features"
 
 
@@ -47,15 +46,5 @@ export interface ICameraPivot extends PerspectiveCamera {
   userData: {
     type: TCamAnimType
     tween: TCamAnimTransition
-  }
-}
-
-
-
-export interface IBokehPass extends BokehPass {
-  uniforms: {
-    focus: IUniform<number>
-    aperture: IUniform<number>
-    maxblur: IUniform<number>
   }
 }
