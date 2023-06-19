@@ -18,11 +18,11 @@ const duration = 1500
 
 
 
-const cafeTarget = new Vector3(-3, 0, 1)
-const cafeCameraPos = new Vector3(-0.5, 1, 2.5)
+const cafeTarget = new Vector3(-3, -0.1, 0.9)
+const cafeCameraPos = new Vector3(-0.7, 0.2, 1.75)
 
 const roofTarget = new Vector3(-1, 0.8, -0.7)
-const roofCircle = new Vector3(-1, 1.8, -0.7)
+const roofCircle = new Vector3().addVectors(roofTarget, new Vector3(0, 1, 0))
 const roofRadius = 2.2
 
 
