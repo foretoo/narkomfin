@@ -1,4 +1,4 @@
-import { DataTexture, Loader, LoadingManager, Texture, TextureLoader } from "three"
+import { DataTexture, LoadingManager, Texture, TextureLoader } from "three"
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader"
@@ -15,6 +15,7 @@ const manager = new LoadingManager() // 20 items
 const unpkgDracoPath = "https://unpkg.com/three@0.149.0/examples/jsm/libs/draco/"
 const dracoLoader = new DRACOLoader(manager)
 dracoLoader.setDecoderPath(unpkgDracoPath)
+dracoLoader.preload()
 
 const gltfLoader = new GLTFLoader(manager)
 gltfLoader.setDRACOLoader(dracoLoader)
@@ -53,17 +54,27 @@ export const loadModel = async (
 
 
 
+  let readyToDecode = false
+  let decoding = false
+  let dracoLoaded = 0
   let n = 0
   onProgress(0)
   manager.onProgress = (url, loaded, total) => {
-    if (!url.match(/^data:/) && url.match(/png|txt|hdr/)) {
+    if (url.match(/^data:/)) {
+      readyToDecode = true
+    }
+    else if (url.match(/\/draco\//)) {
+      dracoLoaded++
+    }
+    else if (url.match(/\.(png|txt)$/) && !decoding) {
       n++
       onProgress(n / fetches.length)
     }
-  }
 
-  manager.itemStart = (url) => {
-    (/^data:/.test(url) && onDecode && onDecode())
+    if (readyToDecode && dracoLoaded === 2) {
+      decoding = true
+      onDecode()
+    }
   }
 
   Promise.all(fetches).then((data) => all_res(data))
