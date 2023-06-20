@@ -1,43 +1,88 @@
 import { defineConfig } from "vite"
+import fs from "fs"
+import PACKAGE from "./package.json"
 
-export default defineConfig({
-  publicDir: false,
 
-  server: {
-    open: "/src/index.html",
-    host: true,
-  },
 
-  resolve: {
-    alias: {
-      "@utils": "/src/utils/",
-      "@const": "/src/const.ts",
-    },
-  },
+export default (env: { command: "serve" | "build" }) => {
 
-  optimizeDeps: {
-    entries: "/src/main.ts",
-  },
+  let version = parseInt(PACKAGE.version)
+  if (env.command === "build") {
+    updateVersion(++version)
+  }
 
-  build: {
-    emptyOutDir: false,
+  return defineConfig({
+    publicDir: false,
 
-    lib: {
-      entry: "/src/main.ts",
-      formats: [ "iife" ],
-      name: "init",
-      fileName: "bundle",
+    server: {
+      open: "/src/index.html",
+      host: true,
     },
 
-    outDir: "public",
-
-    rollupOptions: {
-      output: {
-        globals: {
-          three: "THREE",
-        },
+    resolve: {
+      alias: {
+        "@utils": "/src/utils/",
+        "@const": "/src/const.ts",
       },
-      external: [ "three" ],
     },
-  },
-})
+
+    optimizeDeps: {
+      entries: "/src/main.ts",
+    },
+
+    build: {
+      emptyOutDir: false,
+
+      lib: {
+        entry: "/src/main.ts",
+        formats: [ "iife" ],
+        name: "init",
+      },
+
+      outDir: "public",
+
+      rollupOptions: {
+        output: {
+          entryFileNames: `bundle${version}.js`,
+          globals: {
+            three: "THREE",
+          },
+        },
+        external: [ "three" ],
+      },
+    },
+  })
+}
+
+
+
+const updateVersion = (
+  version: number,
+) => {
+  const str = `${version}`
+
+  const pkgPath = "./package.json"
+  const pkgRgx = /(?<="version": ")\d+(?=",)/m
+  editFile(pkgPath, pkgRgx, str)
+
+  const htmlPath = "./index.html"
+  const htmlRgx = /(?<=src="\.\/public\/bundle)\d+(?=\.js")/m
+  editFile(htmlPath, htmlRgx, str)
+}
+
+
+
+const editFile = (
+  path: string,
+  regex: RegExp,
+  str: string,
+) => {
+  fs.readFile(path, "utf8", (readError, data) => {
+    if (readError) throw readError
+    fs.writeFile(
+      path,
+      data.replace(regex, str),
+      (writeError) => { if (writeError) throw writeError },
+    )
+  })
+}
