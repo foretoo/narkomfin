@@ -4,12 +4,13 @@ import PACKAGE from "./package.json"
 
 
 
-export default (env: { command: "serve" | "build" }) => {
+export default (params: { command: "serve" | "build" }) => {
 
   let version = parseInt(PACKAGE.version)
-  if (env.command === "build") {
+  if (params.command === "build") {
     updateVersion(++version)
   }
+
 
   return defineConfig({
     publicDir: false,
