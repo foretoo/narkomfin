@@ -33,8 +33,9 @@ html, body {
   position: absolute;
   top: 0;
   bottom: 0;
-  background-color: #1112;
+  background-color: #0004;
   pointer-events: none;
+  backdrop-filter: blur(5px);
 }
 
 .left {

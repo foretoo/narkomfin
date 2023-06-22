@@ -28,14 +28,14 @@ export default (params: { command: "serve" | "build" }) => {
     },
 
     optimizeDeps: {
-      entries: "/src/main.ts",
+      entries: PACKAGE.main,
     },
 
     build: {
       emptyOutDir: false,
 
       lib: {
-        entry: "/src/main.ts",
+        entry: PACKAGE.main,
         formats: [ "iife" ],
         name: "init",
       },
