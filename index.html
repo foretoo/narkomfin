@@ -39,6 +39,7 @@
     // как именно ты узнаёшь я не знаю, предполагаю что так как-то:
     const isCafe = window.location.search.includes("cafe")
     const isRoof = window.location.search.includes("roof")
+    if (isCafe || isRoof) contentSidebar.toggleAttribute("hide", false)
 
     let isLightTheme = !window.location.search.includes("dark")
 
@@ -63,6 +64,8 @@
 
       // ставим положение камеры в зависимости от страницы
       cameraType: isCafe ? "cafe" : isRoof ? "roof" : "init",
+
+      content: isCafe || isRoof,
 
       dark: !isLightTheme,
 
