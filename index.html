@@ -21,7 +21,8 @@
   <button class="roof-tween">roof</button>
   <button class="init-tween">init</button>
 
-
+  <div class="left"></div>
+  <div class="right" hide></div>
 
 
 
@@ -29,6 +30,7 @@
   <script src="./public/bundle23.js"></script>
 
   <script>
+    const contentSidebar = document.querySelector(".right")
     // контейнер куда будет вложен канвас
     const container = document.body.querySelector(".narkomfin-canvas-container")
     const progressLabel = container.querySelector(".narkomfin-progress-label")
@@ -80,7 +82,7 @@
 
       // ошибки нет, работаем дальше
       else {
-        const { toggleDark, tweenCamera, switchBg } = e
+        const { toggleDark, tweenCamera, switchBg, setCameraViewOffset } = e
 
         document.querySelector(".theme-switcher")?.addEventListener("click", () => {
           toggleDark()
@@ -88,18 +90,24 @@
         })
         document.querySelector(".cafe-tween")?.addEventListener("click", () => {
           tweenCamera("cafe")
+          setCameraViewOffset(true)
+          contentSidebar.toggleAttribute("hide", false)
           if (isLightTheme) {
             switchBg('#f0dbd5')
           }
         })
         document.querySelector(".roof-tween")?.addEventListener("click", () => {
           tweenCamera("roof")
+          setCameraViewOffset(true)
+          contentSidebar.toggleAttribute("hide", false)
           if (isLightTheme) {
             switchBg('#b6ced9')
           }
         })
         document.querySelector(".init-tween")?.addEventListener("click", () => {
           tweenCamera("init")
+          setCameraViewOffset(false)
+          contentSidebar.toggleAttribute("hide", true)
           if (isLightTheme) {
             switchBg('#e1e1df')
           }

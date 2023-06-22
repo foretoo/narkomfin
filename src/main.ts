@@ -8,6 +8,7 @@ import { bokehPass, camera, cameraPivot, composer, controls, renderer, scene, no
 import { loadModel } from "./load-model"
 import { traverseModel } from "./traverse-model"
 import { easedPointer, switchBg, cameraTweener, setThemeSwitcher, toggleZoomBorder, errorHandler, toggleDarkErrored, TCamAnimType, TCamAnimTransition, setCameraPosOnInit } from "./features"
+import { setCameraViewOffset, setInitCameraViewOffset } from "./features/camera-view-offset"
 
 
 
@@ -16,6 +17,7 @@ const init = async ({
   path,
   onProgress = () => {},
   cameraType = "init",
+  content = false,
   dark = false,
   BG = "#E1E1DF",
   BG_DARK = "#1E1E1E",
@@ -65,6 +67,7 @@ const init = async ({
   scene.background = new Color(dark ? BG_DARK : BG)
   renderer.shadowMap.enabled = !dark
   setCameraPosOnInit(cameraType)
+  setInitCameraViewOffset(content)
 
 
 
@@ -183,7 +186,7 @@ const init = async ({
 
 
 
-  return { toggleDark, tweenCamera: cameraTweener.tween, switchBg }
+  return { toggleDark, tweenCamera: cameraTweener.tween, switchBg, setCameraViewOffset }
 }
 
 export default init

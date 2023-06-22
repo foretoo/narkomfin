@@ -19,6 +19,9 @@
   <button class="roof-tween">roof</button>
   <button class="init-tween">init</button>
 
+  <div class="left"></div>
+  <div class="right" hide></div>
+
 
 
 
@@ -28,6 +31,8 @@
 
     const container = document.querySelector(".narkomfin-canvas-container")
     const progressLabel = container.querySelector(".narkomfin-progress-label")
+
+    const contentSidebar = document.querySelector(".right")
 
     let isLight = !window.location.search.includes("dark")
 
@@ -65,7 +70,7 @@
         return
       }
 
-      const { toggleDark, tweenCamera, switchBg } = e
+      const { toggleDark, tweenCamera, switchBg, setCameraViewOffset } = e
 
       document.querySelector(".theme-switcher")?.addEventListener("click", () => {
         toggleDark()
@@ -73,14 +78,20 @@
       })
       document.querySelector(".cafe-tween")?.addEventListener("click", () => {
         tweenCamera("cafe")
+        setCameraViewOffset(true)
+        contentSidebar.toggleAttribute("hide", false)
         // isLight && randomBG()
       })
       document.querySelector(".roof-tween")?.addEventListener("click", () => {
         tweenCamera("roof")
+        setCameraViewOffset(true)
+        contentSidebar.toggleAttribute("hide", false)
         // isLight && randomBG()
       })
       document.querySelector(".init-tween")?.addEventListener("click", () => {
         tweenCamera("init")
+        setCameraViewOffset(false)
+        contentSidebar.toggleAttribute("hide", true)
         // isLight && switchBg("#E1E1DF")
       })
       const randomBG = () => {

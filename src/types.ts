@@ -9,6 +9,7 @@ export interface IInitProps {
   path: string
   onProgress: (type: string, progress?: number) => void
   cameraType: TCamAnimType
+  content: boolean
   dark: boolean
   BG: string
   BG_DARK: string
