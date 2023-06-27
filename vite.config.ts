@@ -67,7 +67,7 @@ const updateVersion = (
   editFile(pkgPath, pkgRgx, str)
 
   const htmlPath = "./index.html"
-  const htmlRgx = /(?<=src="\.\/public\/bundle)\d+(?=\.js")/m
+  const htmlRgx = /(?<=src="\.\/public\/bundle)\d+(?=\.(?:js|txt)")/m
   editFile(htmlPath, htmlRgx, str)
 }
 
