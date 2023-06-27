@@ -40,7 +40,8 @@ export const setInitCameraViewOffset = (
 ) => {
   content
     ? camera.setViewOffset(119.7 * vw, innerHeight, 19.7 * vw, 0, 100 * vw, innerHeight)
-    : camera.setViewOffset(121.1 * vw, innerHeight, 0, 0, 100 * vw, innerHeight)
+    // : camera.setViewOffset(121.1 * vw, innerHeight, 0, 0, 100 * vw, innerHeight)
+    : camera.setViewOffset(100 * vw, innerHeight, 0, 0, 100 * vw, innerHeight)
 }
 
 
@@ -54,14 +55,17 @@ const cameraViewOffsetParams = {
   ],
   noncontent: [
     // (100 - 21.1) / 2 + 21.1 = 60.55 // 121.1 // from left
-    121.1 * vw, innerHeight, 0, 0, 100 * vw, innerHeight,
+    // 121.1 * vw, innerHeight, 0, 0, 100 * vw, innerHeight,
+    100 * vw, innerHeight, 0, 0, 100 * vw, innerHeight,
   ],
   resize() {
     cameraViewOffsetParams.content[0] = 119.7 * vw
     cameraViewOffsetParams.content[1] = cameraViewOffsetParams.content[5] = innerHeight
     cameraViewOffsetParams.content[2] = 19.7 * vw
     cameraViewOffsetParams.content[4] = 100 * vw
-    cameraViewOffsetParams.noncontent[0] = 121.1 * vw
+
+    // cameraViewOffsetParams.noncontent[0] = 121.1 * vw
+    cameraViewOffsetParams.noncontent[0] = 100 * vw
     cameraViewOffsetParams.noncontent[1] = cameraViewOffsetParams.noncontent[5] = innerHeight
     cameraViewOffsetParams.noncontent[4] = 100 * vw
 
