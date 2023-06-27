@@ -1,18 +1,19 @@
-import { defineConfig } from "vite"
+import { defineConfig, type PluginOption } from "vite"
 import fs from "fs"
 import PACKAGE from "./package.json"
 
 
 
-export default (params: { command: "serve" | "build" }) => {
+export default defineConfig((params) => {
 
   let version = parseInt(PACKAGE.version)
+
   if (params.command === "build") {
     updateVersion(++version)
   }
 
 
-  return defineConfig({
+  return {
     publicDir: false,
 
     server: {
@@ -30,6 +31,10 @@ export default (params: { command: "serve" | "build" }) => {
     optimizeDeps: {
       entries: PACKAGE.main,
     },
+
+    plugins: [
+      bundleJsToTxt(),
+    ],
 
     build: {
       emptyOutDir: false,
@@ -52,8 +57,8 @@ export default (params: { command: "serve" | "build" }) => {
         external: [ "three" ],
       },
     },
-  })
-}
+  }
+})
 
 
 
@@ -86,4 +91,23 @@ const editFile = (
       (writeError) => { if (writeError) throw writeError },
     )
   })
+}
+
+
+
+const bundleJsToTxt = (): PluginOption => {
+  let path: string
+  let name: string
+  return {
+    name: "bundleJsToTxt",
+    outputOptions({ dir, entryFileNames }) {
+      path = dir as string
+      name = (entryFileNames as string).match(/.+(?=\.js)/)![0]
+    },
+    closeBundle() {
+      fs.rename(`${path}/${name}.js`, `${path}/${name}.txt`, (renameError) => {
+        if (renameError) throw renameError
+      })
+    },
+  }
 }
