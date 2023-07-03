@@ -33,13 +33,13 @@
     const contentSidebar = document.querySelector(".right")
     // контейнер куда будет вложен канвас
     const container = document.body.querySelector(".narkomfin-canvas-container")
-    const progressLabel = container.querySelector(".narkomfin-progress-label")
+    const progressLabel = container?.querySelector(".narkomfin-progress-label")
 
     // здесь узнаёшь страница ли это о кафе, или может где крыша должна быть
     // как именно ты узнаёшь я не знаю, предполагаю что так как-то:
     const isCafe = window.location.search.includes("cafe")
     const isRoof = window.location.search.includes("roof")
-    if (isCafe || isRoof) contentSidebar.toggleAttribute("hide", false)
+    if (isCafe || isRoof) contentSidebar?.toggleAttribute("hide", false)
 
     let isLightTheme = !window.location.search.includes("dark")
 
@@ -54,11 +54,11 @@
       onProgress: (type, percent) => {
         if (type === "LOADING") {
           // загрузка идёт, можно делать что-то типо такого:
-          progressLabel.textContent = `Loading model ${percent}%`
+          progressLabel?.textContent = `Loading model ${percent}%`
         }
         else {
           // загрузка закончилась, можно сделать такое например:
-          container.removeChild(progressLabel)
+          container?.removeChild(progressLabel)
         }
       },
 
@@ -78,7 +78,7 @@
       if (e.error) {
         // если есть ошибка то будет работать только переключение темы
         const { toggleDark } = e
-        document.querySelector(".theme-switcher").addEventListener("click", () => {
+        document.querySelector(".theme-switcher")?.addEventListener("click", () => {
           toggleDark()
         })
       }
@@ -94,7 +94,7 @@
         document.querySelector(".cafe-tween")?.addEventListener("click", () => {
           tweenCamera("cafe")
           setCameraViewOffset(true)
-          contentSidebar.toggleAttribute("hide", false)
+          contentSidebar?.toggleAttribute("hide", false)
           if (isLightTheme) {
             switchBg('#f0dbd5')
           }
@@ -102,7 +102,7 @@
         document.querySelector(".roof-tween")?.addEventListener("click", () => {
           tweenCamera("roof")
           setCameraViewOffset(true)
-          contentSidebar.toggleAttribute("hide", false)
+          contentSidebar?.toggleAttribute("hide", false)
           if (isLightTheme) {
             switchBg('#b6ced9')
           }
@@ -110,7 +110,7 @@
         document.querySelector(".init-tween")?.addEventListener("click", () => {
           tweenCamera("init")
           setCameraViewOffset(false)
-          contentSidebar.toggleAttribute("hide", true)
+          contentSidebar?.toggleAttribute("hide", true)
           if (isLightTheme) {
             switchBg('#e1e1df')
           }
