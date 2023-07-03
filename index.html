@@ -54,7 +54,7 @@
       onProgress: (type, percent) => {
         if (type === "LOADING") {
           // загрузка идёт, можно делать что-то типо такого:
-          progressLabel?.textContent = `Loading model ${percent}%`
+          progressLabel && (progressLabel.textContent = `Loading model ${percent}%`)
         }
         else {
           // загрузка закончилась, можно сделать такое например:
